@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friend Requests</title>
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/menu.css" rel="stylesheet" type="text/css" />
+    <link href="styles/home.css" rel="stylesheet" type="text/css" />
+    <link href="styles/friends.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style></style>
+  </head>
+  <body>
+    <div class="navbar">
+    <div class="navbar-container">
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-bar"
+          placeholder="Search for stocks & more"
+        />
+      </div>
+      <div class="profile">
+        <div class="img"></div>
+        <div class="username">Barnabas Inyangsam</div>
+      </div>
+    </div></div>
+    <div class="main-container">
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <h2>Main Menu</h2>
+                <a href="./home.html">Home</a>
+                <a href="./portfolios.html">Portfolio</a>
+                <a href="./stocklists.html">Stock List</a>
+                <a href="./friends.html">Friends</a>
+        </div>
+      </div>
+      <div class="contents-container">
+        <div class="horizontal-container">
+          <form class="friend-request-form">
+            <input
+              type="text"
+              class="friend-request-form-username"
+              placeholder="Enter username"
+              required
+            />
+            <button type="submit" class="friend-request-form-btn">
+              Send Request
+            </button>
+          </form>
+          <div class="friends">
+            <h2>Friends</h2>
+            <div class="friends-list">
+              
+            </div>
+          </div>
+
+          <div class="requests">
+            <h2>Incoming Requests</h2>
+            <div class="friend-requests">
+                
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+        
+        
+        
+    </div>
+    </div>
+</body>
+    <script src="./js/api-service.js"></script>
+    <script src="./js/friends.js"></script>
+    <script src="./js/common.js"></script>
+</html>

@@ -1,0 +1,68 @@
+.horizontal-container {
+  margin: 30px;
+  gap: 1.5em;
+  margin-bottom: 1.5em;
+  width: 100%;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.card h2 {
+  margin-bottom: 1em;
+}
+.grid-container {
+  /* display: grid; */
+  display: flex;
+  flex-direction: row;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5em;
+}
+.portfolio-item,
+.watchlist-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1em 2em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.portfolio-item:hover,
+.watchlist-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.portfolio-item h3,
+.watchlist-item h3 {
+  margin: 0.5em 0;
+  font-size: 1.2em;
+  color: #007bff;
+}
+.portfolio-item p,
+.watchlist-item p {
+  margin: 0.5em 0;
+}
+.portfolio-item .chart,
+.watchlist-item .chart {
+  height: 50px;
+  background: #f1f1f1;
+  margin-top: 0.5em;
+  border-radius: 5px;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header-container a {
+  color: rgb(184, 184, 184);
+  text-decoration: none;
+  margin: 0 1em;
+}

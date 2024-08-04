@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocklist Management Dashboard</title>
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/menu.css" rel="stylesheet" type="text/css" />
+    <link href="styles/home.css" rel="stylesheet" type="text/css" />
+    <link href="styles/btn.css" rel="stylesheet" type="text/css" />
+    <link href="styles/form.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .vertical-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+        }
+        .stocklist-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stocklist-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .stocklist-item h3 {
+            margin: 0.5em 0;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+        .stocklist-item p {
+            margin: 0.5em 0;
+        }
+        .stocklist-item .chart {
+            height: 50px;
+            background: #f1f1f1;
+            margin-top: 0.5em;
+            border-radius: 5px;
+        }
+        .visibility-container {
+            width: 20%;
+            color: #007bff;
+            background-color: #f1f1f1;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+        .visibility-container label {
+            margin: 0.5em;
+        }
+        .visibility-container input {
+            margin-right: 0.5em;
+            width: 80px;
+        }
+        
+        .stocklist-form-name {
+            width: 70%;
+        }
+        .visibility-label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 50px;
+        }
+        .visibility-checkbox {
+            width: 10px;
+        }
+        .stocklist-item.inner :hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search for stocks & more"></input>
+        </div>
+        <div class="profile">
+            <div class="img"></div>
+            <div class="username"></div>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h2>Main Menu</h2>
+                <a href="./home.html">Home</a>
+                <a href="./portfolios.html">Portfolio</a>
+                <a href="./stocklists.html">Stock List</a>
+                <a href="./friends.html">Friends</a>
+            </div>
+        </div>
+        <div class="contents-container">
+    <div class="horizontal-container">
+        <div class="header-horizontal-container">
+            <h2>Your Stocklists</h2>
+        <div class="add-btn">ADD Stocklist</div>
+        </div>
+        
+        <div class="add-stocklist-form hidden">
+            <form class="form-container add-from horizontal">
+                <input name="name" placeholder="stocklist name" class="stocklist-form-name" required ></input>
+                <div class="visibility-container">
+                    <label class="visibility-label">
+                        <input type="checkbox" class="visibility-checkbox public" value="public"> Public
+                    </label>
+                    <label class="visibility-label">
+                        <input type="checkbox" class="visibility-checkbox private" value="private"> Private
+                    </label>  
+                </div>
+                <button type="submit" id="submit-btn" name="action" class="btn">Create</button>
+            </form>
+        </div>
+        <div class="stocklist-container">
+            <div class="stocklist-item">
+                <h3>Stocklist name</h3>
+                <p>owner</p>
+                <p>visibility</p>
+                <div class="chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="./js/api-service.js"></script>
+    <script src="./js/stocklists.js"></script>
+    <script src="./js/common.js"></script>
+</body>
+</html>

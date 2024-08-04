@@ -1,0 +1,41 @@
+.add-btn {
+  background-color: #007bff;
+  padding: 10px 15px;
+  height: 20px;
+  border-radius: 12px;
+  align-items: center;
+  color: white;
+  display: flex;
+  font-size: 14px;
+}
+
+.buy-btn {
+  background-color: #007bff;
+  padding: 10px 15px;
+  height: 20px;
+  border-radius: 12px;
+  align-items: center;
+  color: white;
+  display: flex;
+  font-size: 14px;
+}
+
+.header-horizontal-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slide-container-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.slide-container-wrap > * {
+  margin: 15px 32px;
+  user-select: none;
+  font-size: 18px;
+  z-index: 100;
+}

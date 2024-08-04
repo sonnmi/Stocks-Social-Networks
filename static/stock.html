@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Details</title>
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/menu.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .container {
+            padding: 2em;
+            width: 100%;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2em;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .header h1 span {
+            font-size: 1em;
+            color: #888;
+        }
+        .stock-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5em;
+        }
+        .stock-info div {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 0.5em 1em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            flex: 1 1 calc(25% - 2em);
+            box-sizing: border-box;
+        }
+        .stock-info h2 {
+            margin-top: 0;
+            font-size: 1em;
+        }
+        .stock-info p {
+            margin: 0.5em 0 0;
+            font-size: 0.9em;
+        }
+        .chart {
+            margin: 2em 0;
+            padding: 2em;
+            background: #f1f1f1;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .buy-option {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .buy-option button {
+            background-color: #28a745;
+            border: none;
+            padding: 0.75em 1.5em;
+            color: white;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .buy-option button:hover {
+            background-color: #218838;
+        }
+        .timeframe-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .timeframe-buttons button {
+            padding: 0.5em 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .timeframe-buttons button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search for stocks & more">
+            </div>
+            <div class="profile">
+                <div class="img"></div>
+                <div class="username"></div>
+            </div>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h2>Main Menu</h2>
+                <a href="/home.html">Home</a>
+                <a href="/portfolios.html">Portfolio</a>
+                <a href="/stocklists.html">Stock List</a>
+                <a href="/friends.html">Friends</a>
+                <a href="/stocks.html">Stocks</a>
+            </div>
+        </div>
+        <div class="contents-container">
+            <div class="container">
+                <div class="header-container">
+                    <div class="card">
+                        <div class="header">
+                            <h1 id="stock-name">Stock Name <span id="stock-symbol">(SYMBOL)</span></h1>
+                            <div class="buy-option">
+                                <button>Buy Stock</button>
+                            </div>
+                        </div>
+                        <div class="stock-info">
+                            <div>
+                                <h2>Open</h2>
+                                <p id="stock-open"></p>
+                            </div>
+                            <div>
+                                <h2>High</h2>
+                                <p id="stock-high"></p>
+                            </div>
+                            <div>
+                                <h2>Low</h2>
+                                <p id="stock-low"></p>
+                            </div>
+                            <div>
+                                <h2>Close</h2>
+                                <p id="stock-close"></p>
+                            </div>
+                        </div>
+
+                        <div class="chart">
+                            <canvas id="stockChart"></canvas>
+                        </div>
+
+                        <!-- Timeframe Buttons -->
+                        <div class="timeframe-buttons">
+                            <button onclick="updateChart('1week')">1 Week</button>
+                            <button onclick="updateChart('1month')">1 Month</button>
+                            <button onclick="updateChart('3months')">3 Months</button>
+                            <button onclick="updateChart('6months')">6 Months</button>
+                            <button onclick="updateChart('1year')">1 Year</button>
+                            <button onclick="updateChart('5years')">5 Years</button>
+                        </div>
+
+                        <div class="chart">
+                            <canvas id="predictionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Chart.js and the Date Adapter -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
+
+    <script>
+        // Get the stock symbol from the URL
+        const params = new URLSearchParams(window.location.search);
+        const symbol = params.get('symbol');
+        const timeframe = params.get('timeframe');
+        console.log(symbol);
+
+        let chart; // Global chart variable to hold the chart instance
+        let predictionChart; // Global chart variable for predictions
+
+        // Fetch stock data with a specified timeframe
+        async function fetchStockData(symbol, timeframe) {
+            try {
+                const response = await fetch(`/api/history/${symbol}?time=${timeframe}`);
+                const data = await response.json();
+                if (data.error) {
+                    alert(data.error);
+                    return [];
+                }
+                return data.stockHistory;
+            } catch (error) {
+                console.error('Error fetching stock data:', error);
+                return [];
+            }
+        }
+
+        // Fetch stock information
+        async function fetchStockInfo(symbol) {
+            try {
+                console.log(symbol);
+                console.log(`/api/history/${symbol}?time=latest`);
+                const response = await fetch(`/api/history/${symbol}?time=latest`);
+                const data = await response.json();
+                console.log(data);
+
+                if (data.error) {
+                    alert(data.error);
+                    return {};
+                }
+                console.log(data.stockHistory);
+                return data.stockHistory[0];
+            } catch (error) {
+                console.error('Error fetching stock info:', error);
+                return {};
+            }
+        }
+
+        // Calculate Simple Moving Average (SMA)
+        function calculateSMA(prices, period) {
+            const sma = [];
+            for (let i = 0; i <= prices.length - period; i++) {
+                const window = prices.slice(i, i + period);
+                const average = window.reduce((acc, price) => acc + price, 0) / period;
+                sma.push(average);
+            }
+            return sma;
+        }
+
+        // Calculate Exponential Moving Average (EMA)
+        function calculateEMA(prices, period) {
+            const ema = [];
+            const multiplier = 2 / (period + 1);
+            ema[0] = prices[0]; // Start EMA with the first price
+            for (let i = 1; i < prices.length; i++) {
+                ema[i] = (prices[i] - ema[i - 1]) * multiplier + ema[i - 1];
+            }
+            return ema;
+        }
+
+        // Linear Regression Prediction
+        function linearRegressionPredict(prices, days) {
+            const n = prices.length;
+            const x = Array.from({ length: n }, (_, i) => i + 1);
+            const y = prices;
+            const xSum = x.reduce((a, b) => a + b, 0);
+            const ySum = y.reduce((a, b) => a + b, 0);
+            const xySum = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+            const xSquaredSum = x.reduce((sum, xi) => sum + xi * xi, 0);
+
+            const slope = (n * xySum - xSum * ySum) / (n * xSquaredSum - xSum * xSum);
+            const intercept = (ySum - slope * xSum) / n;
+
+            const predictions = [];
+            for (let i = 1; i <= days; i++) {
+                predictions.push(slope * (n + i) + intercept);
+            }
+
+            return predictions;
+        }
+
+        // Predict future prices using a combination of SMA, EMA, and Linear Regression
+        function predictFuturePrices(stockData, days) {
+            const closingPrices = stockData.map(item => item.close);
+
+            // Use SMA and EMA for prediction
+            const smaPeriod = 30; // Use 20-day period for SMA
+            const emaPeriod = 30; // Use 20-day period for EMA
+
+            const sma = calculateSMA(closingPrices, smaPeriod);
+            const ema = calculateEMA(closingPrices, emaPeriod);
+
+            // Use Linear Regression for trend
+            const linearPredictions = linearRegressionPredict(closingPrices, days);
+
+            // Extend the predictions for the next 'days'
+            const predictions = [];
+            let lastSMA = sma[sma.length - 1];
+            let lastEMA = ema[ema.length - 1];
+
+            for (let i = 0; i < days; i++) {
+                lastSMA = (closingPrices.slice(-smaPeriod).reduce((acc, price) => acc + price, 0) + lastSMA) / smaPeriod;
+                lastEMA = (closingPrices[closingPrices.length - 1] - lastEMA) * (2 / (emaPeriod + 1)) + lastEMA;
+
+                // Combine SMA, EMA, and Linear Regression for prediction
+                const predictedPrice = (lastSMA + lastEMA + linearPredictions[i]) / 3;
+                predictions.push(predictedPrice);
+            }
+
+            return predictions;
+        }
+
+        // Create historical chart
+        async function createChart(symbol, timeframe) {
+            const stockData = await fetchStockData(symbol, timeframe);
+            const labels = stockData.map(item => new Date(item.date));
+            const closingPrices = stockData.map(item => item.close);
+
+            const ctx = document.getElementById('stockChart').getContext('2d');
+            if (chart) {
+                chart.destroy(); // Destroy the existing chart before creating a new one
+            }
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `Closing Price for ${symbol} (${timeframe})`,
+                        data: closingPrices,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time', // Ensure you use the time scale
+                            time: {
+                                unit: 'month', // Configure as needed (e.g., day, week, month, year)
+                                tooltipFormat: 'MMM d, yyyy' // Date format for tooltips
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Closing Price'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            enabled: true,
+                            mode: 'index',
+                            intersect: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create prediction chart
+        async function createPredictionChart(symbol, timeframe) {
+            const stockData = await fetchStockData(symbol, timeframe);
+            const lastDate = new Date(stockData[stockData.length - 1].date);
+
+            // Predict future prices for the next 30 days
+            const futurePrices = predictFuturePrices(stockData, 30);
+
+            // Create future date labels
+            const futureLabels = [];
+            for (let i = 1; i <= futurePrices.length; i++) {
+                futureLabels.push(new Date(lastDate.getTime() + i * 24 * 60 * 60 * 1000));
+            }
+
+            const ctx = document.getElementById('predictionChart').getContext('2d');
+            if (predictionChart) {
+                predictionChart.destroy(); // Destroy the existing prediction chart before creating a new one
+            }
+
+            predictionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: futureLabels, // Use only future labels
+                    datasets: [{
+                        label: `Predicted Price for ${symbol} (Next 30 Days)`,
+                        data: futurePrices, // Use only predicted prices
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time', // Ensure you use the time scale
+                            time: {
+                                unit: 'day', // Configure for daily prediction
+                                tooltipFormat: 'MMM d, yyyy' // Date format for tooltips
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Price'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            enabled: true,
+                            mode: 'index',
+                            intersect: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update the chart with a new timeframe
+        function updateChart(timeframe) {
+            createChart(symbol, timeframe);
+        }
+
+        createChart(symbol, timeframe);
+        createPredictionChart(symbol, '30days');
+
+        // Fetch stock information and populate UI
+        async function populateStockInfo(symbol) {
+            const stockInfo = await fetchStockInfo(symbol);
+            console.log(stockInfo);
+            document.getElementById('stock-symbol').innerText = `(${symbol})`;
+            document.getElementById('stock-open').innerText = stockInfo.open || 'N/A';
+            document.getElementById('stock-high').innerText = stockInfo.high || 'N/A';
+            document.getElementById('stock-low').innerText = stockInfo.low || 'N/A';
+            document.getElementById('stock-close').innerText = stockInfo.close || 'N/A';
+        }
+
+        populateStockInfo(symbol);
+    </script>
+
+</body>
+</html>

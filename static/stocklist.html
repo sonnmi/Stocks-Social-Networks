@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Overview</title>
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/menu.css" rel="stylesheet" type="text/css" />
+    <link href="styles/home.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 1.5em;
+        }
+        .card h2 {
+            margin-bottom: 1em;
+        }
+        .horizontal-container {
+            display: flex;
+            gap: 1.5em;
+            margin-bottom: 1.5em;
+            overflow-x: auto;
+        }
+        .stock-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            min-width: 200px;
+            flex: none;
+        }
+        .stock-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .stock-item h3 {
+            margin: 0.5em 0;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+        .stock-item p {
+            margin: 0.5em 0;
+        }
+        .chart {
+            background: #f1f1f1;
+            height: 200px;
+            margin: 1.5em 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .balance {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .balance h2 {
+            margin: 0;
+            font-size: 2em;
+            color: #007bff;
+        }
+        .stocklist-card {
+            width: 100%;
+        }
+
+        .stocklist-comments {
+            width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.stocklist-comments h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    
+}
+
+.comments-form-container {
+    margin-bottom: 20px;
+}
+
+.comments-form {
+    width: 95%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.comments-form-submit {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.comments-form-submit:hover {
+    background-color: #0056b3;
+}
+
+.comment {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.comment-user {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-content {
+    font-size: 14px;
+}
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search for stocks & more"></input>
+        </div>
+        <div class="profile">
+            <div class="img"></div>
+            <div class="username"></div>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h2>Main Menu</h2>
+                <a href="./home.html">Home</a>
+                <a href="./portfolios.html">Portfolio</a>
+                <a href="./stocklists.html">Stock List</a>
+                <a href="./friends.html">Friends</a>
+            </div>
+        </div>
+        <div class="contents-container">
+    <div class="card stocklist-card">
+        <h2 class="stocklist-name">Stocklist name</h2>
+        
+        
+
+        
+        <div class="horizontal-container stocklist-container">
+            <div class="stock-item">
+                <h3>Apple, Inc</h3>
+                <p>Portfolio: $15,215.70</p>
+                <p>+0.66%</p>
+            </div>
+            <div class="stock-item">
+                <h3>Microsoft Corp</h3>
+                <p>Portfolio: $10,123.45</p>
+                <p>+1.23%</p>
+            </div>
+            <div class="stock-item">
+                <h3>Amazon, Inc</h3>
+                <p>Portfolio: $8,765.43</p>
+                <p>-0.34%</p>
+            </div>
+            <div class="stock-item">
+                <h3>Google LLC</h3>
+                <p>Portfolio: $20,678.90</p>
+                <p>+2.45%</p>
+            </div>
+        </div>
+        <div class="chart">
+            <!-- Placeholder for the stock history chart -->
+        </div>
+    </div>
+    <div class="stocklist-sharing hidden">
+        <h2>Share Stocklist with friend</h2>
+        <select class="stocklist-sharing-dropdown">
+            <option value="1">John Doe</option>
+            <option value="2">Jane Doe</option>
+            <option value="3">John Smith</option>
+        </select>
+        <button class="stocklist-sharing-submit">Share</button>
+    </div>
+    <div class="stocklist-comments">
+        <h2>Comments</h2>
+        <div class="comments-form-container form-container">
+            <textarea class="comments-form" placeholder="Add a comment"></textarea>
+            <button class="comments-form-submit">Submit</button>
+        </div>
+        <div class="comment-list-container">
+            <div class="comment-list">
+                <div class="comment">
+                    <div class="comment-user">John Doe</div>
+                    <div class="comment-content">This is a great stocklist!</div>
+                </div>
+                <div class="comment">
+                    <div class="comment-user">Jane Doe</div>
+                    <div class="comment-content">I love this stocklist!</div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+    <div class="balance">
+        <h2>Total Balance: $54,783.48</h2>
+    </div>
+</div>
+    <script src="js/api-service.js"></script>
+    <script src="js/stocklist.js"></script>
+    <script src="./js/common.js"></script>
+</body>
+</html>
