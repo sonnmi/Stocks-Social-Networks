@@ -1,11 +1,7 @@
-export const creatStockListAccessTableQuery = `
-    CREATE TABLE IF NOT EXISTS StockListAccess (
-        stocklist VARCHAR(30),
-        owner INTEGER,
-        viewer INT,
-        PRIMARY KEY (owner, stocklist, viewer),
-        FOREIGN KEY (stocklist, owner) REFERENCES StockList(name, owner),
-        FOREIGN KEY (viewer) REFERENCES User(userId)
-    );
-
-`;
+export const createUserTableQuery = `
+    CREATE TABLE IF NOT EXISTS Users (
+        userId serial PRIMARY KEY UNIQUE,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        password VARCHAR(50),
+        email VARCHAR(320) UNIQUE NOT NULL
+    );`;

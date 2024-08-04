@@ -1,9 +1,8 @@
 export const createPortfoliosTableQuery = `
-    CREATE TABLE IF NOT EXISTS StockList (
-        owner INTEGER,
-        visibility VARCHAR(20),
-        name VARCHAR(30) UNIQUE,
+    CREATE TABLE IF NOT EXISTS Portfolios (
+        owner INT,
+        name VARCHAR(30),
+        cash REAL,
         PRIMARY KEY (owner, name),
-        FOREIGN KEY (owner) REFERENCES Users(userID)
-    );
-`;
+        FOREIGN KEY (owner) REFERENCES Users(userID) ON DELETE CASCADE
+    );`;

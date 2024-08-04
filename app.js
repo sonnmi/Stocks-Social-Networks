@@ -18,7 +18,7 @@ import { createStockListTableQuery } from "./models/stockList.js";
 import { createConsistsTableQuery } from "./models/consists.js";
 import { createPortfoliosTableQuery } from "./models/portfolios.js";
 import { creatStockListAccessTableQuery } from "./models/stocklistAccess.js";
-import {createStocklistCommentsTableQuery} from "./models/stocklistComments.js";
+import { createReviewsTableQuery } from "./models/reviews.js";
 
 import { commonQueryExecute } from "./queries/common.js";
 import { createRequestsTableQuery } from "./models/requests.js";

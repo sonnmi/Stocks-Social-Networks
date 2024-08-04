@@ -1,9 +1,8 @@
 export const createStockListTableQuery = `
     CREATE TABLE IF NOT EXISTS StockList (
-        owner INTEGER,
+        owner INT,
+        name VARCHAR(30),
         visibility VARCHAR(20),
-        name VARCHAR(30) UNIQUE,
         PRIMARY KEY (owner, name),
-        FOREIGN KEY (owner) REFERENCES Users(userID)
-    );
-`;
+        FOREIGN KEY (owner) REFERENCES Users(userID) ON DELETE CASCADE
+    );`;

@@ -5,9 +5,4 @@ export const createStockTableQuery = `
     INSERT INTO Stock (symbol) SELECT DISTINCT symbol FROM StockHistory;
 `;
 
-// `
-//     CREATE TABLE Stock(
-//         symbol VARCHAR(5) PRIMARY KEY,
-//         var REAL DEFAULT 0
-//     );
-// `
+// Todo: We might need to alter Stock table when we add new stock history of stocks not listed in Stock
