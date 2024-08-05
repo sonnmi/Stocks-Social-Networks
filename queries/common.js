@@ -65,6 +65,7 @@ export const commonQueryExecute = (function () {
   module.createTable = (table, query) => {
     try {
       console.log("creating", table);
+      console.log("query", query);
       if ((!table) in ["StockHistory"]) {
         module.dropTable(table);
       }

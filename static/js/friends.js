@@ -40,7 +40,7 @@
             <div class="friend-image"></div>
         </div>
         <div class="friend-info">
-            <div class="friend-name">${friend.username}</div>
+            <div class="friend-name">${friend.friend}</div>
         </div>
         <div class="friend-action-btns">
             <button type="submit" class="remove-friend-btn">
@@ -78,6 +78,7 @@
         const friendRequests = document.querySelector(".friend-requests");
         friendRequests.innerHTML = "";
         requests.forEach((request) => {
+            console.log("request", request.sender);
             const requestElement = document.createElement("div");
             requestElement.classList.add("request-item");
             requestElement.innerHTML = `
@@ -85,7 +86,7 @@
             <div class="friend-image"></div>
         </div>
         <div class="friend-info">
-            <div class="friend-name">${request.username}</div>
+            <div class="friend-name">${request.sender}</div>
         </div>
         <div class="friend-action-btns">
             <button type="submit" class="accept-friend-btn">

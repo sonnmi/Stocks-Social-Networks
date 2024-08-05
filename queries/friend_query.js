@@ -3,10 +3,9 @@ export const friendQuery = (function () {
   let module = {};
 
   module.getUserFriendsQuery = () => {
-    return `Select Username From (SELECT receiver FROM requests WHERE sender = $1 and requestStatus = 'accepted'
+    return `Select friend FROM (SELECT receiver as friend FROM requests WHERE sender = $1 and requestStatus = 'accepted'
     UNION
-    SELECT sender FROM requests WHERE receiver = $1 and requestStatus = 'accepted') as friends
-    JOIN users u ON u.userid = friends.receiver`;
+    SELECT sender as friend FROM requests WHERE receiver = $1 and requestStatus = 'accepted') as friends`;
   };
 
   module.insertUserFriendQuery = () => {

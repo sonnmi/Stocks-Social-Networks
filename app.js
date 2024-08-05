@@ -36,7 +36,6 @@ client
 
 const tables = {
   Users: createUserTableQuery,
-  Friends: createFriendsTableQuery,
   StockHistory: createStockHistoryTableQuery,
   Stock: createStockTableQuery,
   StockList: createStockListTableQuery,
