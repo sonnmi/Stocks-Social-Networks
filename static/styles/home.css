@@ -10,7 +10,9 @@
   border-radius: 10px;
   padding: 25px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
+
 .card h2 {
   margin-bottom: 1em;
 }
@@ -31,6 +33,10 @@
   transition:
     transform 0.2s,
     box-shadow 0.2s;
+}
+
+.portfolios-list-home .portfolio-item {
+  width: 140px;
 }
 .portfolio-item:hover,
 .watchlist-item:hover {

@@ -7,8 +7,8 @@
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
     <link href="styles/menu.css" rel="stylesheet" type="text/css" />
     <link href="styles/home.css" rel="stylesheet" type="text/css" />
-    <link href="styles/stocks.css" rel="stylesheet" type="text/css" />
     <link href="styles/btn.css" rel="stylesheet" type="text/css" />
+    <link href="styles/stocks.css" rel="stylesheet" type="text/css" />
     <link href="styles/popup.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -16,10 +16,17 @@
 </head>
 
 <body>
+    <div class="dark hidden"></div>
     <div class="popup-container hidden">
         <div class="popup stocks-popup">
             <div class="error"></div>
-            <div class="portfolios"></div>
+            <!-- <div class="portfolios"></div> -->
+             <div class="portfolios-dropdown hidden">
+                        <label for="portfolios">Choose a portfolio cash account you want to deposit from:</label>
+                        <select name="portfolios-dropdown" id="portfolios-dropdown">
+                        </select>
+                        <div class="input">$ <input type="text" id="withdraw-amount"/></div>
+                    </div>
         </div>
     </div>
     <div class="navbar">
@@ -37,8 +44,10 @@
         <div class="horizontal-container">
             <div class="header-horizontal-container">
                 <h2>All Stocks</h2>
-                <div class="add-btn stocklist-add">Add Stock list</div>
-                <div class="buy-btn">Buy Stock</div>
+                <div class="btns-style">
+                    <div class="add-btn btn-style stocklist-add">Add Stock list</div>
+                    <div class="buy-btn">Buy Stock</div>
+                </div>
             </div>
             <div class="main-container">
                 <div class="sidebar">

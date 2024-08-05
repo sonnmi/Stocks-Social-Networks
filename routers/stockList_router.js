@@ -4,10 +4,10 @@ import { stockListQuery } from "../queries/stockList_query.js";
 
 export const StockListRouter = Router();
 
-StockListRouter.get("/:userId", async (req, res) => {
-    const userId = req.params.userId;
-    client.query(stockListQuery.getStockListByUserQuery(), [userId], (err, data) => {
-        console.log("in get stock list", userId)
+StockListRouter.get("/:username", async (req, res) => {
+    const username = req.params.username;
+    client.query(stockListQuery.getStockListByUserQuery(), [username], (err, data) => {
+        console.log("in get stock list", username)
         if (err) {
         console.log(err);
         return res.json({ error: "Error getting stock list" });
@@ -22,14 +22,14 @@ StockListRouter.get("/:userId", async (req, res) => {
 );
 
 StockListRouter.post("/addStock", async (req, res) => {
-  const userId = parseInt(req.body.userId);
+  const username = parseInt(req.body.username);
   const symbol = req.body.symbol;
   const name = req.body.name;
-  console.log("in add stock", userId, symbol, name)
+  console.log("in add stock", username, symbol, name)
   try {
     client.query(
       stockListQuery.addStockStockListQuery(),
-      [userId, symbol, name],
+      [username, symbol, name],
       (err, response) => {
         if (err) {
             console.log(err)

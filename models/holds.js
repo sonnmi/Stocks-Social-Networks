@@ -1,7 +1,7 @@
 export const createHoldsTableQuery = `
 	CREATE TABLE IF NOT EXISTS Holds(
 		portfolio VARCHAR(30),
-		owner INT,
+		owner VARCHAR(30),
 		stock VARCHAR(5),
 		shares INT,
 		PRIMARY KEY (owner, portfolio, stock),

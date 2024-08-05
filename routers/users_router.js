@@ -27,15 +27,9 @@ usersRouter.post("/signup", async (req, res) => {
             return res.status(400).json({ error: "User cannot be inserted." });
           }
         } else {
-          client.query(userQuery.getAllUsers(), (err, data) => {
-            console.log(data.rows);
-          });
-          client.query(userQuery.getUserIdQuery(), [username], (err, data) => {
-            return res.json({
-              userId: data.rows[0].userId,
-              username,
-              email,
-            });
+          return res.json({
+            username,
+            email,
           });
         }
       },

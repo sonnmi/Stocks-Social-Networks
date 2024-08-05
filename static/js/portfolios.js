@@ -6,7 +6,7 @@
   }
   
   const createPortfolioComponent = (data) => {
-    const userId = JSON.parse(localStorage.getItem("userInfo")).userid
+    const username = JSON.parse(localStorage.getItem("userInfo")).username
     const elmt = document.createElement("div");
     elmt.className = "";
     elmt.innerHTML = `<div class="portfolio-item">
@@ -15,7 +15,7 @@
                     `;
 
     elmt.querySelector(".portfolio-item").addEventListener("click", () => {
-        location.href="./portfolio.html?name=" + data.name +"&id="+userId;})
+        location.href="./portfolio.html?name=" + data.name}) // "&username="+username;
     
     // elmt.innerHTML +=
     //     '<div class="delete-icon"></div>';
@@ -23,13 +23,13 @@
 
     console.log(elmt)
     return elmt;
-}
+  }
 
 
   const updatePortfolio = () => {
-        const userId = JSON.parse(localStorage.getItem("userInfo")).userid
+        const username = JSON.parse(localStorage.getItem("userInfo")).username
       apiService
-        .getPortfoliosOfUser(userId)
+        .getPortfoliosOfUser(username)
         .then((response) => {
           if (response.error) {
             console.log(response.error)
@@ -66,8 +66,8 @@
       .addEventListener("click", function (e) {
         e.preventDefault();
         const name = document.querySelector("form [name=name]").value;
-        const userId = JSON.parse(localStorage.getItem("userInfo")).userid
-        apiService.createPortfolio(userId, name).then((res) => {
+        const username = JSON.parse(localStorage.getItem("userInfo")).username
+        apiService.createPortfolio(username, name).then((res) => {
             if (res.error)
                 console.log(res.error)
             else {

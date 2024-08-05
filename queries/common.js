@@ -62,5 +62,18 @@ export const commonQueryExecute = (function () {
     );
   };
 
+  module.createTable = (table, query) => {
+    try {
+      console.log("creating", table);
+      if ((!table) in ["StockHistory"]) {
+        module.dropTable(table);
+      }
+      client.query(query);
+      module.getAllData(table);
+    } catch (err) {
+      console.log("Error executing creation of table", err, table);
+    }
+  };
+
   return module;
 })();

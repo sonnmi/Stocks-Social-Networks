@@ -15,6 +15,32 @@
   border-radius: 15px;
 }
 
+.form-container-style {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+            border-radius: 10px;
+            padding: 1.5em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 1.5em;
+  color: rgba(0,0,0,0.88);
+}
+
+.form-container-style p {
+}
+
+.form-container-style .error {
+  margin: 10px;
+  color: rgb(217, 51, 87);
+}
+
+.form-container-style .error.hidden {
+  display: block;
+  visibility: hidden;
+}
+
 .horizontal.form-container {
   display: flex;
   flex-direction: row;

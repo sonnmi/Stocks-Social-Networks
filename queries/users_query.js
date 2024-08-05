@@ -3,15 +3,7 @@ export const userQuery = (function () {
     let module = {};
 
     module.getAllUsers = () => {
-        return "SELECT * FROM Users"
-    }
-
-    module.getUserIdQuery = () => {
-        return `SELECT userId FROM Users WHERE username = $1`
-    }
-
-    module.getUserInfoQuery = () => {
-        return `SELECT userId, username, email FROM Users WHERE username = $1`
+        return "SELECT username, email FROM Users"
     }
 
     module.insertUserQuery = () => {
@@ -24,11 +16,7 @@ export const userQuery = (function () {
     }
 
     module.loginQuery = () => {
-        return `SELECT userId, username, email FROM Users WHERE username = $1 AND password = $2`
-    }
-
-    module.getUserIdQuery = () => {
-        return `SELECT userId FROM Users WHERE username = $1`
+        return `SELECT username, email FROM Users WHERE username = $1 AND password = $2`
     }
 
     return module;

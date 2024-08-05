@@ -11,9 +11,33 @@
     <link href="styles/form.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        .add-btn {
+        .btn-style {
             margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            width: 80px;
+            height: 20px;
         }
+
+        .deposit-options {
+            display: flex;
+            flex-direction: row;
+            width: 570px;
+        }
+
+        .deposit-options > * {
+            margin: 0 10px 0 -5px;
+        }
+
+        .deposit-container > * {
+            margin: 20px;
+        }
+
+        .withdraw-container > * {
+            margin: 20px;
+        }
+
         .card {
             background-color: white;
             border-radius: 10px;
@@ -96,7 +120,7 @@
             </div>
         </div>
         <div class="contents-container">
-            <h2>Portfolio name</h2>
+            <h2 class="portfolio-name"></h2>
             
     <div class="card">
         <div class="horizontal-container">
@@ -122,9 +146,54 @@
         </div>
         
         <div class="chart">
-            <!-- Placeholder for the stock history chart -->
+            <!-- Placeholder for the prediction chart -->
         </div>
-        
+        <div class="btns-style">
+            <div class="deposit-btn btn-style">Deposit</div>
+            <div class="withdraw-btn btn-style">Withdraw</div>
+        </div>
+        <div class="hidden form-container-style">
+            <div class="deposit-container">
+                <div class="deposit-options">
+                    <div>
+                        <input type="radio" id="bank" name="depositOption" value="bank" checked />
+                        <label for="bank">external bank account</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="transfer" name="depositOption" value="transfer" />
+                        <label for="transfer">transfer</label>
+                    </div>
+                </div>
+                <p>How much money do you want to deposit?</p>
+                <div class="input">$ <input type="text" id="transfer-amount"/></div>
+                <div class="transfer-container">
+                    <div class="From which account do you want to transfer?"></div>
+                    <div class="cash-account-dropdown hidden">
+                        <label for="cash-accounts">Choose a portfolio cash account you want to deposit from:</label>
+                        <select name="cash-accounts" id="cash-accounts">
+                        </select>
+                    </div>
+                    <div class="bank-account-dropdown">
+                        <label for="bank-accounts">Choose a bank account you want to deposit from:</label>
+                        <select name="bank-accounts" id="bank-accounts">
+                            <option value="bank1">bank1</option>
+                            <option value="bank2">bank2</option>
+                            <option value="bank3">bank3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="deposit error hidden"></div>
+            <div class="submit-btn">deposit</div>
+        </div>
+        <div class="hidden form-container-style">
+            <div class="withdraw-container">
+                <p class="">How much money do you want to withdraw?</p>
+                <div class="input">$ <input type="text" id="withdraw-amount"/></div>
+            </div>
+            <div class="withdraw error hidden"></div>
+            <div class="submit-btn">withdraw</div>
+        </div>
     <div class="balance">
         <h2>Total Balance: </h2>
     </div>

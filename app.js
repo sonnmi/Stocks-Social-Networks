@@ -34,38 +34,33 @@ client
   .then(() => console.log("Connected to the database"))
   .catch((err) => console.error("Connection error", err.stack));
 
-// commonQueryExecute.getAttributes();
+const tables = {
+  Users: createUserTableQuery,
+  Friends: createFriendsTableQuery,
+  StockHistory: createStockHistoryTableQuery,
+  Stock: createStockTableQuery,
+  StockList: createStockListTableQuery,
+  Consists: createConsistsTableQuery,
+  Portfolios: createPortfoliosTableQuery,
+  Holds: createHoldsTableQuery,
+  Requests: createRequestsTableQuery,
+  StockListAccess: creatStockListAccessTableQuery,
+  Reviews: createReviewsTableQuery
+}
 
-const createTable = (table, query) => {
-  try {
-    console.log("creating", table);
-    if ((!table) in ["StockHistory"]) commonQueryExecute.dropTable(table);
-    client.query(query);
-    commonQueryExecute.getAllData(table);
-  } catch (err) {
-    console.log("Error executing creation of table", err, table);
-  }
-};
+// Object.keys(tables).map(table => {
+//   if (table !== "StockHistory" && table !== "Stock") {
+//     commonQueryExecute.dropTable(table)
+//   }
+// })
 
-// commonQueryExecute.dropTable("Stock")
+Object.keys(tables).map(table => {
+  commonQueryExecute.createTable(table, tables[table]);
+})
+
+commonQueryExecute.getAttributes();
+
 commonQueryExecute.getAllTableNames();
-// createTable("Holds", createHoldsTableQuery);
-// createTable("Portfolios", createPortfoliosTableQuery);
-// createTable("Users", createUserTableQuery);
-// createTable("Friends", createFriendsTableQuery);
-// createTable("Stock", createStockTableQuery);
-// createTable("StockHistory", createStockHistoryTableQuery);
-// createTable("StockList", createStockListTableQuery);
-// createTable("Consists", createConsistsTableQuery);
-
-// createTable("Requests", createRequestsTableQuery);
-
-// createTable("Requests", createRequestsTableQuery);
-// createTable("Consists", createConsistsTableQuery);
-// createTable("StockListAccess", creatStockListAccessTableQuery);
-// createTable("StockListComments", createStocklistCommentsTableQuery);
-
-
 // commonQueryExecute.dropTable("StockList")
 
 app.use(bodyParser.urlencoded({ extended: false }));

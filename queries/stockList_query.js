@@ -4,7 +4,7 @@ export const stockListQuery = (function () {
     let module = {};
 
     module.getStockListByUserQuery = () => {
-        return `SELECT * FROM StockList WHERE owner = $1`;
+        return `SELECT name, isPublic FROM StockList WHERE owner = $1`;
     }
 
     module.insertStockListQuery = () => {
@@ -21,7 +21,7 @@ export const stockListQuery = (function () {
 
     module.addStockStockListQuery = () => {
         return `INSERT INTO CONSISTS (owner, stock, stocklist)
-                SELECT CAST($1 AS INTEGER), CAST($2 AS TEXT), CAST($3 AS TEXT)
+                SELECT CAST($1 AS VARCHAR), CAST($2 AS VARCHAR), CAST($3 AS VARCHAR)
                 WHERE NOT EXISTS (
                     SELECT 1 
                     FROM CONSISTS 
@@ -34,7 +34,7 @@ export const stockListQuery = (function () {
     }
 
     module.getPublicStockListsQuery = () => {
-        return `SELECT * FROM StockList WHERE visibility = 'public'`;
+        return `SELECT * FROM StockList WHERE isPublic = true`;
     }
 
     return module;

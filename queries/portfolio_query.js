@@ -4,12 +4,14 @@ export const portfolioQuery = (function () {
   "use strict";
   let module = {};
 
-  module.getPortfoliosByUser = () => {
-    return "SELECT name, cash FROM Portfolios WHERE owner = $1";
+  module.getPortfoliosByUser = (limit) => {
+    if (limit)
+      return `SELECT name, cash FROM Portfolios WHERE owner = $1 LIMIT ${limit}`; // OFFSET ${offset}
+    return "SELECT name, cash FROM Portfolios WHERE owner = $1"
   };
 
   module.getPortfoliosHoldsByUser = () => {
-    return "SELECT close, symbol FROM Portfolios, Holds WHERE owner = $1 AND portfolio = $2 AND stock = symbol";
+    return "SELECT close, symbol FROM Portfolios, Holds WHERE owner = $1 AND portfolio = $2";
   };
 
   module.createPortfolio = () => {
@@ -22,16 +24,31 @@ export const portfolioQuery = (function () {
 
   module.addStock = () => {
     return `INSERT INTO Holds (portfolio, stock, owner)
-                SELECT CAST($1 AS text), CAST($2 AS text), CAST($3 AS integer)
-                WHERE NOT EXISTS (
-                    SELECT 1
-                    FROM Holds
-                    WHERE portfolio = $1 AND stock = $2 AND owner = $3
-                );`
+            SELECT CAST($1 AS VARCHAR), CAST($2 AS VARCHAR), CAST($3 AS VARCHAR)
+            FROM Portfolios p
+            WHERE p.name = $1
+              AND p.owner = $3
+              AND p.cash >= $4
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM Holds
+                  WHERE portfolio = $1 AND stock = $2 AND owner = $3
+              )
+            RETURNING $1;`
   }
 
-  module.minusCash = () => {
-    return "UPDATE Portfolios SET cash = $1 WHERE cash >= $2 AND owner = $3 AND name = $4;"
+  module.withdrawCash = () => {
+    return `UPDATE Portfolios
+            SET cash = cash - $3
+            WHERE owner = $1 AND name = $2 AND cash >= $3
+            RETURNING cash;`
+  }
+
+  module.depositCash = () => {
+    return `UPDATE Portfolios
+            SET cash = cash + $3
+            WHERE owner = $1 AND name = $2
+            RETURNING cash;`
   }
 
   module.getPortfolioValue = () => {

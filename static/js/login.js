@@ -22,8 +22,8 @@
         if (data.error) {
           showStatus(data.error);
         } else {
-          apiService.createPortfolio(data.user.userId, "default").then(()=> {
-            console.log(data.user.userId)
+          apiService.createPortfolio(data.username, "default").then(()=> {
+            console.log(data.username)
           })
           showStatus("Sign up successfully");
         }

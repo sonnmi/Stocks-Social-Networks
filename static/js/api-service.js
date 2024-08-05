@@ -2,6 +2,7 @@ let apiService = (function () {
   "use strict";
   let module = {};
 
+  /* USER MANAGEMENT */
   module.signIn = (username, password) => {
     return fetch("/api/users/signin", {
       method: "POST",
@@ -29,24 +30,17 @@ let apiService = (function () {
     });
   };
 
-  module.getStocks = (page = 0, limit = 10) => {
-    return fetch(`/api/stocks?limit=${limit}&page=${page}`, {
+  /* PORTFOLIO */
+  module.getPortfoliosOfUser = (username, limit = null) => {
+    return fetch(`/api/portfolios/${username}?limit=${limit}`, {
       headers: {
         "Content-Type": "application/json",
       },
     }).then((res) => res.json());
   };
 
-  module.getPortfoliosOfUser = (userId) => {
-    return fetch(`/api/portfolios/${userId}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
-  };
-
-  module.createPortfolio = (userId, name) => {
-    return fetch(`/api/portfolios?userId=${userId}&name=${name}`, {
+  module.createPortfolio = (owner, portfolio) => {
+    return fetch(`/api/portfolios?owner=${owner}&portfolio=${portfolio}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,13 +48,43 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
-  module.getPortfolio = (userId, name) => {
-    return fetch(`/api/portfolios?userId=${userId}&name=${name}`, {
+  module.getPortfolio = (owner, portfolio) => {
+    return fetch(`/api/portfolios?owner=${owner}&portfolio=${portfolio}`, {
       headers: {
         "Content-Type": "application/json",
       },
     }).then((res) => res.json());
   };
+
+  module.getPortfolioCash = (owner, portfolio) => {
+    return fetch(`/api/portfolios/cash?owner=${owner}&portfolio=${portfolio}`, {
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
+  module.withdrawPortfolioCash = (owner, portfolio, money) => {
+    return fetch(`/api/portfolios/withdraw?owner=${owner}&portfolio=${portfolio}&money=${money}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
+  module.depositPortfolioCash = (owner, portfolio, money) => {
+    return fetch(`/api/portfolios/deposit?owner=${owner}&portfolio=${portfolio}&money=${money}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
+  /* FRIEND MANAGEMENT */
+  module.deleteRequest = (sender, receiver) => {
+    return fetch("/api/requests/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sender, receiver }),
+    }).then((res) => res.json());
+  };
+
   module.sendRequest = (
     sender,
     receiver,
@@ -78,14 +102,6 @@ let apiService = (function () {
         requestStatus,
         requestTime,
       }),
-    }).then((res) => res.json());
-  };
-
-  module.deleteRequest = (sender, receiver) => {
-    return fetch("/api/requests/delete", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sender, receiver }),
     }).then((res) => res.json());
   };
 
@@ -127,14 +143,23 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
+  /* STOCKS */
+  module.getStocks = (page = 0, limit = 10) => {
+    return fetch(`/api/stocks?limit=${limit}&page=${page}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+  };
+
   module.getStockHistory = (symbol) => {
     return fetch(`/api/history/${symbol}`, {
       headers: { "Content-Type": "application/json" },
     }).then((res) => res.json());
   };
   
-  module.buyStock = (portfolioname, userId, symbol, shares, price) => {
-    return fetch(`/api/portfolios/addStock?portfolioname=${portfolioname}&userId=${userId}&symbol=${symbol}&shares=${shares}&price=${price}`, {
+  module.buyStock = (portfolioname, username, symbol, shares, price) => {
+    return fetch(`/api/portfolios/addStock?portfolioname=${portfolioname}&username=${username}&symbol=${symbol}&shares=${shares}&price=${price}`, {
       method: "POST",
     }).then((res) => res.json());
   };
@@ -157,12 +182,12 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
-  module.addStockStocklist = (symbol, userId, name) => {
-    console.log("in add stock", userId, symbol, name);
+  module.addStockStocklist = (symbol, username, name) => {
+    console.log("in add stock", username, symbol, name);
     return fetch(`/api/stockList/addStock`, {
       headers: { "Content-Type": "application/json" },
       method: "POST", 
-      body: JSON.stringify({ userId, symbol, name }),
+      body: JSON.stringify({ username, symbol, name }),
     }).then((res) => res.json());
   }
 
@@ -212,8 +237,8 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
-  module.getStockListByUser = (userId) => {
-    return fetch(`/api/stockList/${userId}`, {
+  module.getStockListByUser = (username) => {
+    return fetch(`/api/stockList/${username}`, {
       headers: { "Content-Type": "application/json" },
     }).then((res) => res.json());
   };
@@ -338,12 +363,6 @@ let apiService = (function () {
 
   module.getPublicStockLists = () => {
     return fetch("/api/stockList/public", {
-      headers: { "Content-Type": "application/json" },
-    }).then((res) => res.json());
-  };
-
-  module.getPortfolioCash = (owner, portfolio) => {
-    return fetch(`/api/portfolios/cash/${owner}/${portfolio}`, {
       headers: { "Content-Type": "application/json" },
     }).then((res) => res.json());
   };

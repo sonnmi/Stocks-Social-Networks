@@ -1,5 +1,5 @@
-export const createPortfoliosTableQuery = `
-    CREATE TABLE IF NOT EXISTS Portfolios (
+export const createBankAccountTableQuery = `
+    CREATE TABLE IF NOT EXISTS BankAccount (
         owner VARCHAR(30),
         name VARCHAR(30),
         cash REAL,
