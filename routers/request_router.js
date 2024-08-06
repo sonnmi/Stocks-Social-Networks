@@ -30,6 +30,26 @@ RequestRouter.post("/send", async (req, res) => {
     const requestType = req.body.requestType;
     const requestStatus = req.body.requestStatus;
     const requestTime = req.body.requestTime;
+    var isFriend = true;
+    client.query(friendQuery.checkIfFriendsQuery(), [sender, receiver], (err, data) => {
+        if (err) {
+            console.log(err);
+        } else if (!data || data.rows.length === 0) {
+            console.log("Not friends, continue");
+            isFriend = false;
+        } else {
+            return res.json({
+            message: "Already friends.",
+            sender: sender,
+            receiver: receiver,
+        });
+        }
+    });
+    await new Promise(r => setTimeout(r, 1000));
+    if (isFriend) {
+        console.log("Already friends, cannot send request");
+        return;
+    }
     client.query(requestQuery.checkIfRejectedFiveMinutesAgo(), [sender, receiver], (err, data) => {
         if (err) {
             console.log(err);
