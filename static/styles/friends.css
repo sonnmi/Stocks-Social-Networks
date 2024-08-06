@@ -88,6 +88,9 @@ button:hover {
   align-items: center;
   width: 80%;
 }
+.remove-friend-btn {
+  margin-left: 70px;
+}
 
 .friend-action-btns {
   padding: 10px;
@@ -97,7 +100,6 @@ button:hover {
   cursor: pointer;
   height: 40px;
   margin-right: 10px;
-  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;

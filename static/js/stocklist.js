@@ -97,7 +97,7 @@
                 <div class="comment-user">${comment.reviewer}</div>
                 <div class="comment-content">${comment.comment}</div>
             `;
-      if (state.userInfo.username === comment.reviewer) {
+      if (state.userInfo.username === comment.reviewer || state.userInfo.username === state.stocklistInfo.owner) {
         const deleteButton = document.createElement("button");
         deleteButton.classList.add("comment-delete");
         deleteButton.classList.add("comment-button");
@@ -115,33 +115,34 @@
             });
         });
         commentElement.appendChild(deleteButton);
-
-        const editButton = document.createElement("button");
-        editButton.classList.add("comment-edit");
-        editButton.classList.add("comment-button");
-        editButton.innerHTML = "Edit";
-        editButton.addEventListener("click", () => {
-          const editInput = document.createElement("input");
-          editInput.classList.add("comment-edit-input");
-          editInput.value = comment.comment;
-          commentElement.appendChild(editInput);
-          editButton.innerHTML = "Save";
+        if (state.userInfo.username === comment.reviewer) {
+          const editButton = document.createElement("button");
+          editButton.classList.add("comment-edit");
+          editButton.classList.add("comment-button");
+          editButton.innerHTML = "Edit";
           editButton.addEventListener("click", () => {
-            const newComment = editInput.value;
-            apiService
-              .editStockListComment(
-                state.stocklistInfo.name,
-                state.stocklistInfo.owner,
-                comment.comment,
-                comment.reviewer,
-                newComment,
-              )
-              .then((data) => {
-                getComments(false, false);
-              });
-          });
+            const editInput = document.createElement("input");
+            editInput.classList.add("comment-edit-input");
+            editInput.value = comment.comment;
+            commentElement.appendChild(editInput);
+            editButton.innerHTML = "Save";
+            editButton.addEventListener("click", () => {
+              const newComment = editInput.value;
+              apiService
+                .editStockListComment(
+                  state.stocklistInfo.name,
+                  state.stocklistInfo.owner,
+                  comment.comment,
+                  comment.reviewer,
+                  newComment,
+                )
+                .then((data) => {
+                  getComments(false, false);
+                });
+            });
         });
         commentElement.appendChild(editButton);
+      }
       }
       commentContainer.appendChild(commentElement);
       commentsList.appendChild(commentContainer);

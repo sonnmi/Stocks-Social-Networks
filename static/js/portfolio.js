@@ -73,7 +73,7 @@
     const value = document.querySelector(".market-value");
     apiService.getPortfolioMarketValue(state.userInfos.username, state.portfolio.name).then(res => {
       console.log(res)
-      value.innerHTML = `<h2>Market Value: $ ${res.total_holding.toFixed(2)} </h2>`;
+      value.innerHTML = `<h2>Market Value: $ ${res.total_holding ? res.total_holding.toFixed(2) : 0} </h2>`;
     })
   }
 
