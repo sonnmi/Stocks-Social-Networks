@@ -70,16 +70,22 @@ export const portfolioQuery = (function () {
     `
   }
 
+  module.cashout = () => {
+    return `SELECT close
+            FROM (SELECT stock FROM Holds WHERE owner = $1 AND portfolio = $2 AND stock = $3 AND shares >= $4)
+            CROSS JOIN (SELECT close FROM stockHistory WHERE symbol = $3 ORDER BY date DESC LIMIT 1);`
+  }
+
   module.withdrawCash = () => {
     return `UPDATE Portfolios
-            SET cash = cash - $3
+            SET cash = cash - CAST($3 AS REAL)
             WHERE owner = $1 AND name = $2 AND cash >= $3
             RETURNING cash;`;
   };
 
   module.depositCash = () => {
     return `UPDATE Portfolios
-            SET cash = cash + $3
+            SET cash = cash + CAST($3 AS REAL)
             WHERE owner = $1 AND name = $2
             RETURNING cash;`;
   };
