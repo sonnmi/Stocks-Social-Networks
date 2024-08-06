@@ -137,23 +137,56 @@
           <a href="/friends.html">Friends</a>
           <a href="/stocks.html">Stocks</a>
         </div>
-      </div>
-      <div class="contents-container">
-        <div class="container">
-          <div class="header-container">
-            <div class="card">
-              <div class="header">
-                <h1 id="stock-name">
-                  Stock Name <span id="stock-symbol">(SYMBOL)</span>
-                </h1>
-                <!-- <div class="buy-option">
-                  <button>Buy Stock</button>
-                </div> -->
-              </div>
-              <div class="stock-info">
-                <div>
-                  <h2>Open</h2>
-                  <p id="stock-open"></p>
+        <div class="contents-container">
+            <div class="container">
+                <div class="header-container">
+                    <div class="card">
+                        <div class="header">
+                            <h1 id="stock-name">Stock Name <span id="stock-symbol">(SYMBOL)</span></h1>
+                            <div class="buy-option">
+                                <button>Buy Stock</button>
+                            </div>
+                            <div class="call-api">
+                                <button onclick="getLatestData()">Get Latest Data</button>
+                            </div>
+                        </div>
+                        <div class="stock-info">
+                            <div>
+                                <h2>Open</h2>
+                                <p id="stock-open"></p>
+                            </div>
+                            <div>
+                                <h2>High</h2>
+                                <p id="stock-high"></p>
+                            </div>
+                            <div>
+                                <h2>Low</h2>
+                                <p id="stock-low"></p>
+                            </div>
+                            <div>
+                                <h2>Close</h2>
+                                <p id="stock-close"></p>
+                            </div>
+                        </div>
+
+                        <div class="chart">
+                            <canvas id="stockChart"></canvas>
+                        </div>
+
+                        <!-- Timeframe Buttons -->
+                        <div class="timeframe-buttons">
+                            <button onclick="updateChart('1week')">1 Week</button>
+                            <button onclick="updateChart('1month')">1 Month</button>
+                            <button onclick="updateChart('3months')">3 Months</button>
+                            <button onclick="updateChart('6months')">6 Months</button>
+                            <button onclick="updateChart('1year')">1 Year</button>
+                            <button onclick="updateChart('5years')">5 Years</button>
+                        </div>
+
+                        <div class="chart">
+                            <canvas id="predictionChart"></canvas>
+                        </div>
+                    </div>
                 </div>
                 <div>
                   <h2>High</h2>
@@ -197,30 +230,42 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
 
     <script>
-      // Get the stock symbol from the URL
-      const params = new URLSearchParams(window.location.search);
-      const symbol = params.get("symbol");
-      const timeframe = params.get("timeframe");
-      console.log(symbol);
+        // Get the stock symbol from the URL
+        const params = new URLSearchParams(window.location.search);
+        const symbol = params.get('symbol');
+        const timeframe = params.get('timeframe');
+        console.log(symbol);
 
-      let chart; // Global chart variable to hold the chart instance
-      let predictionChart; // Global chart variable for predictions
+        let chart; // Global chart variable to hold the chart instance
+        let predictionChart; // Global chart variable for predictions
 
-      // Fetch stock data with a specified timeframe
-      async function fetchStockData(symbol, timeframe) {
-        try {
-          const response = await fetch(
-            `/api/history/${symbol}?time=${timeframe}`,
-          );
-          const data = await response.json();
-          if (data.error) {
-            alert(data.error);
-            return [];
-          }
-          return data.stockHistory;
-        } catch (error) {
-          console.error("Error fetching stock data:", error);
-          return [];
+        async function getLatestData() {
+            console.log('getLatestData');
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/stock/${symbol}/1`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                console.log(result);
+                populateStockInfo(symbol);
+            } catch (error) {
+                console.error('Error calling API:', error);
+            }
+        }
+        // Fetch stock data with a specified timeframe
+        async function fetchStockData(symbol, timeframe) {
+            try {
+                const response = await fetch(`/api/history/${symbol}?time=${timeframe}`);
+                const data = await response.json();
+                if (data.error) {
+                    alert(data.error);
+                    return [];
+                }
+                return data.stockHistory;
+            } catch (error) {
+                console.error('Error fetching stock data:', error);
+                return [];
+            }
         }
       }
 

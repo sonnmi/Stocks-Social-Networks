@@ -52,6 +52,7 @@
                 <div class="btns-style">
                     <div class="add-btn btn-style stocklist-add">Add Stock list</div>
                     <div class="buy-btn">Buy Stock</div>
+                    <button onclick="getLatestData()">Get Latest Data</button>
                 </div>
             </div>
             <div class="main-container">
@@ -92,6 +93,20 @@
     <script src="./js/api-service.js"></script>
     <script src="./js/stocks.js"></script>
     <script src="./js/common.js"></script>
+    <script>
+        async function getLatestData(){
+            try {
+              const response = await fetch(`http://127.0.0.1:8000/stocks/updateAll/1`, {
+                method: "POST",
+              });
+              const data = await response.json();
+              console.log(data);
+              updateStock();
+            } catch (err) {
+                console.log(err);
+            }
+          };
+    </script>
 </body>
 
 </html>

@@ -3,15 +3,9 @@ export const requestQuery = (function () {
   let module = {};
 
   module.getRequestsQuery = () => {
-    return `SELECT u.username
-    FROM (
-    SELECT r.sender
+    return  `SELECT r.sender
     FROM Requests r
-    JOIN Users u ON r.receiver = u.userId
-    WHERE u.username = $1 AND r.requestStatus = $2
-    ) AS senders
-    JOIN Users u ON u.userid = senders.sender;
-`;
+    WHERE r.receiver = $1 AND r.requestStatus = $2`;
   };
 
   module.insertRequestQuery = () => {
