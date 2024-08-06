@@ -351,6 +351,15 @@ let apiService = (function () {
     ).then((res) => res.json());
   };
 
+  module.editStockListComment = (stocklist, owner, comment, reviewer, newComment) => {
+    return fetch("/api/stocklistComments/edit", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ stocklist, owner, comment, reviewer, newComment }),
+    }).then((res) => res.json());
+  };
+    
+
   // module.getPortfolioInfo = (owner, portfolio) => {
   //   return fetch(`/api/holds/${owner}/${portfolio}`, {
   //     headers: { "Content-Type": "application/json" },

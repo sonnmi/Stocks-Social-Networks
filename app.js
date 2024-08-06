@@ -45,6 +45,7 @@ const tables = {
   Requests: createRequestsTableQuery,
   StockListAccess: creatStockListAccessTableQuery,
   Reviews: createReviewsTableQuery,
+  Friends: createFriendsTableQuery,
 };
 
 // Object.keys(tables).map(table => {

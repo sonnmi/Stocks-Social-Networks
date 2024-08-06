@@ -32,25 +32,10 @@ StockListAccessRouter.get("/friendView/:owner/:viewer", async (req, res) => {
   try {
     const owner = req.params.owner;
     const viewer = req.params.viewer;
-    let ownerId = -1;
-    let viewerId = -1;
-    console.log("owner", owner);
-    console.log("viewer", viewer);
-    client.query(userQuery.getUserIdQuery(), [owner], (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        ownerId = data.rows[0].userid;
-        client.query(userQuery.getUserIdQuery(), [viewer], (err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
-            viewerId = data.rows[0].userid;
-            console.log("ownerId", ownerId);
-            console.log("viewerId", viewerId);
+
             client.query(
               stockListAccessQuery.getStockListAccessByOwnerViewerQuery(),
-              [ownerId, viewerId],
+              [owner, viewer],
               (err, data) => {
                 if (err) {
                   console.log(err);
@@ -62,10 +47,6 @@ StockListAccessRouter.get("/friendView/:owner/:viewer", async (req, res) => {
                 }
               },
             );
-          }
-        });
-      }
-    });
   } catch (err) {
     console.log(err);
   }
@@ -76,25 +57,9 @@ StockListAccessRouter.post("/add", async (req, res) => {
     const stocklist = req.body.stocklist;
     const owner = req.body.owner;
     const viewer = req.body.viewer;
-    let ownerId = -1;
-    let viewerId = -1;
-    client.query(userQuery.getUserIdQuery(), [owner], (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("owner", owner);
-        ownerId = data.rows[0].userid;
-        console.log("ownerId", ownerId);
-        client.query(userQuery.getUserIdQuery(), [viewer], (err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("viewer", viewer);
-            viewerId = data.rows[0].userid;
-            console.log("viewerId", viewerId);
             client.query(
               stockListAccessQuery.insertStockListAccessQuery(),
-              [stocklist, ownerId, viewerId],
+              [stocklist, owner, viewer],
               (err, data) => {
                 if (err) {
                   console.log(err);
@@ -108,12 +73,7 @@ StockListAccessRouter.post("/add", async (req, res) => {
                 }
               },
             );
-          }
-        });
-      }
-    });
 
-    console.log("adding share access", stocklist, ownerId, viewerId);
   } catch (err) {
     console.log(err);
   }
@@ -124,22 +84,6 @@ StockListAccessRouter.delete("/delete", async (req, res) => {
     const stocklist = req.body.stocklist;
     const owner = req.body.owner;
     const viewer = req.body.viewer;
-    let ownerId = -1;
-    let viewerId = -1;
-    client.query(userQuery.getUserIdQuery(), [owner], (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        ownerId = data.rows[0].userid;
-      }
-    });
-    client.query(userQuery.getUserIdQuery(), [viewer], (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        viewerId = data.rows[0].userid;
-      }
-    });
     client.query(
       stockListAccessQuery.deleteStockListAccessQuery(),
       [stocklist, owner, viewer],

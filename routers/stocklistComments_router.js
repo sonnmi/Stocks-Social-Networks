@@ -10,7 +10,6 @@ StockListCommentsRouter.get("/:stocklist/:owner", async (req, res) => {
     const stocklist = req.params.stocklist;
     const owner = req.params.owner;
     console.log("get comments", stocklist, owner);
-    let ownerId = -1;
 
     client.query(
       stockListCommentQuery.getStockListCommentsQuery(),
@@ -37,16 +36,9 @@ StockListCommentsRouter.post("/add", async (req, res) => {
     const owner = req.body.owner;
     const comment = req.body.comment;
     const reviewer = req.body.reviewer;
-    let ownerId = -1;
-    let reviewerId = -1;
-    client.query(userQuery.getUserIdQuery(), [owner], (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        ownerId = data.rows[0].userid;
         client.query(
           stockListCommentQuery.insertStockListCommentQuery(),
-          [ownerId, reviewer, comment, stocklist],
+          [owner, reviewer, comment, stocklist],
           (err, data) => {
             if (err) {
               console.log(err);
@@ -60,8 +52,6 @@ StockListCommentsRouter.post("/add", async (req, res) => {
             }
           },
         );
-      }
-    });
   } catch (err) {
     console.log(err);
   }
@@ -94,6 +84,37 @@ StockListCommentsRouter.delete("/delete", async (req, res) => {
   }
 });
 
+StockListCommentsRouter.put("/edit", async (req, res) => {
+  try {
+    const stocklist = req.body.stocklist;
+    const owner = req.body.owner;
+    const comment = req.body.comment;
+    const reviewer = req.body.reviewer;
+    const newComment = req.body.newComment;
+    client.query(
+      stockListCommentQuery.updateStockListCommentQuery(),
+      [newComment, stocklist, owner, comment, reviewer],
+      (err, data) => {
+        if (err) {
+          console.log(err);
+
+        } else {
+          return res.json({
+            message: "Comment updated.",
+            stocklist: stocklist,
+            owner: owner,
+            comment: comment,
+            newComment: newComment,
+          });
+        }
+      },
+    );
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
 StockListCommentsRouter.get(
   "/own/:stocklist/:owner/:reviewer",
   async (req, res) => {
@@ -103,14 +124,10 @@ StockListCommentsRouter.get(
       const owner = req.params.owner;
       const reviewer = req.params.reviewer;
       let ownerId = -1;
-      client.query(userQuery.getUserIdQuery(), [owner], (err, data) => {
-        if (err) {
-          console.log(err);
-        } else {
-          ownerId = data.rows[0].userid;
+      
           client.query(
             stockListCommentQuery.getStockListOwnCommentQuery(),
-            [ownerId, reviewer, stocklist],
+            [owner, reviewer, stocklist],
             (err, data) => {
               if (err) {
                 console.log(err);
@@ -122,8 +139,6 @@ StockListCommentsRouter.get(
               }
             },
           );
-        }
-      });
     } catch (err) {
       console.log(err);
     }

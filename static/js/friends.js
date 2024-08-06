@@ -33,6 +33,8 @@
     const friendsList = document.querySelector(".friends-list");
     friendsList.innerHTML = "";
     state.friends.forEach((friend) => {
+      const friendContainer = document.createElement("div");
+        friendContainer.classList.add("friend-item-container");
       const friendElement = document.createElement("div");
       friendElement.classList.add("friend-item");
       friendElement.innerHTML = `
@@ -48,7 +50,62 @@
             </button>
         </div>
         `;
-      friendsList.appendChild(friendElement);
+        apiService.getSharedStockLists(friend.friend, state.userInfo.username).then((data) => {
+            console.log("getSharedStockLists", data);
+            if (data.error) {
+                console.log("No shared stock lists found");
+                friendContainer.appendChild(friendElement);
+                return;
+            }
+            const sharedStockListsElement = document.createElement("div");
+            sharedStockListsElement.classList.add("shared-stocklists");
+            sharedStockListsElement.innerHTML = `<div class="shared-stocklists-title">Shared Stock Lists</div>
+            <div class="shared-stocklists-btn">btn</div>`;
+
+            
+
+            const dropdown = document.createElement("div");
+            dropdown.classList.add("shared-stocklists-dropdown");
+            dropdown.classList.add("hidden");
+            data.forEach((stocklist) => {
+                const stockListElement = document.createElement("div");
+                stockListElement.classList.add("stocklist-item");
+                stockListElement.innerHTML = `
+                <div class="stocklist-item inner s${stocklist.stocklist}" href="#">
+                    <p class="stocklist-name">${stocklist.stocklist}</p>
+                </div>
+                `;
+                dropdown.appendChild(stockListElement);
+
+                stockListElement.querySelector(`.s${stocklist.stocklist}`).addEventListener("click", (event) => {
+                    const stocklistName = stocklist.stocklist;
+                    const stocklistOwner = friend.friend;
+                    console.log("stocklistName", stocklistName);
+                    console.log("stocklistOwner", stocklistOwner);
+                    window.location.href = `/stocklist.html`;
+                    localStorage.setItem(
+                        "stocklistInfo",
+                        JSON.stringify({
+                            name: stocklistName,
+                            owner: stocklistOwner,
+                            visibility: stocklist.ispublic ? "public" : "private",
+                        }),
+                    );
+                });
+
+            });
+            friendElement.appendChild(sharedStockListsElement);
+            friendContainer.appendChild(friendElement);
+            friendContainer.appendChild(dropdown);
+            const dropdownBtn = document.querySelector(".shared-stocklists-btn");
+            
+            dropdownBtn.addEventListener("click", () => {
+                const dropdown = document.querySelector(".shared-stocklists-dropdown");
+                dropdown.classList.toggle("hidden");
+            });
+            
+        });
+      friendsList.appendChild(friendContainer);
     });
   }
 

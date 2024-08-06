@@ -72,7 +72,7 @@
         .getStockListOwnComments(
           state.stocklistInfo.name,
           state.stocklistInfo.owner,
-          state.userInfo.userid,
+          state.userInfo.username,
         )
         .then((data) => {
           if (data.error) {
@@ -97,6 +97,50 @@
                 <div class="comment-user">${comment.reviewer}</div>
                 <div class="comment-content">${comment.comment}</div>
             `;
+      if (state.userInfo.username === comment.reviewer) {
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("comment-delete");
+        deleteButton.innerHTML = "Delete";
+        deleteButton.addEventListener("click", () => {
+          apiService
+            .deleteStockListComment(
+              state.stocklistInfo.name,
+              state.stocklistInfo.owner,
+              comment.comment,
+              comment.reviewer,
+            )
+            .then((data) => {
+              getComments(false, false);
+            });
+        });
+        commentElement.appendChild(deleteButton);
+
+        const editButton = document.createElement("button");
+        editButton.classList.add("comment-edit");
+        editButton.innerHTML = "Edit";
+        editButton.addEventListener("click", () => {
+          const editInput = document.createElement("input");
+          editInput.classList.add("comment-edit-input");
+          editInput.value = comment.comment;
+          commentElement.appendChild(editInput);
+          editButton.innerHTML = "Save";
+          editButton.addEventListener("click", () => {
+            const newComment = editInput.value;
+            apiService
+              .editStockListComment(
+                state.stocklistInfo.name,
+                state.stocklistInfo.owner,
+                comment.comment,
+                comment.reviewer,
+                newComment,
+              )
+              .then((data) => {
+                getComments(false, false);
+              });
+          });
+        });
+        commentElement.appendChild(editButton);
+      }
       commentContainer.appendChild(commentElement);
       commentsList.appendChild(commentContainer);
     });
@@ -108,9 +152,9 @@
     document.querySelector(".stocklist-name").innerHTML =
       state.stocklistInfo.name;
     getStockList();
-    console.log(state.userInfo.userid, state.stocklistInfo.owner);
-    if (state.stocklistInfo.visibility == "private") {
-      if (state.userInfo.userid == parseInt(state.stocklistInfo.owner, 10)) {
+    console.log(state.userInfo.username, state.stocklistInfo.owner);
+    if (state.stocklistInfo.visibility === "private") {
+      if (state.userInfo.username === state.stocklistInfo.owner) {
         console.log("owner 111");
         document.querySelector(".stocklist-sharing").classList.remove("hidden");
         document
@@ -137,7 +181,7 @@
                 const friendElement = document.createElement("option");
                 friendElement.classList.add("friend-item");
                 friendElement.innerHTML = `
-            <option class="stocklist-sharing-friend">${friend.username}</option>
+            <option class="stocklist-sharing-friend">${friend.friend}</option>
             `;
                 sharingDropdown.appendChild(friendElement);
               });
@@ -186,7 +230,7 @@
                 state.stocklistInfo.name,
                 state.stocklistInfo.owner,
                 comment,
-                state.userInfo.userid,
+                state.userInfo.username,
               )
               .then((data) => {
                 console.log(data);
@@ -196,10 +240,32 @@
       }
     } else {
       getComments(false, true);
-      if (state.userInfo.userid == state.stocklistInfo.owner) {
+      if (state.userInfo.username === state.stocklistInfo.owner) {
         document
           .querySelector(".comments-form-container")
           .classList.add("hidden");
+      } else {
+        document
+          .querySelector(".comments-form-container")
+          .classList.remove("hidden");
+        document
+          .querySelector(".comments-form-submit")
+          .addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const comment = document.querySelector(".comments-form").value;
+            console.log("submit comment", comment);
+            apiService
+              .addStockListComment(
+                state.stocklistInfo.name,
+                state.stocklistInfo.owner,
+                comment,
+                state.userInfo.username,
+              )
+              .then((data) => {
+                getComments(false, true);
+              });
+          });
       }
     }
   });

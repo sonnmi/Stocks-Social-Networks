@@ -44,12 +44,22 @@ button:hover {
   align-items: center;
 }
 .friend-info {
-  width: 85%;
+  width: 70%;
   margin: 10px 10px 10px 11px;
 }
 
 .friend-request-form {
   margin-top: 62px;
+  display: flex;
+  flex-direction: row;
+}
+
+.shared-stocklists {
+  width: 15%;
+  margin-top: -10px;
+}
+
+.shared-stocklists-dropdown{
   display: flex;
   flex-direction: row;
 }
