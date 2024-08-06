@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { client } from "../datasource.js";
 import { requestQuery } from "../queries/request_query.js";
-import { userQuery } from "../queries/users_query.js";
+import { friendQuery } from "../queries/friend_query.js";
 
 export const RequestRouter = Router();
 
@@ -35,21 +35,45 @@ RequestRouter.post("/send", async (req, res) => {
             console.log(err);
         } else if (!data || data.rows.length === 0) {
             console.log("request not rejected 5 mins ago, continue");
-            client.query(
-                requestQuery.insertRequestQuery(),
-                [sender, receiver, requestType, requestStatus, requestTime],
-                (err, data) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    return res.json({
-                      message: "Request sent.",
-                      sender: sender,
-                      receiver: receiver,
-                    });
-                  }
-                },
-              );
+           client.query(requestQuery.findRequestQuery(), [sender, receiver], (err, data) => {
+            if (err) {
+                console.log(err);
+            } else if (!data || data.rows.length === 0) {
+                console.log("No request found, continue");
+                client.query(
+                    requestQuery.insertRequestQuery(),
+                    [sender, receiver, requestType, requestStatus, requestTime],
+                    (err, data) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        return res.json({
+                        message: "Request sent.",
+                        sender: sender,
+                        receiver: receiver,
+                        });
+                    }
+                    },
+                );
+            } else {
+                console.log("Request found, update request");
+                client.query(
+                    requestQuery.updateRequestQuery(),
+                    [requestStatus, sender, receiver],
+                    (err, data) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        return res.json({
+                        message: "Request updated.",
+                        sender: sender,
+                        receiver: receiver,
+                        });
+                    }
+                    },
+                );
+            }
+        });
         } else {
             return res.json({
             message: "Request rejected 5 mins ago, please try again later.",

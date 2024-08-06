@@ -25,5 +25,8 @@ export const requestQuery = (function () {
     return `SELECT * FROM Requests WHERE (sender = $1 AND receiver = $2) AND requestStatus = 'rejected' AND requesttime > CURRENT_TIMESTAMP - INTERVAL '5 minutes'`;
   };
 
+  module.findRequestQuery = () => {
+    return `SELECT * FROM Requests WHERE sender = $1 AND receiver = $2 or sender = $2 AND receiver = $1`;
+  };
   return module;
 })();

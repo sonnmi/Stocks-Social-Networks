@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import yfinance as yf
-import pandas as pd
 import psycopg2
 import numpy as np
 from psycopg2.extensions import register_adapter, AsIs
