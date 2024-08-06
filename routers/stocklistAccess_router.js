@@ -28,11 +28,33 @@ StockListAccessRouter.get("/:stocklist/:owner", async (req, res) => {
   }
 });
 
+StockListAccessRouter.get("/:viewer", async (req, res) => {
+  try {
+    const viewer = req.params.viewer;
+    client.query(
+      stockListAccessQuery.getAllSharedStockListsQuery(),
+      [viewer],
+      (err, data) => {
+        if (err) {
+          console.log(err);
+        } else if (!data || data.rows.length === 0) {
+          console.log("No stocklist access found");
+          return res.json({ error: "No stocklist access found" });
+        } else {
+          return res.json(data.rows);
+        }
+      },
+    );
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 StockListAccessRouter.get("/friendView/:owner/:viewer", async (req, res) => {
   try {
     const owner = req.params.owner;
     const viewer = req.params.viewer;
-
+    console.log("get friend view", owner, viewer);
     client.query(
       stockListAccessQuery.getStockListAccessByOwnerViewerQuery(),
       [owner, viewer],

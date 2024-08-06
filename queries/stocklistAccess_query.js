@@ -19,5 +19,9 @@ export const stockListAccessQuery = (function () {
     return `SELECT * FROM StockListAccess WHERE owner = $1 AND viewer = $2`;
   };
 
+  module.getAllSharedStockListsQuery = () => {
+    return `SELECT Stocklist.name, Stocklist.owner, Stocklist.isPublic FROM StockListAccess JOIN StockList ON StockListAccess.stocklist = StockList.name AND StockListAccess.owner = StockList.owner WHERE viewer = $1`;
+  };
+
   return module;
 })();

@@ -63,7 +63,7 @@
           const sharedStockListsElement = document.createElement("div");
           sharedStockListsElement.classList.add("shared-stocklists");
           sharedStockListsElement.innerHTML = `<div class="shared-stocklists-title">Shared Stock Lists</div>
-              <div class="shared-stocklists-btn">btn</div>`;
+              <div class="shared-stocklists-btn"></div>`;
 
           const dropdown = document.createElement("div");
           dropdown.classList.add("shared-stocklists-dropdown");

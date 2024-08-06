@@ -24,7 +24,8 @@
   gap: 1.5em;
 }
 .portfolio-item,
-.watchlist-item {
+.watchlist-item-home,
+.stocklist-item-home {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -35,26 +36,30 @@
     box-shadow 0.2s;
 }
 
-.portfolios-list-home .portfolio-item {
+.portfolios-list-home .portfolio-item, .shared-stocklists-list-home, .stocklists-list-home, .public-stocklists-list-home, .stocklist-item-home {
   width: 140px;
 }
 .portfolio-item:hover,
-.watchlist-item:hover {
+.watchlist-item-home:hover,
+.stocklist-item-home:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 .portfolio-item h3,
-.watchlist-item h3 {
+.watchlist-item-home h3,
+.stocklist-item-home h3 {
   margin: 0.5em 0;
   font-size: 1.2em;
   color: #007bff;
 }
 .portfolio-item p,
-.watchlist-item p {
+.watchlist-item-home p,
+.stocklist-item-home p {
   margin: 0.5em 0;
 }
 .portfolio-item .chart,
-.watchlist-item .chart {
+.watchlist-item-home .chart,
+.stocklist-item-home .chart {
   height: 50px;
   background: #f1f1f1;
   margin-top: 0.5em;
@@ -71,4 +76,23 @@
   color: rgb(184, 184, 184);
   text-decoration: none;
   margin: 0 1em;
+}
+
+.delete-stocklist-btn {
+  padding: 8px 12px; 
+  background-color: #e74c3c; 
+  color: white; 
+  border: none; 
+  border-radius: 4px;
+  width: 30px;
+  height: 8px;
+  cursor: pointer; 
+  font-size: 8px;
+  text-align: center; 
+  display: inline-block; 
+  transition: background-color 0.3s ease; 
+}
+
+.delete-stocklist-btn:hover {
+  background-color: #c0392b; 
 }

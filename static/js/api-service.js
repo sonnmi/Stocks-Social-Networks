@@ -324,6 +324,12 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
+  module.getAllSharedStockLists = (viewer) => {
+    return fetch(`/api/stocklistAccess/${viewer}`, {
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
   module.getSharedStockLists = (owner, viewer) => {
     return fetch(`/api/stocklistAccess/friendView/${owner}/${viewer}`, {
       headers: { "Content-Type": "application/json" },
