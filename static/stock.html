@@ -124,6 +124,9 @@
                             <div class="buy-option">
                                 <button>Buy Stock</button>
                             </div>
+                            <div class="call-api">
+                                <button onclick="getLatestData()">Get Latest Data</button>
+                            </div>
                         </div>
                         <div class="stock-info">
                             <div>
@@ -181,6 +184,19 @@
         let chart; // Global chart variable to hold the chart instance
         let predictionChart; // Global chart variable for predictions
 
+        async function getLatestData() {
+            console.log('getLatestData');
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/stock/${symbol}/1`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                console.log(result);
+                populateStockInfo(symbol);
+            } catch (error) {
+                console.error('Error calling API:', error);
+            }
+        }
         // Fetch stock data with a specified timeframe
         async function fetchStockData(symbol, timeframe) {
             try {

@@ -58,7 +58,7 @@ FriendRouter.delete("/delete", async (req, res) => {
     // Delete the user and friend from the friends table
     client.query(
     friendQuery.deleteUserFriendQuery(),
-    [userId, friendId],
+    [username, friendUsername],
     (err, data) => {
         if (err) {
         console.log(err);

@@ -118,7 +118,7 @@
           if (state.showPopup) {
             document.querySelector(".popup-container").classList.remove("hidden");
             document.querySelector(".dark").classList.remove("hidden");
-      
+
           const username = JSON.parse(localStorage.getItem("userInfo")).username;
 
       const res = apiService.getStockListByUser(username).then((res) => {
