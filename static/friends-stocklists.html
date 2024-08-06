@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocklist Management Dashboard</title>
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/menu.css" rel="stylesheet" type="text/css" />
+    <link href="styles/home.css" rel="stylesheet" type="text/css" />
+    <link href="styles/btn.css" rel="stylesheet" type="text/css" />
+    <link href="styles/form.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .vertical-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+        }
+        .stocklist-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+        .stocklist-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .stocklist-item h3 {
+            margin: 0.5em 0;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+        .stocklist-item p {
+            margin: 0.5em 0;
+        }
+        .stocklist-item .chart {
+            height: 50px;
+            background: #f1f1f1;
+            margin-top: 0.5em;
+            border-radius: 5px;
+        }
+
+        .delete-stocklist-btn {
+            width: 30px;
+            height: 18px;
+            background-color: rgb(253, 85, 85);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: white;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 15px;
+            transition: 0.2s;
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            cursor: pointer;
+            top: 0;
+            margin: 10px;
+        }
+
+        .stocklist-name {
+            width: 80%;
+        }
+
+        .delete-stocklist-btn:hover {
+            background-color: rgb(251, 110, 110);
+        }
+
+        .visibility-container {
+            width: 20%;
+            color: #007bff;
+            background-color: #f1f1f1;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+        .visibility-container label {
+            margin: 0.5em;
+        }
+        .visibility-container input {
+            margin-right: 0.5em;
+            width: 80px;
+        }
+        
+        .stocklist-form-name {
+            width: 70%;
+        }
+        .visibility-label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 50px;
+        }
+        .visibility-checkbox {
+            width: 10px;
+        }
+        .stocklist-item.inner :hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search for stocks & more"></input>
+        </div>
+        <div class="profile">
+            <div class="img"></div>
+            <div class="username"></div>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h2>Main Menu</h2>
+                <a href="./home.html">Home</a>
+                <a href="./portfolios.html">Portfolio</a>
+                <a href="./stocklists.html">Stock List</a>
+                <a href="./friends.html">Friends</a>
+            </div>
+        </div>
+        <div class="contents-container">
+    <div class="horizontal-container">
+        <div class="header-horizontal-container">
+            <h2>Stocklists Shared By Your Friends</h2>
+        <div class="stocklist-container">
+        </div>
+    </div>
+</div>
+    <script src="./js/api-service.js"></script>
+    <script src="./js/friends-stocklists.js"></script>
+    <script src="./js/common.js"></script>
+</body>
+</html>

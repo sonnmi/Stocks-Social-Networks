@@ -92,11 +92,11 @@ export const portfolioQuery = (function () {
 
   module.getPortfolioValue = () => {
     return `SELECT SUM(holding) AS total_holding FROM (
-        SELECT h.stock, h.amount, sh.close, (h.amount * sh.close) AS holding
+        SELECT h.stock, h.shares, sh.close, (h.shares * sh.close) AS holding
         FROM (
-            SELECT stock, amount
+            SELECT stock, shares
             FROM holds
-            WHERE owner=1 AND portfolio='P1'
+            WHERE owner=$1 AND portfolio=$2
         ) AS h
         LEFT JOIN (
             SELECT s1.symbol, s1.close, s1.date

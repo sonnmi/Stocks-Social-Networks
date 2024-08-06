@@ -206,6 +206,18 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
+  module.getPortfolioMarketValue = (owner, portfolio) => {
+    return fetch(`/api/portfolios/marketValue?owner=${owner}&portfolio=${portfolio}`, {
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
+  module.getStockListMarketValue = (owner, portfolio) => {
+    return fetch(`/api/stockList/addStock?owner=${owner}&portfolio=${portfolio}`, {
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
   module.getStockHistory1month = (symbol) => {
     return fetch(`/api/history/${symbol}/1month`, {
       headers: { "Content-Type": "application/json" },

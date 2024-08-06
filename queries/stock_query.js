@@ -80,5 +80,51 @@ export const stockQuery = (function () {
     return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '5 years' ORDER BY date;";
   };
 
+  module.getCOV = () => {
+    return `WITH LatestDate AS (
+                SELECT 
+                    MAX(date) AS max_date
+                FROM 
+                    StockHistory
+                WHERE 
+                    symbol = $1
+            ),
+            FilteredStockData AS (
+                SELECT 
+                    date,
+                    close
+                FROM 
+                    StockHistory
+                WHERE 
+                    symbol = $1
+                    AND date >= (
+                        SELECT 
+                            CASE $2
+                                WHEN '1week' THEN max_date - INTERVAL '7 days'
+                                WHEN '1month' THEN max_date - INTERVAL '1 month'
+                                WHEN '3month' THEN max_date - INTERVAL '3 months'
+                                WHEN '1year' THEN max_date - INTERVAL '1 year'
+                                WHEN '5year' THEN max_date - INTERVAL '5 years'
+                            END
+                        FROM 
+                            LatestDate
+                    )
+            )
+            SELECT 
+                AVG(close) AS mean_close,
+                STDDEV(close) AS stddev_close,
+                (STDDEV(close) / AVG(close)) * 100 AS coefficient_of_variation
+            FROM 
+                FilteredStockData;`;
+  }
+
+  module.getCorrelation = (duration) => {
+    return `SELECT CORR()`;
+  };
+  
+  module.getVolatility = () => {
+    return `SELECT `
+  }
+  
   return module;
 })();
