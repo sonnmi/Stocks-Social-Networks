@@ -25,7 +25,7 @@ StockListRouter.get("/:username", async (req, res) => {
 });
 
 StockListRouter.post("/addStock", async (req, res) => {
-  const username = parseInt(req.body.username);
+  const username = req.body.username;
   const symbol = req.body.symbol;
   const name = req.body.name;
   console.log("in add stock", username, symbol, name);

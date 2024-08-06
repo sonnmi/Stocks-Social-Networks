@@ -112,6 +112,16 @@
                             document.querySelector(".popup-container").classList.add("hidden")
                             document.querySelector(".sell-amount").value = "";
                             updatePortfolio();
+                            apiService
+                            .getPortfolioCash(state.userInfos.username, state.portfolio.name)
+                            .then((response) => {
+                                console.log(response);
+                                if (response.error) {
+                                console.log(response.error);
+                                } else {
+                                updateBalance(response.cash);
+                                }
+                            });
                         }
                     })
                 })

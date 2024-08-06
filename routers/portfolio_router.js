@@ -185,27 +185,36 @@ PortfolioRouter.post("/sellStock", async (req, res) => {
     const portfolio = req.body.portfolio;
     const stock = req.body.stock;
     const amount = req.body.amount;
-    const price = req.body.price * amount;
     client.query(
-      portfolioQuery.sellStocks(),
-      [owner, portfolio, stock, amount],
+      portfolioQuery.cashout(),
+      [owner, portfolio, stock, amount], 
       (err, data) => {
         if (err) {
-            console.log(err);
-          } else if (!data || data.rows.length === 0) {
-            return res.json({
-              error: data,
-            });
-          } else {
-            console.log(data.rows.count)
-            client.query(
-              portfolioQuery.depositCash(),
-              [owner, portfolio, price]
-            )
-            return res.json({
-              cash: data,
-            });
-          }});
+          console.log(err.message)
+          return res.json({error: "Selling stock failed"})
+        } else if (!data || data.rows.length === 0) {
+          return res.json({error: "Check amount of shares you have."})
+        } else {
+          const price = data.rows[0].close * amount;
+          client.query(
+            portfolioQuery.sellStocks(),
+            [owner, portfolio, stock, amount],
+            (err, data) => {
+              if (err) {
+                  console.log(err);
+                } else {
+                  console.log(price)
+                  client.query(
+                    portfolioQuery.depositCash(),
+                    [owner, portfolio, price]
+                  )
+                  return res.json({
+                    cash: data,
+                  });
+                }});
+              }
+          }
+    )
   } catch (err) {
     console.log(err);
   }
@@ -216,7 +225,7 @@ PortfolioRouter.post("/addStock", async (req, res) => {
   const username = req.query.username;
   const symbol = req.query.symbol;
   const shares = parseInt(req.query.shares);
-  const price = parseInt(req.query.price);
+  const price = parseFloat(req.query.price);
   console.log(portfolioname, username, symbol, shares, price);
 
   client.query(
