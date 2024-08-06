@@ -36,22 +36,22 @@ StockListCommentsRouter.post("/add", async (req, res) => {
     const owner = req.body.owner;
     const comment = req.body.comment;
     const reviewer = req.body.reviewer;
-        client.query(
-          stockListCommentQuery.insertStockListCommentQuery(),
-          [owner, reviewer, comment, stocklist],
-          (err, data) => {
-            if (err) {
-              console.log(err);
-            } else {
-              return res.json({
-                message: "Comment added.",
-                stocklist: stocklist,
-                owner: owner,
-                comment: comment,
-              });
-            }
-          },
-        );
+    client.query(
+      stockListCommentQuery.insertStockListCommentQuery(),
+      [owner, reviewer, comment, stocklist],
+      (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          return res.json({
+            message: "Comment added.",
+            stocklist: stocklist,
+            owner: owner,
+            comment: comment,
+          });
+        }
+      },
+    );
   } catch (err) {
     console.log(err);
   }
@@ -97,7 +97,6 @@ StockListCommentsRouter.put("/edit", async (req, res) => {
       (err, data) => {
         if (err) {
           console.log(err);
-
         } else {
           return res.json({
             message: "Comment updated.",
@@ -114,7 +113,6 @@ StockListCommentsRouter.put("/edit", async (req, res) => {
   }
 });
 
-
 StockListCommentsRouter.get(
   "/own/:stocklist/:owner/:reviewer",
   async (req, res) => {
@@ -124,21 +122,21 @@ StockListCommentsRouter.get(
       const owner = req.params.owner;
       const reviewer = req.params.reviewer;
       let ownerId = -1;
-      
-          client.query(
-            stockListCommentQuery.getStockListOwnCommentQuery(),
-            [owner, reviewer, stocklist],
-            (err, data) => {
-              if (err) {
-                console.log(err);
-              } else if (!data || data.rows.length === 0) {
-                console.log("No stocklist comments found");
-                return res.json({ error: "No stocklist comments found" });
-              } else {
-                return res.json(data.rows);
-              }
-            },
-          );
+
+      client.query(
+        stockListCommentQuery.getStockListOwnCommentQuery(),
+        [owner, reviewer, stocklist],
+        (err, data) => {
+          if (err) {
+            console.log(err);
+          } else if (!data || data.rows.length === 0) {
+            console.log("No stocklist comments found");
+            return res.json({ error: "No stocklist comments found" });
+          } else {
+            return res.json(data.rows);
+          }
+        },
+      );
     } catch (err) {
       console.log(err);
     }

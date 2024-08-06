@@ -33,20 +33,20 @@ StockListAccessRouter.get("/friendView/:owner/:viewer", async (req, res) => {
     const owner = req.params.owner;
     const viewer = req.params.viewer;
 
-            client.query(
-              stockListAccessQuery.getStockListAccessByOwnerViewerQuery(),
-              [owner, viewer],
-              (err, data) => {
-                if (err) {
-                  console.log(err);
-                } else if (!data || data.rows.length === 0) {
-                  console.log("No stocklist access found");
-                  return res.json({ error: "No stocklist access found" });
-                } else {
-                  return res.json(data.rows);
-                }
-              },
-            );
+    client.query(
+      stockListAccessQuery.getStockListAccessByOwnerViewerQuery(),
+      [owner, viewer],
+      (err, data) => {
+        if (err) {
+          console.log(err);
+        } else if (!data || data.rows.length === 0) {
+          console.log("No stocklist access found");
+          return res.json({ error: "No stocklist access found" });
+        } else {
+          return res.json(data.rows);
+        }
+      },
+    );
   } catch (err) {
     console.log(err);
   }
@@ -57,23 +57,22 @@ StockListAccessRouter.post("/add", async (req, res) => {
     const stocklist = req.body.stocklist;
     const owner = req.body.owner;
     const viewer = req.body.viewer;
-            client.query(
-              stockListAccessQuery.insertStockListAccessQuery(),
-              [stocklist, owner, viewer],
-              (err, data) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  return res.json({
-                    message: "Stocklist access added.",
-                    stocklist: stocklist,
-                    owner: owner,
-                    viewer: viewer,
-                  });
-                }
-              },
-            );
-
+    client.query(
+      stockListAccessQuery.insertStockListAccessQuery(),
+      [stocklist, owner, viewer],
+      (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          return res.json({
+            message: "Stocklist access added.",
+            stocklist: stocklist,
+            owner: owner,
+            viewer: viewer,
+          });
+        }
+      },
+    );
   } catch (err) {
     console.log(err);
   }

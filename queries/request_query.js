@@ -29,6 +29,9 @@ export const requestQuery = (function () {
     return `SELECT * FROM Requests WHERE (sender = $1 AND receiver = $2 or sender = $2 AND receiver = $1) AND requestStatus = 'accepted'`;
   };
 
+  module.getOutgoingRequestQuery = () => {
+    return `SELECT * FROM Requests WHERE sender = $1 AND requeststatus = $2`;
+  }
 
   return module;
 })();

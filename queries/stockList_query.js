@@ -34,14 +34,12 @@ export const stockListQuery = (function () {
   };
 
   module.getPublicStockListsQuery = () => {
-    return `SELECT name, owner FROM StockList WHERE isPublic = true`;
+    return `SELECT * FROM StockList WHERE isPublic = true`;
   };
 
   module.getSharedStockListsQuery = () => {
-    return `Select friend FROM (SELECT receiver as friend FROM requests WHERE sender = $1 and requestStatus = 'accepted'
-            UNION
-            SELECT sender as friend FROM requests WHERE receiver = $1 and requestStatus = 'accepted') as friends`
-  }
+    return `SELECT name, owner FROM StockList, Friends WHERE user1 = $1 OR user2 = $1`;
+  };
 
   return module;
 })();

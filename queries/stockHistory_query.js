@@ -9,7 +9,7 @@ export const stockHistoryQuery = (function () {
   };
 
   module.getLatestStockHistoryBySymbol = () => {
-    return "SELECT date, open, high, low, close, volume FROM stockhistory WHERE symbol = $1 ORDER BY date DESC LIMIT 1";
+    return "SELECT date, open, high, low, close, volume, beta, cov FROM stockhistory as sh JOIN stock as s ON s.symbol = sh.symbol WHERE s.symbol = $1 ORDER BY date DESC LIMIT 1;";
   };
 
   module.getStockHistoryBySymbolAndDate = () => {
