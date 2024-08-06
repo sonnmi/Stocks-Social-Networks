@@ -34,10 +34,13 @@ ConsistRouter.post("/add", async (req, res) => {
     const stock = req.body.stock;
     client.query(
       consistsQuery.insertConsistQuery(),
-      [owner, stocklist, stock],
+      [stocklist, owner, stock],
       (err, data) => {
         if (err) {
           console.log(err);
+          return res.json({
+            error: `Cannot add the stock to the stocklist ${stocklist}`
+          })
         } else {
           return res.json({
             message: "Stock added to list.",

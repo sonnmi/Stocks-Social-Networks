@@ -81,7 +81,7 @@ app.use("/api/stocklistConsist", ConsistRouter);
 app.use("/api/stocklistAccess", StockListAccessRouter);
 app.use("/api/stocklistComments", StockListCommentsRouter);
 
-app.use("/api/holds", HoldsRouter);
+// app.use("/api/holds", HoldsRouter);
 app.use("/api/portfolios", PortfolioRouter);
 app.use("/api/friends", FriendRouter);
 app.use("/api/requests", RequestRouter);

@@ -23,6 +23,7 @@
             padding: 1em;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
         }
         .stocklist-item:hover {
             transform: translateY(-5px);
@@ -42,6 +43,36 @@
             margin-top: 0.5em;
             border-radius: 5px;
         }
+
+        .delete-stocklist-btn {
+            width: 30px;
+            height: 18px;
+            background-color: rgb(253, 85, 85);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: white;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 15px;
+            transition: 0.2s;
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            cursor: pointer;
+            top: 0;
+            margin: 10px;
+        }
+
+        .stocklist-name {
+            width: 80%;
+        }
+
+        .delete-stocklist-btn:hover {
+            background-color: rgb(251, 110, 110);
+        }
+
         .visibility-container {
             width: 20%;
             color: #007bff;
@@ -118,12 +149,6 @@
             </form>
         </div>
         <div class="stocklist-container">
-            <div class="stocklist-item">
-                <h3>Stocklist name</h3>
-                <p>owner</p>
-                <p>visibility</p>
-                <div class="chart"></div>
-            </div>
         </div>
     </div>
 </div>

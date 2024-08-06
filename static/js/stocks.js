@@ -157,13 +157,12 @@
                 stocksPopup.querySelector("#dropdown-label").innerHTML =
                   "Choose One of the stocklist.";
 
-                console.log(stocksPopup.querySelector("#dropdown-label"));
                 const elmt_ = document.createElement("div");
                 elmt_.className = "choose-portfolio-container";
 
-                res.stocklists.map((stocklist) => {
+                res.map((stocklist) => {
                   console.log(stocklist);
-                  const newPortf = `<option value="${stocklist.name}">${stocklist.name})</option>`;
+                  const newPortf = `<option value="${stocklist.name}">${stocklist.name}</option>`;
                   document.querySelector("#portfolios-dropdown").innerHTML +=
                     newPortf;
                 });
@@ -177,17 +176,14 @@
                   const stocklistname = document.querySelector(
                     "#portfolios-dropdown",
                   ).value;
-                  console.log(stocklistname, username, state.lastClicked.value);
                   const username = JSON.parse(
                     localStorage.getItem("userInfo"),
                   ).username;
                   apiService
                     .addStockToStockList(
-                      stocklistname,
                       username,
+                      stocklistname,
                       state.lastClicked.value,
-                      shares,
-                      price,
                     )
                     .then((res) => {
                       console.log(res);
@@ -198,6 +194,8 @@
                       stocksPopup_.innerHTML = "";
                       document.querySelector("#portfolios-dropdown").innerHTML = "";
                       state.showPopup = false;
+                      document.querySelector(".error").classList.add("hidden");
+                      document.querySelector(".error").HTML = "";
                     });
                 };
               }

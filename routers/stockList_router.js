@@ -51,12 +51,12 @@ StockListRouter.post("/addStock", async (req, res) => {
 
 StockListRouter.post("/add", async (req, res) => {
   try {
-    const userId = req.body.userId;
+    const username = req.body.username;
     const stock = req.body.stock;
     const visibility = req.body.visibility;
     client.query(
       stockListQuery.insertStockListQuery(),
-      [userId, visibility, stock],
+      [username, visibility, stock],
       (err, data) => {
         if (err) {
           console.log(err);
@@ -64,8 +64,8 @@ StockListRouter.post("/add", async (req, res) => {
         } else {
           return res.json({
             message: "StockList added.",
-            userId: userId,
-            visibility: visibility,
+            username: username,
+            isPublic: visibility,
             stock: stock,
           });
         }
@@ -78,11 +78,11 @@ StockListRouter.post("/add", async (req, res) => {
 
 StockListRouter.delete("/delete", async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const stock = req.body.stock;
+    const username = req.body.username;
+    const name = req.body.name;
     client.query(
       stockListQuery.deleteStockListQuery(),
-      [userId, stock],
+      [username, name],
       (err, data) => {
         if (err) {
           console.log(err);
@@ -90,8 +90,8 @@ StockListRouter.delete("/delete", async (req, res) => {
         } else {
           return res.json({
             message: "StockList deleted.",
-            userId: userId,
-            stock: stock,
+            username: username,
+            name: name,
           });
         }
       },
@@ -101,32 +101,32 @@ StockListRouter.delete("/delete", async (req, res) => {
   }
 });
 
-StockListRouter.put("/update", async (req, res) => {
-  try {
-    const userId = req.body.userId;
-    const stock = req.body.stock;
-    const visibility = req.body.visibility;
-    client.query(
-      stockListQuery.updateStockListQuery(),
-      [visibility, userId, stock],
-      (err, data) => {
-        if (err) {
-          console.log(err);
-          return res.json({ error: "Error updating stock list" });
-        } else {
-          return res.json({
-            message: "StockList updated.",
-            userId: userId,
-            stock: stock,
-            visibility: visibility,
-          });
-        }
-      },
-    );
-  } catch (err) {
-    console.log(err);
-  }
-});
+// StockListRouter.put("/update", async (req, res) => {
+//   try {
+//     const username = req.body.username;
+//     const stock = req.body.stock;
+//     const visibility = req.body.visibility;
+//     client.query(
+//       stockListQuery.updateStockListQuery(),
+//       [visibility, username, stock],
+//       (err, data) => {
+//         if (err) {
+//           console.log(err);
+//           return res.json({ error: "Error updating stock list" });
+//         } else {
+//           return res.json({
+//             message: "StockList updated.",
+//             username: username,
+//             stock: stock,
+//             visibility: visibility,
+//           });
+//         }
+//       },
+//     );
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 StockListRouter.get("/public", async (req, res) => {
   try {
@@ -146,23 +146,41 @@ StockListRouter.get("/public", async (req, res) => {
   }
 });
 
-StockListRouter.get("/getOneStockList/:userId/:stock", async (req, res) => {
-  console.log("in get one stock list");
-  const userId = req.params.userId;
-  const stock = req.params.stock;
-  client.query(
-    stockListQuery.getStockListByNameAndOwnerQuery(),
-    [userId, stock],
-    (err, data) => {
+StockListRouter.get("/shared", async (req, res) => {
+  try {
+    client.query(stockListQuery.getSharedStockListsQuery(), (err, data) => {
       if (err) {
         console.log(err);
-        return res.json({ error: "Error getting stock list" });
+        return res.json({ error: "Error getting shared stock list" });
       } else if (!data || data.rows.length === 0) {
-        console.log("No stock list found");
-        return res.json({ error: "No stock list found" });
+        console.log("No shared stock list found");
+        return res.json({ error: "No shared stock list found" });
       } else {
         return res.json(data.rows);
       }
-    },
-  );
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
+
+// StockListRouter.get("/getOneStockList/:username/:stock", async (req, res) => {
+//   console.log("in get one stock list");
+//   const username = req.params.username;
+//   const stock = req.params.stock;
+//   client.query(
+//     stockListQuery.getStockListByNameAndOwnerQuery(),
+//     [username, stock],
+//     (err, data) => {
+//       if (err) {
+//         console.log(err);
+//         return res.json({ error: "Error getting stock list" });
+//       } else if (!data || data.rows.length === 0) {
+//         console.log("No stock list found");
+//         return res.json({ error: "No stock list found" });
+//       } else {
+//         return res.json(data.rows);
+//       }
+//     },
+//   );
+// });

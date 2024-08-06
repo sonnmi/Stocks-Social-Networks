@@ -15,11 +15,11 @@
   const getStockList = () => {
     console.log(
       "getStockList",
-      state.userInfo.userid,
+      state.userInfo.username,
       state.stocklistInfo.name,
     );
     apiService
-      .getStocklist(state.userInfo.userid, state.stocklistInfo.name)
+      .getStocklist(state.userInfo.username, state.stocklistInfo.name)
       .then((data) => {
         if (data.error) {
           if (data.error === "No stocks found in list") {

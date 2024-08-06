@@ -8,7 +8,7 @@ export const stockListQuery = (function () {
   };
 
   module.insertStockListQuery = () => {
-    return `INSERT INTO StockList(owner, visibility, name) VALUES ($1, $2, $3)`;
+    return `INSERT INTO StockList(owner, isPublic, name) VALUES ($1, $2, $3)`;
   };
 
   module.deleteStockListQuery = () => {
@@ -30,12 +30,16 @@ export const stockListQuery = (function () {
   };
 
   module.updateStockListVisibilityQuery = () => {
-    return `UPDATE StockList SET visibility = $1 WHERE owner = $2 AND name = $3`;
+    return `UPDATE StockList SET isPublic = $1 WHERE owner = $2 AND name = $3`;
   };
 
   module.getPublicStockListsQuery = () => {
-    return `SELECT * FROM StockList WHERE isPublic = true`;
+    return `SELECT name, owner FROM StockList WHERE isPublic = true`;
   };
+
+  module.getSharedStockListsQuery = () => {
+    return `SELECT name, owner FROM StockList, Friends WHERE user1 = $1 OR user2 = $1`
+  }
 
   return module;
 })();

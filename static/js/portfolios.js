@@ -73,7 +73,7 @@
         const name = document.querySelector("form [name=name]").value;
         const username = JSON.parse(localStorage.getItem("userInfo")).username;
         apiService.createPortfolio(username, name).then((res) => {
-          if (res.error) console.log(res.error);
+          if (res.error) { alert(res.error) }
           else {
             document
               .querySelector(".portfolio .add-portfolio-form")

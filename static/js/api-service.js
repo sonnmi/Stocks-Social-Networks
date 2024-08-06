@@ -252,27 +252,27 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
-  module.createStockList = (userId, stock, visibility) => {
+  module.createStockList = (username, stock, visibility) => {
     return fetch("/api/stockList/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, stock, visibility }),
+      body: JSON.stringify({ username, stock, visibility }),
     }).then((res) => res.json());
   };
 
-  module.deleteStockList = (userId, stock) => {
+  module.deleteStockList = (username, name) => {
     return fetch("/api/stockList/delete", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, stock }),
+      body: JSON.stringify({ username, name }),
     }).then((res) => res.json());
   };
 
-  module.updateStockList = (userId, stock, visibility) => {
+  module.updateStockList = (username, stock, visibility) => {
     return fetch("/api/stockList/update", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, stock, visibility }),
+      body: JSON.stringify({ username, stock, visibility }),
     }).then((res) => res.json());
   };
 
@@ -351,11 +351,11 @@ let apiService = (function () {
     ).then((res) => res.json());
   };
 
-  module.getPortfolioInfo = (owner, portfolio) => {
-    return fetch(`/api/holds/${owner}/${portfolio}`, {
-      headers: { "Content-Type": "application/json" },
-    }).then((res) => res.json());
-  };
+  // module.getPortfolioInfo = (owner, portfolio) => {
+  //   return fetch(`/api/holds/${owner}/${portfolio}`, {
+  //     headers: { "Content-Type": "application/json" },
+  //   }).then((res) => res.json());
+  // };
 
   module.getPortfolioHolds = (owner, portfolio) => {
     return fetch(`/api/portfolios/holds?owner=${owner}&portfolio=${portfolio}`, {
@@ -363,21 +363,21 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
-  module.addHoldsToPortfolio = (owner, portfolio, stock) => {
-    return fetch("/api/holds/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ owner, portfolio, stock }),
-    }).then((res) => res.json());
-  };
+  // module.addHoldsToPortfolio = (owner, portfolio, stock) => {
+  //   return fetch("/api/holds/add", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ owner, portfolio, stock }),
+  //   }).then((res) => res.json());
+  // };
 
-  module.deleteHoldsFromPortfolio = (owner, portfolio, stock) => {
-    return fetch("/api/holds/delete", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ owner, portfolio, stock }),
-    }).then((res) => res.json());
-  };
+  // module.deleteHoldsFromPortfolio = (owner, portfolio, stock) => {
+  //   return fetch("/api/holds/delete", {
+  //     method: "DELETE",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ owner, portfolio, stock }),
+  //   }).then((res) => res.json());
+  // };
 
   module.sellStock = (portfolio, owner, stock, amount) => {
     return fetch("/api/portfolios/sellStock", {
