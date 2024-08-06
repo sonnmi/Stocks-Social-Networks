@@ -107,6 +107,8 @@
         const yourStockListBtn = document.querySelector(
           ".view-your-stocklist-btn",
         );
+        const title = document.querySelector(".header-stocklists-title");
+        title.textContent = "Public Stocklists";
         yourStockListBtn.classList.remove("hidden");
         renderStockList();
       });
@@ -117,6 +119,8 @@
       getStockList();
       yourStockListBtn.classList.add("hidden");
       const publicBtn = document.querySelector(".view-public-btn");
+      const title = document.querySelector(".header-stocklists-title");
+      title.textContent = "Your Stocklists";
       publicBtn.classList.remove("hidden");
     });
 
