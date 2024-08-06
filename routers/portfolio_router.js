@@ -29,6 +29,30 @@ PortfolioRouter.get("/holds", async (req, res) => {
   }
 })
 
+PortfolioRouter.get("/marketValue", async (req, res) => {
+  const portfolio = req.query.portfolio;
+  const username = req.query.owner;
+  try {
+    client.query(
+      portfolioQuery.getPortfolioValue(),
+      [username, portfolio],
+      (err, response) => {
+        if (err) {
+          console.log(err.message);
+          return res.json(err);
+        } else {
+          console.log(response);
+          return res.json(response.rows[0]);
+        }
+      },
+    );
+  } catch {
+    return res.json({
+      error: "Could not get market value of the portfolio" + portfolio,
+    });
+  }
+});
+
 PortfolioRouter.get("/cash", async (req, res) => {
   const portfolio = req.query.portfolio;
   const username = req.query.owner;

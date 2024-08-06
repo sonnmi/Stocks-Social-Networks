@@ -3,6 +3,7 @@ export const createConsistsTableQuery = `
         stocklist VARCHAR(30),
         owner VARCHAR(30),
         stock VARCHAR(5),
+		shares INT,
         PRIMARY KEY (owner, stocklist, stock),
         FOREIGN KEY (stocklist, owner) REFERENCES StockList(name, owner) ON DELETE CASCADE,
         FOREIGN KEY (stock) REFERENCES Stock(symbol)

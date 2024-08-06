@@ -113,7 +113,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .balance {
+        .balance-container {
             background-color: white;
             border-radius: 10px;
             padding: 1.5em;
@@ -121,6 +121,12 @@
             text-align: center;
         }
         .balance h2 {
+            margin: 0;
+            font-size: 2em;
+            color: #007bff;
+        }
+
+        .market-value h2 {
             margin: 0;
             font-size: 2em;
             color: #007bff;
@@ -217,8 +223,9 @@
             <div class="withdraw error hidden"></div>
             <div class="submit-btn">withdraw</div>
         </div>
-    <div class="balance">
-        <h2>Total Balance: </h2>
+    <div class="balance-container">
+        <h2 class="balance">Total Balance: </h2>
+        <h2 class="market-value">Market Value: </h2>
     </div>
 </div>
     <script src="js/api-service.js"></script>
