@@ -23,6 +23,26 @@ RequestRouter.get("/pending/:userId", async (req, res) => {
   }
 });
 
+RequestRouter.get("/outgoing/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        client.query(requestQuery.getOutgoingRequestQuery(), [userId, "pending"], (err, data) => {
+            if (err) {
+                console.log(err);
+            }
+            else if (!data || data.rows.length === 0) {
+                console.log("No requests found");
+                return res.json({ error: "No requests found" });
+            }
+            else {
+                return res.json(data.rows);
+            }
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 RequestRouter.post("/send", async (req, res) => {
   try {
     const sender = req.body.sender;

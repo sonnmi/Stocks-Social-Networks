@@ -90,6 +90,36 @@
         .timeframe-buttons button:hover {
             background-color: #0056b3;
         }
+
+        /* Table styles */
+        .stock-info-table {
+            margin-top: 2em;
+        }
+
+        #stock-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+        }
+
+        #stock-table th, #stock-table td {
+            border: 1px solid #ddd;
+            padding: 0.75em;
+            text-align: center;
+        }
+
+        #stock-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        #stock-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #stock-table tr:hover {
+            background-color: #eaeaea;
+        }
     </style>
 </head>
 <body>
@@ -145,6 +175,42 @@
                                 <h2>Close</h2>
                                 <p id="stock-close"></p>
                             </div>
+                            <div>
+                                <h2>Beta</h2>
+                                <p id="stock-beta"></p>
+                            </div>
+                            <div>
+                                <h2>COV</h2>
+                                <p id="stock-COV"></p>
+                            </div>
+                            <div>
+                                <h2>Volume</h2>
+                                <p id="stock-volume"></p>
+                            </div>
+                            <!-- <div>
+                                <h2>% - Diff</h2>
+                                <p id="stock-diff"></p>
+                            </div> -->
+                        </div>
+
+                        <!-- Table for past week stock prices and metrics -->
+                        <div class="stock-info-table">
+                            <h2>Stock Prices and Metrics for the Past Week</h2>
+                            <table id="stock-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Open</th>
+                                        <th>High</th>
+                                        <th>Low</th>
+                                        <th>Close</th>
+                                        <th>Volume</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Table rows will be dynamically populated here -->
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="chart">
@@ -197,7 +263,8 @@
                 console.error('Error calling API:', error);
             }
         }
-        // Fetch stock data with a specified timeframe
+
+        // Fetch stock data for a specified timeframe
         async function fetchStockData(symbol, timeframe) {
             try {
                 const response = await fetch(`/api/history/${symbol}?time=${timeframe}`);
@@ -282,8 +349,8 @@
             const closingPrices = stockData.map(item => item.close);
 
             // Use SMA and EMA for prediction
-            const smaPeriod = 30; // Use 20-day period for SMA
-            const emaPeriod = 30; // Use 20-day period for EMA
+            const smaPeriod = 30; // Use 30-day period for SMA
+            const emaPeriod = 30; // Use 30-day period for EMA
 
             const sma = calculateSMA(closingPrices, smaPeriod);
             const ema = calculateEMA(closingPrices, emaPeriod);
@@ -451,9 +518,39 @@
             document.getElementById('stock-high').innerText = stockInfo.high || 'N/A';
             document.getElementById('stock-low').innerText = stockInfo.low || 'N/A';
             document.getElementById('stock-close').innerText = stockInfo.close || 'N/A';
+            document.getElementById('stock-beta').innerText = stockInfo.beta || 'N/A';
+            document.getElementById('stock-COV').innerText = stockInfo.cov || 'N/A';
+            document.getElementById('stock-volume').innerText = stockInfo.volume || 'N/A';
+            //document.getElementById('stock-diff').innerText = stockInfo.diff || 'N/A';
         }
 
         populateStockInfo(symbol);
+
+        // Populate the stock table with data for the past week
+        async function populateStockTable(symbol) {
+            const stockData = await fetchStockData(symbol, '1week');
+            const tableBody = document.getElementById('stock-table').querySelector('tbody');
+
+            // Clear existing table rows
+            tableBody.innerHTML = '';
+
+            // Populate the table with new data
+            stockData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${new Date(item.date).toLocaleDateString()}</td>
+                    <td>${item.open.toFixed(2)}</td>
+                    <td>${item.high.toFixed(2)}</td>
+                    <td>${item.low.toFixed(2)}</td>
+                    <td>${item.close.toFixed(2)}</td>
+                    <td>${item.volume.toLocaleString()}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Call populateStockTable when the page loads
+        populateStockTable(symbol);
     </script>
 
 </body>

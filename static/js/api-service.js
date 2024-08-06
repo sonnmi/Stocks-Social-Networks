@@ -149,6 +149,12 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
+  module.getUserOutgoingRequests = (sender) => {
+    return fetch(`/api/requests/outgoing/${sender}`, {
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
   /* STOCKS */
   module.getStocks = (page = 0, limit = 10) => {
     return fetch(`/api/stocks?limit=${limit}&page=${page}`, {
@@ -364,6 +370,7 @@ let apiService = (function () {
       body: JSON.stringify({ stocklist, owner, comment, reviewer, newComment }),
     }).then((res) => res.json());
   };
+
 
   // module.getPortfolioInfo = (owner, portfolio) => {
   //   return fetch(`/api/holds/${owner}/${portfolio}`, {
