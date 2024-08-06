@@ -4,31 +4,58 @@ import { portfolioQuery } from "../queries/portfolio_query.js";
 import { commonQueryExecute } from "../queries/common.js";
 
 export const PortfolioRouter = Router();
+PortfolioRouter.get("/holds", async (req, res) => {
+  const portfolioname = req.query.portfolio;
+  const username = req.query.owner;
+  try {
+    client.query(
+      portfolioQuery.getPortfolioHoldsByUser(),
+      [username, portfolioname],
+      (err, r) => {
+        if (err) {
+          console.log(err)
+          return res.json({
+                  error: "stocks failed.",
+                });
+              }
+        else
+          return res.json({
+            symbols: r.rows,
+          });
+      }
+    )
+  } catch(e) {
+    //
+  }
+})
 
 PortfolioRouter.get("/cash", async (req, res) => {
-  const portfolio = req.query.portfolio
+  const portfolio = req.query.portfolio;
   const username = req.query.owner;
-  console.log(portfolio, username)
+  console.log(portfolio, username);
   try {
     client.query(
       portfolioQuery.getPortfolioCash(),
       [portfolio, username],
       (err, response) => {
-        if (err){
-          console.log(err.message)
-            return res.json(err)
+        if (err) {
+          console.log(err.message);
+          return res.json(err);
+        } else {
+          console.log(response);
+          return res.json(response.rows[0]);
         }
-        else {
-          console.log(response)
-            return res.json(response.rows[0])
-        }}
-    )} catch {
-        return res.json({"error": "Could not get cash of the portfolio" + portfolio})
-    }
-  })
+      },
+    );
+  } catch {
+    return res.json({
+      error: "Could not get cash of the portfolio" + portfolio,
+    });
+  }
+});
 
-  PortfolioRouter.post("/withdraw", async (req, res) => {
-  const portfolio = req.query.portfolio
+PortfolioRouter.post("/withdraw", async (req, res) => {
+  const portfolio = req.query.portfolio;
   const username = req.query.owner;
   const money = req.query.money;
   try {
@@ -37,21 +64,29 @@ PortfolioRouter.get("/cash", async (req, res) => {
       [username, portfolio, money],
       (err, response) => {
         if (err || response.rowCount !== 1)
-          return res.json({"error": `Could not withdraw from portfolio ${portfolio}. Check balance.`})
+          return res.json({
+            error: `Could not withdraw from portfolio ${portfolio}. Check balance.`,
+          });
         else {
-          return res.json(response.rows[0])
-        }}
-    )} catch {
-        return res.json({"error": `Could not withdraw from portfolio ${portfolio}.`})
-    }
-  })
+          return res.json(response.rows[0]);
+        }
+      },
+    );
+  } catch {
+    return res.json({
+      error: `Could not withdraw from portfolio ${portfolio}.`,
+    });
+  }
+});
 
-  PortfolioRouter.post("/deposit", async (req, res) => {
-  const portfolio = req.query.portfolio
+PortfolioRouter.post("/deposit", async (req, res) => {
+  const portfolio = req.query.portfolio;
   const username = req.query.owner;
   const money = req.query.money;
   if (money <= 0) {
-    return res.json({"error": `Cannot deposit ${money} dollars to portfolio ${portfolio}.`})
+    return res.json({
+      error: `Cannot deposit ${money} dollars to portfolio ${portfolio}.`,
+    });
   }
   try {
     client.query(
@@ -59,14 +94,18 @@ PortfolioRouter.get("/cash", async (req, res) => {
       [username, portfolio, money],
       (err, response) => {
         if (err || response.rowCount !== 1)
-          return res.json({"error": `Could not deposit to portfolio ${portfolio}.`})
+          return res.json({
+            error: `Could not deposit to portfolio ${portfolio}.`,
+          });
         else {
-          return res.json(response.rows[0])
-        }}
-    )} catch {
-        return res.json({"error": `Could not deposit to portfolio ${portfolio}.`})
-    }
-  })
+          return res.json(response.rows[0]);
+        }
+      },
+    );
+  } catch {
+    return res.json({ error: `Could not deposit to portfolio ${portfolio}.` });
+  }
+});
 
 PortfolioRouter.get("/:username", async (req, res) => {
   const username = req.params.username;
@@ -114,70 +153,109 @@ PortfolioRouter.post("/", async (req, res) => {
   }
 });
 
+// PortfolioRouter.delete("/holds/delete", async (req, res) => {
+//   try {
+//     const owner = req.body.owner;
+//     const portfolio = req.body.portfolio;
+//     const stock = req.body.stock;
+//     const amount = req.body.amount;
+//     client.query(
+//       portfolioQuery.deleteHolds(),
+//       [owner, portfolio, stock, amount],
+//       (err, data) => {
+//         if (err) {
+//             console.log(err);
+//           } else if (!data || data.rows.length === 0) {
+//             return res.json({
+//               error: `Could not sell stocks. You do not own ${amount} ${stock}.`,
+//             });
+//           } else {
+//             return res.json({
+//               portfolios: data.rows,
+//             });
+//           }});
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
+PortfolioRouter.post("/sellStock", async (req, res) => {
+  try {
+    const owner = req.body.owner;
+    const portfolio = req.body.portfolio;
+    const stock = req.body.stock;
+    const amount = req.body.amount;
+    const price = req.body.price * amount;
+    client.query(
+      portfolioQuery.sellStocks(),
+      [owner, portfolio, stock, amount],
+      (err, data) => {
+        if (err) {
+            console.log(err);
+          } else if (!data || data.rows.length === 0) {
+            return res.json({
+              error: data,
+            });
+          } else {
+            console.log(data.rows.count)
+            client.query(
+              portfolioQuery.depositCash(),
+              [owner, portfolio, price]
+            )
+            return res.json({
+              cash: data,
+            });
+          }});
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 PortfolioRouter.post("/addStock", async (req, res) => {
-  const portfolioname = req.query.portfolioname
+  const portfolioname = req.query.portfolioname;
   const username = req.query.username;
   const symbol = req.query.symbol;
   const shares = parseInt(req.query.shares);
   const price = parseInt(req.query.price);
-  var cash = 0;
-  console.log(portfolioname, username, symbol, shares, price)
-  // try {
-  //   client.query(
-  //     portfolioQuery.getPortfolioCash(),
-  //     [portfolioname, 1],
-  //     (err, response) => {
-  //       if (err) {
-  //           console.log(err)
-  //         return res.json({
-  //           error: "Not found",
-  //         });
-  //       } else {
-  //           console.log(response.rows)
-  //           cash = response.rows[0].cash
-          try {
-            // if (cash >= shares * price) {
-                client.query(
-                    portfolioQuery.addStock(),
-                    [portfolioname, symbol, username, price],
-                    (err, r) => {
-                        if (err) {
-                            console.log(err)
-                        return res.json({
-                            error: "Buying stocks failed.",
-                        });
-                        } else {
-                            client.query(
-                                portfolioQuery.withdrawCash(),
-                                [username, portfolioname, shares * price],
-                                (err, rs) => {
-                                    if (err) {
-                                        console.log(err)
-                                        return res.json({
-                                            error: "Buying stocks failed.",})
-                                    }
-                                    res.json({
-                                        portfolio: r.rows,
-                                    });
-                                }
-                            )
-                        }
-                    },
-                    );
-                // } else {
-                //     res.json({
-                //             error: "No cash to buy",
-                //         });
-                // }
-            } catch (err) {
-                return res.status(422).json({ error: "Buying stocks failed." });
+  console.log(portfolioname, username, symbol, shares, price);
+
+  client.query(
+      portfolioQuery.withdrawCash(),
+      [username, portfolioname, shares * price],
+      (err, response) => {
+        if (err || response.rowCount !== 1)
+          return res.json({
+            error: `Could not withdraw from portfolio ${portfolioname}. Check balance.`,
+          });
+        else {
+          client.query(
+          portfolioQuery.addStock(),
+          [portfolioname, symbol, username, shares],
+          (err, r) => {
+            if (err) {
+              console.log(err);
+              return res.json({
+                error: "Buying stocks failed.",
+              });
+            } else {
+              res.json({
+                r,
+              });
             }
-        // }
-      // },
-    // );
-// } catch(e) {
-//     console.log(e)
-// }
-  });
+          })}
+
+      },
+    );
+
+
+        
+  // } catch (err) {
+  //   return res.status(422).json({ error: "Buying stocks failed." });
+  // }
+  // }
+  // },
+  // );
+  // } catch(e) {
+  //     console.log(e)
+  // }
+});

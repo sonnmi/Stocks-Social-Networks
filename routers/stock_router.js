@@ -6,7 +6,7 @@ import { commonQueryExecute } from "../queries/common.js";
 export const StockRouter = Router();
 
 StockRouter.get("/:symbol", async (req, res) => {
-res.sendFile(path.join(__dirname, 'public', 'stock.html'));
+  res.sendFile(path.join(__dirname, "public", "stock.html"));
 });
 
 StockRouter.get("/", async (req, res) => {

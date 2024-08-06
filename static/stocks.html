@@ -10,7 +10,9 @@
     <link href="styles/btn.css" rel="stylesheet" type="text/css" />
     <link href="styles/stocks.css" rel="stylesheet" type="text/css" />
     <link href="styles/popup.css" rel="stylesheet" type="text/css" />
+    <link href="styles/common.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
@@ -19,14 +21,17 @@
     <div class="dark hidden"></div>
     <div class="popup-container hidden">
         <div class="popup stocks-popup">
-            <div class="error"></div>
+            <span class="material-symbols-outlined close-btn">
+                close
+            </span>
             <!-- <div class="portfolios"></div> -->
-             <div class="portfolios-dropdown hidden">
-                        <label for="portfolios">Choose a portfolio cash account you want to deposit from:</label>
-                        <select name="portfolios-dropdown" id="portfolios-dropdown">
-                        </select>
-                        <div class="input">$ <input type="text" id="withdraw-amount"/></div>
-                    </div>
+             <div class="portfolios-dropdown">
+                <label for="portfolios" id="dropdown-label"></label>
+                <select name="portfolios-dropdown" id="portfolios-dropdown">
+                </select>
+            </div>
+            <div class="container"></div>
+            <div class="error"></div>
         </div>
     </div>
     <div class="navbar">

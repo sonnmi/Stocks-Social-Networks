@@ -9,7 +9,10 @@
     <link href="styles/home.css" rel="stylesheet" type="text/css" />
     <link href="styles/btn.css" rel="stylesheet" type="text/css" />
     <link href="styles/form.css" rel="stylesheet" type="text/css" />
+    <link href="styles/common.css" rel="stylesheet" type="text/css" />
+    <link href="styles/popup.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         .btn-style {
             margin-bottom: 20px;
@@ -44,16 +47,34 @@
             padding: 1.5em;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-bottom: 1.5em;
+            width: 95%;
+        }
+
+        .dark {
+            margin: 0
+        }
+
+        .portfolio-name {
+            font-size: 30px;
+            color: #5a5a5a;
+            letter-spacing: 1px;
         }
         .card h2 {
             margin-bottom: 1em;
         }
         .horizontal-container {
-            width: 800px;
+            width: 95%;
             display: flex;
             gap: 1.5em;
             margin-bottom: 1.5em;
             overflow-x: auto;
+        }
+
+        .container-sell-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
         }
         .stock-item {
             background-color: #fff;
@@ -65,6 +86,14 @@
             min-width: 200px;
             flex: none;
         }
+        .stock-a {
+            cursor: pointer;
+        }
+
+        .sell-stock-btn {
+            cursor: pointer;
+        }
+
         .stock-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -99,7 +128,20 @@
     </style>
 </head>
 <body>
-
+    <div class="dark hidden"></div>
+    <div class="popup-container hidden">
+        <div class="popup stocks-popup">
+            <span class="material-symbols-outlined close-btn">
+                close
+            </span>
+            <div class="container">
+                <p>How many shares do you want to sell?</p>
+                <input class="sell-amount"/>
+                <div class="submit-btn">Sell</div>
+            </div>
+            <div class="error"></div>
+        </div>
+    </div>
 <div class="navbar">
         <div class="search-container">
             <input type="text" class="search-bar" placeholder="Search for stocks & more"></input>
@@ -124,25 +166,6 @@
             
     <div class="card">
         <div class="horizontal-container">
-            <div class="stock-item">
-                <h3>AAPL</h3>
-                <p>Shares: 100</p>
-            </div>
-            <div class="stock-item">
-                <h3>Microsoft Corp</h3>
-                <p>Portfolio: $10,123.45</p>
-                <p>+1.23%</p>
-            </div>
-            <div class="stock-item">
-                <h3>Amazon, Inc</h3>
-                <p>Portfolio: $8,765.43</p>
-                <p>-0.34%</p>
-            </div>
-            <div class="stock-item">
-                <h3>Google LLC</h3>
-                <p>Portfolio: $20,678.90</p>
-                <p>+2.45%</p>
-            </div>
         </div>
         
         <div class="chart">
