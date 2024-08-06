@@ -34,7 +34,7 @@
     friendsList.innerHTML = "";
     state.friends.forEach((friend) => {
       const friendContainer = document.createElement("div");
-        friendContainer.classList.add("friend-item-container");
+      friendContainer.classList.add("friend-item-container");
       const friendElement = document.createElement("div");
       friendElement.classList.add("friend-item");
       friendElement.innerHTML = `
@@ -50,60 +50,62 @@
             </button>
         </div>
         `;
-        apiService.getSharedStockLists(friend.friend, state.userInfo.username).then((data) => {
-            console.log("getSharedStockLists", data);
-            if (data.error) {
-                console.log("No shared stock lists found");
-                friendContainer.appendChild(friendElement);
-                return;
-            }
-            const sharedStockListsElement = document.createElement("div");
-            sharedStockListsElement.classList.add("shared-stocklists");
-            sharedStockListsElement.innerHTML = `<div class="shared-stocklists-title">Shared Stock Lists</div>
-            <div class="shared-stocklists-btn">btn</div>`;
+      apiService
+        .getSharedStockLists(friend.friend, state.userInfo.username)
+        .then((data) => {
+          console.log("getSharedStockLists", data);
+          if (data.error) {
+            console.log("No shared stock lists found");
+            friendContainer.appendChild(friendElement);
+            return;
+          }
+          const sharedStockListsElement = document.createElement("div");
+          sharedStockListsElement.classList.add("shared-stocklists");
+          sharedStockListsElement.innerHTML = `<div class="shared-stocklists-title">Shared Stock Lists</div>
+            <div class="shared-stocklists-btn"></div>`;
 
-            
-
-            const dropdown = document.createElement("div");
-            dropdown.classList.add("shared-stocklists-dropdown");
-            dropdown.classList.add("hidden");
-            data.forEach((stocklist) => {
-                const stockListElement = document.createElement("div");
-                stockListElement.classList.add("stocklist-item");
-                stockListElement.innerHTML = `
-                <div class="stocklist-item inner s${stocklist.stocklist}" href="#">
-                    <p class="stocklist-name">${stocklist.stocklist}</p>
+          const dropdown = document.createElement("div");
+          dropdown.classList.add("shared-stocklists-dropdown");
+          dropdown.classList.add("hidden");
+          data.forEach((stocklist) => {
+            const stockListElement = document.createElement("div");
+            stockListElement.classList.add("stocklist-item");
+            stockListElement.innerHTML = `
+                <div class="stocklist-item-inner s${stocklist.stocklist}" href="#">
+                    ${stocklist.stocklist}
                 </div>
                 `;
-                dropdown.appendChild(stockListElement);
+            dropdown.appendChild(stockListElement);
 
-                stockListElement.querySelector(`.s${stocklist.stocklist}`).addEventListener("click", (event) => {
-                    const stocklistName = stocklist.stocklist;
-                    const stocklistOwner = friend.friend;
-                    console.log("stocklistName", stocklistName);
-                    console.log("stocklistOwner", stocklistOwner);
-                    window.location.href = `/stocklist.html`;
-                    localStorage.setItem(
-                        "stocklistInfo",
-                        JSON.stringify({
-                            name: stocklistName,
-                            owner: stocklistOwner,
-                            visibility: stocklist.ispublic ? "public" : "private",
-                        }),
-                    );
-                });
+            stockListElement
+              .querySelector(`.s${stocklist.stocklist}`)
+              .addEventListener("click", (event) => {
+                const stocklistName = stocklist.stocklist;
+                const stocklistOwner = friend.friend;
+                console.log("stocklistName", stocklistName);
+                console.log("stocklistOwner", stocklistOwner);
+                window.location.href = `/stocklist.html`;
+                localStorage.setItem(
+                  "stocklistInfo",
+                  JSON.stringify({
+                    name: stocklistName,
+                    owner: stocklistOwner,
+                    visibility: stocklist.ispublic ? "public" : "private",
+                  }),
+                );
+              });
+          });
+          friendElement.appendChild(sharedStockListsElement);
+          friendContainer.appendChild(friendElement);
+          friendContainer.appendChild(dropdown);
+          const dropdownBtn = document.querySelector(".shared-stocklists-btn");
 
-            });
-            friendElement.appendChild(sharedStockListsElement);
-            friendContainer.appendChild(friendElement);
-            friendContainer.appendChild(dropdown);
-            const dropdownBtn = document.querySelector(".shared-stocklists-btn");
-            
-            dropdownBtn.addEventListener("click", () => {
-                const dropdown = document.querySelector(".shared-stocklists-dropdown");
-                dropdown.classList.toggle("hidden");
-            });
-            
+          dropdownBtn.addEventListener("click", () => {
+            const dropdown = document.querySelector(
+              ".shared-stocklists-dropdown",
+            );
+            dropdown.classList.toggle("hidden");
+          });
         });
       friendsList.appendChild(friendContainer);
     });
@@ -138,14 +140,14 @@
     });
   }
 
-    function renderFriendRequests(requests) {
-        const friendRequests = document.querySelector(".friend-requests");
-        friendRequests.innerHTML = "";
-        requests.forEach((request) => {
-            console.log("request", request.sender);
-            const requestElement = document.createElement("div");
-            requestElement.classList.add("request-item");
-            requestElement.innerHTML = `
+  function renderFriendRequests(requests) {
+    const friendRequests = document.querySelector(".friend-requests");
+    friendRequests.innerHTML = "";
+    requests.forEach((request) => {
+      console.log("request", request.sender);
+      const requestElement = document.createElement("div");
+      requestElement.classList.add("request-item");
+      requestElement.innerHTML = `
         <div class="friend-image-container">
             <div class="friend-image"></div>
         </div>

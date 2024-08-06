@@ -100,6 +100,7 @@
       if (state.userInfo.username === comment.reviewer) {
         const deleteButton = document.createElement("button");
         deleteButton.classList.add("comment-delete");
+        deleteButton.classList.add("comment-button");
         deleteButton.innerHTML = "Delete";
         deleteButton.addEventListener("click", () => {
           apiService
@@ -117,6 +118,7 @@
 
         const editButton = document.createElement("button");
         editButton.classList.add("comment-edit");
+        editButton.classList.add("comment-button");
         editButton.innerHTML = "Edit";
         editButton.addEventListener("click", () => {
           const editInput = document.createElement("input");

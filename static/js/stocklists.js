@@ -32,7 +32,7 @@
     state.stocklists.forEach((stocklist) => {
       const stockListElement = document.createElement("div");
       stockListElement.classList.add("stocklist-item");
-      console.log(stocklist)
+      console.log(stocklist);
       stockListElement.innerHTML = `
         <div class="stocklist-item inner s${stocklist.name}" href="#">
             <h3 class="stocklist-name">${stocklist.name}</h3>
@@ -45,30 +45,38 @@
         ".stocklist-item.inner.s" + stocklist.name,
       );
 
-      stockListElement.querySelector(".delete-stocklist-btn").addEventListener("click", () => {
-        console.log('delte')
-        apiService.deleteStockList(state.userInfo.username, stocklist.name).then(res => {
-          console.log(res);
-          getStockList();
-          renderStockList();
-        })
-      })
+      stockListElement
+        .querySelector(".delete-stocklist-btn")
+        .addEventListener("click", () => {
+          console.log("delte");
+          apiService
+            .deleteStockList(state.userInfo.username, stocklist.name)
+            .then((res) => {
+              console.log(res);
+              getStockList();
+              renderStockList();
+            });
+        });
 
-      stockListElement.querySelector(".stocklist-name").addEventListener("click", (event) => {
-        const stocklistName = stocklist.name;
-        const stocklistOwner = state.userInfo.username;
+      stockListElement
+        .querySelector(".stocklist-name")
+        .addEventListener("click", (event) => {
+          const stocklistName = stocklist.name;
+          const stocklistOwner = stocklist.owner
+            ? stocklist.owner
+            : state.userInfo.username;
           // event.target.querySelector(".stocklist-owner").textContent;
-        const stocklistVisibility = stocklist.ispublic ? "public" : "private";
-        localStorage.setItem(
-          "stocklistInfo",
-          JSON.stringify({
-            name: stocklistName,
-            owner: stocklistOwner,
-            visibility: stocklistVisibility,
-          }),
-        );
-        location.href = "./stocklist.html";
-      });
+          const stocklistVisibility = stocklist.ispublic ? "public" : "private";
+          localStorage.setItem(
+            "stocklistInfo",
+            JSON.stringify({
+              name: stocklistName,
+              owner: stocklistOwner,
+              visibility: stocklistVisibility,
+            }),
+          );
+          location.href = "./stocklist.html";
+        });
     });
   };
 
@@ -88,6 +96,28 @@
           .classList.remove("hidden");
       else
         document.querySelector(".add-stocklist-form").classList.add("hidden");
+    });
+
+    const publicBtn = document.querySelector(".view-public-btn");
+    publicBtn.addEventListener("click", () => {
+      apiService.getPublicStockLists().then((data) => {
+        console.log(data);
+        state.stocklists = data;
+        publicBtn.classList.add("hidden");
+        const yourStockListBtn = document.querySelector(
+          ".view-your-stocklist-btn",
+        );
+        yourStockListBtn.classList.remove("hidden");
+        renderStockList();
+      });
+    });
+
+    const yourStockListBtn = document.querySelector(".view-your-stocklist-btn");
+    yourStockListBtn.addEventListener("click", () => {
+      getStockList();
+      yourStockListBtn.classList.add("hidden");
+      const publicBtn = document.querySelector(".view-public-btn");
+      publicBtn.classList.remove("hidden");
     });
 
     document
@@ -116,7 +146,7 @@
           .then((data) => {
             if (data.error) {
               onError(data.error);
-              alert(data.error)
+              alert(data.error);
             } else {
               getStockList();
             }

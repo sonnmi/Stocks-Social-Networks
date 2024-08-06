@@ -247,7 +247,7 @@ let apiService = (function () {
   };
 
   module.getStockListByUser = (username) => {
-    return fetch(`/api/stockList/${username}`, {
+    return fetch(`/api/stockList/byUser/${username}`, {
       headers: { "Content-Type": "application/json" },
     }).then((res) => res.json());
   };
@@ -351,14 +351,19 @@ let apiService = (function () {
     ).then((res) => res.json());
   };
 
-  module.editStockListComment = (stocklist, owner, comment, reviewer, newComment) => {
+  module.editStockListComment = (
+    stocklist,
+    owner,
+    comment,
+    reviewer,
+    newComment,
+  ) => {
     return fetch("/api/stocklistComments/edit", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ stocklist, owner, comment, reviewer, newComment }),
     }).then((res) => res.json());
   };
-    
 
   // module.getPortfolioInfo = (owner, portfolio) => {
   //   return fetch(`/api/holds/${owner}/${portfolio}`, {
@@ -367,9 +372,12 @@ let apiService = (function () {
   // };
 
   module.getPortfolioHolds = (owner, portfolio) => {
-    return fetch(`/api/portfolios/holds?owner=${owner}&portfolio=${portfolio}`, {
-      headers: { "Content-Type": "application/json" },
-    }).then((res) => res.json());
+    return fetch(
+      `/api/portfolios/holds?owner=${owner}&portfolio=${portfolio}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    ).then((res) => res.json());
   };
 
   // module.addHoldsToPortfolio = (owner, portfolio, stock) => {
@@ -394,7 +402,7 @@ let apiService = (function () {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ owner, portfolio, stock, amount }),
     }).then((res) => res.json());
-  }
+  };
 
   module.getPublicStockLists = () => {
     return fetch("/api/stockList/public", {

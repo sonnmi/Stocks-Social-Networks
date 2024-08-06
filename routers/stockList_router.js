@@ -4,7 +4,7 @@ import { stockListQuery } from "../queries/stockList_query.js";
 
 export const StockListRouter = Router();
 
-StockListRouter.get("/:username", async (req, res) => {
+StockListRouter.get("/byUser/:username", async (req, res) => {
   const username = req.params.username;
   client.query(
     stockListQuery.getStockListByUserQuery(),
@@ -130,9 +130,11 @@ StockListRouter.delete("/delete", async (req, res) => {
 
 StockListRouter.get("/public", async (req, res) => {
   try {
+    console.log("in get public stock list");
     client.query(stockListQuery.getPublicStockListsQuery(), (err, data) => {
+      console.log("in get public stock list 135", data);
       if (err) {
-        console.log(err);
+        console.log("Error getting public stock list 136", err);
         return res.json({ error: "Error getting public stock list" });
       } else if (!data || data.rows.length === 0) {
         console.log("No public stock list found");

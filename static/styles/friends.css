@@ -44,8 +44,9 @@ button:hover {
   align-items: center;
 }
 .friend-info {
-  width: 70%;
+  width: 75%;
   margin: 10px 10px 10px 11px;
+  max-width: 1150px;
 }
 
 .friend-request-form {
@@ -54,14 +55,38 @@ button:hover {
   flex-direction: row;
 }
 
-.shared-stocklists {
-  width: 15%;
-  margin-top: -10px;
-}
-
-.shared-stocklists-dropdown{
+.shared-stocklists-dropdown {
   display: flex;
   flex-direction: row;
+}
+
+.stocklist-item {
+  height: 40px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  text-align: center;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stocklist-item-inner {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  text-align: center;
+  margin: 5px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
 }
 
 .friend-action-btns {
@@ -72,7 +97,7 @@ button:hover {
   cursor: pointer;
   height: 40px;
   margin-right: 10px;
-  width: 15%;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,8 +151,41 @@ button:hover {
   height: 70px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  margin-bottom: 10px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.shared-stocklists-btn {
+  background-image: url(../assets/arrow.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.shared-stocklists {
+  width: 15%;
+  margin-top: -10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  margin-top: 3px;
+  background-color: #29b6f6;
+  border: none;
+  border-radius: 5px;
+  color: #f9f9f9;
+  height: 40px;
+  max-width: 160px;
+}
+
+.shared-stocklists-title {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 12px;
+  height: 16px;
 }
