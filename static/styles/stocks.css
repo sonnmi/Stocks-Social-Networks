@@ -10,14 +10,6 @@
   padding: 32px;
 }
 
-.dark {
-  position: absolute;
-  width: 100vw;
-  height: 120vh;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 150;
-}
-
 .view-btn {
   cursor: pointer;
 }
@@ -60,11 +52,11 @@ tr:hover {
   align-items: center;
 }
 
-.price-change.positive {
+.positive {
   color: #28a745;
 }
 
-.price-change.negative {
+.negative {
   color: #dc3545;
 }
 
@@ -73,16 +65,14 @@ tr:hover {
 }
 
 .choose-portfolio-container {
-    display: flex;
-    flex-direction: row;
-    width: 500px;
-    height: 300px;
+  display: flex;
+  flex-direction: row;
 }
 
 .popup input {
-    width: 300px;
+  width: 300px;
 }
-.choose-portfolio {
+/* .choose-portfolio {
     padding: 20px;
     background-color: #7ab3f1;
     width: 50px;
@@ -92,29 +82,26 @@ tr:hover {
     z-index: 1000;
     cursor: pointer;
     user-select: none;
-}
-.stocklist-add {
-  background-color: #28a745;
-}
+} */
 
-.stocklist-add:hover {
-  background-color: #45bf61;
+.error {
+  color: rgb(217, 51, 87);
 }
 
 .buy-btn:hover {
-  background-color: #2b91ff;
+  background-color: #a8c5e3;
 }
 
 .choose-stocklist {
-    padding: 20px;
-    background-color: #7ab3f1;
-    width: 50px;
-    height: 30px;
-    margin: 15px;
-    color: white;
-    z-index: 1000;
-    cursor: pointer;
-    user-select: none;
+  padding: 20px;
+  background-color: #7ab3f1;
+  width: 50px;
+  height: 30px;
+  margin: 15px;
+  color: white;
+  z-index: 1000;
+  cursor: pointer;
+  user-select: none;
 }
 
 .checkbox input {

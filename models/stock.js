@@ -8,7 +8,6 @@ export const createStockTableQuery = `
         WHERE symbol NOT IN (SELECT symbol FROM Stock);
 `;
 
-
 // INSERT INTO Stock(symbol)
 //         SELECT DISTINCT symbol   Todo: DISTINCT 없어도 되지 않나
 //         FROM StockHistory

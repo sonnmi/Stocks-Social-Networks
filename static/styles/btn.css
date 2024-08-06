@@ -25,24 +25,24 @@
 }
 
 .submit-btn {
-    background-color: #faf9f9;
-    width: 80px;
-    height: 30px;
-    cursor: pointer;
-    padding: 0 17px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-    color: #5d87b3;
-    transition: 0.1s;
-    color: #5d87b3;
-    border: 1px solid #8ac3ff;
+  background-color: #faf9f9;
+  width: 80px;
+  height: 30px;
+  cursor: pointer;
+  padding: 0 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  color: #5d87b3;
+  transition: 0.1s;
+  color: #5d87b3;
+  border: 1px solid #8ac3ff;
 }
 
 .submit-btn:hover {
-    color: rgb(109, 149, 193);
-    border: 1px solid #5a7ea5;
+  color: rgb(109, 149, 193);
+  border: 1px solid #5a7ea5;
 }
 
 .deposit-btn {
@@ -58,7 +58,9 @@
 }
 
 .buy-btn {
-  background-color: #007bff;
+  cursor: pointer;
+  user-select: none;
+  background-color: #cbcfd3;
   padding: 10px 15px;
   height: 20px;
   border-radius: 12px;
@@ -68,9 +70,47 @@
   font-size: 14px;
 }
 
+.stocklist-add {
+  background-color: #cbcfd3;
+  user-select: none;
+}
+
+.stocklist-add:hover {
+  background-color: #cce3d2;
+}
+
+.stocklist-add.active {
+   background-color: #28a745;
+}
+
+.stocklist-add.active:hover {
+  background-color: #197b30;
+}
+
+.buy-btn.active {
+  background-color: #007bff;
+}
+
+.buy-btn.active:hover {
+  background-color: #0370e3;
+}
+
 .header-horizontal-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.sell-stock-btn {
+  width: 100px;
+  height: 30px;
+  background-color: rgb(207, 76, 76);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -86,4 +126,17 @@
   user-select: none;
   font-size: 18px;
   z-index: 100;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  opacity: 0.8;
+  cursor: pointer;
+  user-select: none;
+}
+
+.close-btn:hover {
+  opacity: 1;
 }

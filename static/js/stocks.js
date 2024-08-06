@@ -31,8 +31,8 @@
                         <td class="checkbox"><input type="checkbox" value=${data.symbol} price=${data.close}></td>
                         <td class="symbol">${data.symbol}</td>
                         <td>${data.open}</td>
-                        <td>${data.high}</td>
-                        <td class="price-change negative">${data.low}</td>
+                        <td class="positive">${data.high}</td>
+                        <td class="negative">${data.low}</td>
                         <td>${data.close}</td>
                         <td>${data.volume}</td>
                         <td>${data.date}</td>
@@ -55,7 +55,7 @@
                                                                     <th class="checkbox"></th>
                                                                     <th class="view-btn">Symbol</th>
                                                                     <th>Open</th>
-                                                                    <th>Highest</th>
+                                                                    <th>High</th>
                                                                     <th>Low</th>
                                                                     <th>Close</th>
                                                                     <th>Volume</th>
@@ -84,8 +84,14 @@
                     state.lastClicked.checked = false;
                   }
                   state.lastClicked = this;
+                  document.querySelector(".buy-btn").classList.add("active");
+                  document.querySelector(".stocklist-add").classList.add("active");
                   console.log(this);
                 }
+              } else {
+                  document.querySelector(".buy-btn").classList.remove("active");
+                  document.querySelector(".stocklist-add").classList.remove("active");
+                  state.lastClicked = null;
               }
             });
           });
@@ -110,46 +116,98 @@
       }
     });
 
+    document.querySelector(".close-btn").addEventListener("click", () => {
+      state.showPopup = false;
+      document.querySelector(".popup-container").classList.add("hidden");
+      document.querySelector(".dark").classList.add("hidden");
+      document.querySelector(".container").innerHTML = "";
+      document.querySelector("#portfolios-dropdown").innerHTML = "";
+      document.querySelector(".error").classList.add("hidden");
+      document.querySelector(".error").HTML = "";
+    });
 
-    document.querySelector(".stocklist-add").addEventListener("click", (event) => {
+    document
+      .querySelector(".stocklist-add")
+      .addEventListener("click", (event) => {
         if (state.lastClicked) {
           state.showPopup = !state.showPopup;
 
           if (state.showPopup) {
-            document.querySelector(".popup-container").classList.remove("hidden");
+            document
+              .querySelector(".popup-container")
+              .classList.remove("hidden");
             document.querySelector(".dark").classList.remove("hidden");
-      
-          const username = JSON.parse(localStorage.getItem("userInfo")).username;
 
-      const res = apiService.getStockListByUser(username).then((res) => {
-        if (res.error) {
-          console.log(res.error);
-          onError(res.error);
-        } else {
-          // Clear existing content in the stocks-popup
-          const stocksPopup = document.querySelector(".stocks-popup");
-          stocksPopup.innerHTML = "Choose One of the stocklist.";
+            const username = JSON.parse(
+              localStorage.getItem("userInfo"),
+            ).username;
 
-          // Create container for portfolio options
-          const elmt_ = document.createElement("div");
-          elmt_.className = "choose-portfolio-container";
+            apiService.getStockListByUser(username).then((res) => {
+              if (res.error) {
+                console.log(res.error);
+                onError(res.error);
+                document
+                  .querySelector(".portfolios-dropdown")
+                  .classList.add("hidden");
+              } else {
+                document
+                  .querySelector(".portfolios-dropdown")
+                  .classList.remove("hidden");
+                const stocksPopup = document.querySelector(".stocks-popup");
+                stocksPopup.querySelector("#dropdown-label").innerHTML =
+                  "Choose One of the stocklist.";
 
-          res.map(portfolio => {
-            const elmt = document.createElement("div");
-            elmt.className = "choose-stocklist";
-            elmt.innerHTML = portfolio.name;
-            elmt_.appendChild(elmt);
-          });
+                console.log(stocksPopup.querySelector("#dropdown-label"));
+                const elmt_ = document.createElement("div");
+                elmt_.className = "choose-portfolio-container";
 
-          // Append the container with portfolio options to the popup
-          stocksPopup.appendChild(elmt_);
+                res.stocklists.map((stocklist) => {
+                  console.log(stocklist);
+                  const newPortf = `<option value="${stocklist.name}">${stocklist.name})</option>`;
+                  document.querySelector("#portfolios-dropdown").innerHTML +=
+                    newPortf;
+                });
+
+                stocksPopup.appendChild(elmt_);
+
+                const stocksPopup_ = document.querySelector(".container");
+                stocksPopup_.innerHTML += `
+                <div class="submit-btn">Add</div>`;
+                stocksPopup_.querySelector(".submit-btn").onclick = () => {
+                  const stocklistname = document.querySelector(
+                    "#portfolios-dropdown",
+                  ).value;
+                  console.log(stocklistname, username, state.lastClicked.value);
+                  const username = JSON.parse(
+                    localStorage.getItem("userInfo"),
+                  ).username;
+                  apiService
+                    .addStockToStockList(
+                      stocklistname,
+                      username,
+                      state.lastClicked.value,
+                      shares,
+                      price,
+                    )
+                    .then((res) => {
+                      console.log(res);
+                      document
+                        .querySelector(".popup-container")
+                        .classList.add("hidden");
+                      document.querySelector(".dark").classList.add("hidden");
+                      stocksPopup_.innerHTML = "";
+                      document.querySelector("#portfolios-dropdown").innerHTML = "";
+                      state.showPopup = false;
+                    });
+                };
+              }
+            });
+          } else {
+            document.querySelector(".popup-container").classList.add("hidden");
+            document.querySelector(".dark").classList.add("hidden");
+          }
         }
       });
-      } else {
-        document.querySelector(".popup-container").classList.add("hidden");
-        document.querySelector(".dark").classList.add("hidden");
-      }
-    }});
 
     document.querySelector(".buy-btn").addEventListener("click", () => {
       if (state.lastClicked) {
@@ -159,33 +217,91 @@
           document.querySelector(".popup-container").classList.remove("hidden");
           document.querySelector(".dark").classList.remove("hidden");
 
-          const username = JSON.parse(localStorage.getItem("userInfo")).username;
+          const username = JSON.parse(
+            localStorage.getItem("userInfo"),
+          ).username;
 
-          const res = apiService.getPortfoliosOfUser(username).then((res) => {
+          apiService.getPortfoliosOfUser(username).then((res) => {
             if (res.error) {
               console.log(res.error);
               onError(res.error);
+                document
+                  .querySelector(".portfolios-dropdown")
+                  .classList.add("hidden");
             } else {
+                document
+                  .querySelector(".portfolios-dropdown")
+                  .classList.remove("hidden");
               // Clear existing content in the stocks-popup
               const stocksPopup = document.querySelector(".stocks-popup");
-              stocksPopup.innerHTML = "Choose One of the portfolio.";
+              stocksPopup.querySelector("#dropdown-label").innerHTML =
+                "Choose a portfolio cash account to buy stocks:";
 
               // Create container for portfolio options
               const elmt_ = document.createElement("div");
               elmt_.className = "choose-portfolio-container";
+              // console.log(document.querySelector("#portfolios-dropdown"))
 
-              res.portfolios.map(portfolio => {
-                  console.log(portfolio)
-                  const newPortf = `<option value="${portfolio.name}">${portfolio.name} ($${portfolio.cash})</option>`
-                  document.querySelector("#cash-accounts").innerHTML+=newPortf;
+              res.portfolios.map((portfolio) => {
+                console.log(portfolio);
+                const newPortf = `<option value="${portfolio.name}">${portfolio.name} ($${portfolio.cash})</option>`;
+                document.querySelector("#portfolios-dropdown").innerHTML +=
+                  newPortf;
               });
 
               // Append the container with portfolio options to the popup
               stocksPopup.appendChild(elmt_);
 
+              const stocksPopup_ = document.querySelector(".container");
               // Add input field for the number of shares
-              stocksPopup.innerHTML += `
+              stocksPopup_.innerHTML += `
                 <input type="text" class="portfolio-share" placeholder="How many shares of ${state.lastClicked.value} do you want to buy?"></input>`;
+              stocksPopup_.innerHTML += `
+                <div class="submit-btn">Buy</div>`;
+              stocksPopup_.querySelector(".submit-btn").onclick = () => {
+                const portfolioname = document.querySelector(
+                  "#portfolios-dropdown",
+                ).value;
+                const shares = document.querySelector(".portfolio-share").value;
+                const price = state.lastClicked.getAttribute("price");
+                console.log(
+                  portfolioname,
+                  username,
+                  state.lastClicked.value,
+                  shares,
+                  price,
+                );
+                if (shares) {
+                  const username = JSON.parse(
+                    localStorage.getItem("userInfo"),
+                  ).username;
+                  apiService
+                    .buyStock(
+                      portfolioname,
+                      username,
+                      state.lastClicked.value,
+                      shares,
+                      price,
+                    )
+                    .then((res) => {
+                      if (res.error) {
+                        console.log(res.error)
+                        onError(res.error)
+                      } else {
+                        console.log(res);
+                        document
+                          .querySelector(".popup-container")
+                          .classList.add("hidden");
+                        document.querySelector(".dark").classList.add("hidden");
+                        stocksPopup_.innerHTML = "";
+                        document.querySelector("#portfolios-dropdown").innerHTML = "";
+                        state.showPopup = false;
+                        document.querySelector(".error").classList.add("hidden");
+                        document.querySelector(".error").HTML = "";
+                      }
+                    });
+                }
+              };
             }
           });
         } else {
@@ -195,28 +311,24 @@
       }
     });
 
-    // Event delegation for dynamically created choose-portfolio elements
-    document.querySelector(".stocks-popup").addEventListener("click", (event) => {
-      if (event.target.classList.contains("choose-portfolio")) {
-        const shares = document.querySelector(".portfolio-share").value;
-        console.log(shares)
-        if (shares) {
-          const username = JSON.parse(localStorage.getItem("userInfo")).username;
-          apiService.buyStock(event.target.innerHTML, username, state.lastClicked.value, shares, state.lastClicked.price).then((res) => {
-            console.log(res)
-          });
+    document
+      .querySelector(".stocks-popup")
+      .addEventListener("click", (event) => {
+        if (event.target.classList.contains("choose-stocklist")) {
+          const username = JSON.parse(
+            localStorage.getItem("userInfo"),
+          ).username;
+          console.log(event.target.innerHTML);
+          apiService
+            .addStockStocklist(
+              state.lastClicked.value,
+              username,
+              event.target.innerHTML,
+            )
+            .then((res) => {
+              console.log(res);
+            });
         }
-      }
-    });
-
-    document.querySelector(".stocks-popup").addEventListener("click", (event) => {
-      if (event.target.classList.contains("choose-stocklist")) {
-          const username = JSON.parse(localStorage.getItem("userInfo")).username;
-          console.log(event.target.innerHTML)
-          apiService.addStockStocklist(state.lastClicked.value, username, event.target.innerHTML).then((res) => {
-            console.log(res)
-          });
-      }
-    });
+      });
   });
 })();

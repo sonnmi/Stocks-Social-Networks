@@ -13,7 +13,7 @@
   const getStockList = () => {
     console.log("getStockList", state.userInfo.userid);
     apiService.getStockListByUser(state.userInfo.userid).then((data) => {
-        console.log("getStockList data", data);
+      console.log("getStockList data", data);
       if (data.error) {
         if (data.error === "No stock list found") {
           state.stocklists = [];
@@ -41,27 +41,29 @@
             <div class="chart"></div>
         </div>
         `;
-        stockList.appendChild(stockListElement);
-        const stockListElementInner = stockList.querySelector(".stocklist-item.inner.s" + stocklist.name);
+      stockList.appendChild(stockListElement);
+      const stockListElementInner = stockList.querySelector(
+        ".stocklist-item.inner.s" + stocklist.name,
+      );
 
-        stockListElementInner.addEventListener("click", (event) => {
-            const stocklistName = event.target.querySelector(".stocklist-name").textContent;
-            const stocklistOwner = event.target.querySelector(".stocklist-owner").textContent;
-            const stocklistVisibility =
-                event.target.querySelector(".stocklist-visibility").textContent;
-            localStorage.setItem(
-                "stocklistInfo",
-                JSON.stringify({
-                    name: stocklistName,
-                    owner: stocklistOwner,
-                    visibility: stocklistVisibility,
-                }),
-            );
-            location.href = "./stocklist.html";
-
-            
-            });
-      
+      stockListElementInner.addEventListener("click", (event) => {
+        const stocklistName =
+          event.target.querySelector(".stocklist-name").textContent;
+        const stocklistOwner =
+          event.target.querySelector(".stocklist-owner").textContent;
+        const stocklistVisibility = event.target.querySelector(
+          ".stocklist-visibility",
+        ).textContent;
+        localStorage.setItem(
+          "stocklistInfo",
+          JSON.stringify({
+            name: stocklistName,
+            owner: stocklistOwner,
+            visibility: stocklistVisibility,
+          }),
+        );
+        location.href = "./stocklist.html";
+      });
     });
   };
 
@@ -130,7 +132,7 @@
     // document
     //   .querySelector(".stocklist-container")
     //   .addEventListener("click", (event) => {
-        
+
     //       const stocklistName = event.target.querySelector(".stocklist-name").textContent;
     //       const stocklistOwner = event.target.querySelector(".stocklist-owner").textContent;
     //       const stocklistVisibility =

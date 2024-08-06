@@ -28,7 +28,8 @@ export const requestQuery = (function () {
   };
 
   module.checkIfRejectedFiveMinutesAgo = () => {
-    return `SELECT * FROM Requests WHERE (sender = $1 AND receiver = $2) AND requestStatus = 'rejected' AND requesttime > CURRENT_TIMESTAMP - INTERVAL '5 minutes'`;}
+    return `SELECT * FROM Requests WHERE (sender = $1 AND receiver = $2) AND requestStatus = 'rejected' AND requesttime > CURRENT_TIMESTAMP - INTERVAL '5 minutes'`;
+  };
 
   return module;
 })();

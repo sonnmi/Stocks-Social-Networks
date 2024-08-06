@@ -45,8 +45,8 @@ const tables = {
   Holds: createHoldsTableQuery,
   Requests: createRequestsTableQuery,
   StockListAccess: creatStockListAccessTableQuery,
-  Reviews: createReviewsTableQuery
-}
+  Reviews: createReviewsTableQuery,
+};
 
 // Object.keys(tables).map(table => {
 //   if (table !== "StockHistory" && table !== "Stock") {
@@ -54,13 +54,13 @@ const tables = {
 //   }
 // })
 
-Object.keys(tables).map(table => {
-  commonQueryExecute.createTable(table, tables[table]);
-})
+// Object.keys(tables).map((table) => {
+//   commonQueryExecute.createTable(table, tables[table]);
+// });
 
-commonQueryExecute.getAttributes();
+// commonQueryExecute.getAttributes();
 
-commonQueryExecute.getAllTableNames();
+// commonQueryExecute.getAllTableNames();
 // commonQueryExecute.dropTable("StockList")
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -86,7 +86,6 @@ app.use("/api/portfolios", PortfolioRouter);
 app.use("/api/friends", FriendRouter);
 app.use("/api/requests", RequestRouter);
 app.use("/api/history", HistoryRouter);
-
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);

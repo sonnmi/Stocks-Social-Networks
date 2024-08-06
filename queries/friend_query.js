@@ -17,5 +17,5 @@ export const friendQuery = (function () {
     return `Update requests SET requestStatus = 'rejected', requesttime = CURRENT_TIMESTAMP WHERE (sender = $1 AND receiver = $2) OR (sender = $2 AND receiver = $1)`;
   };
 
-    return module;
+  return module;
 })();

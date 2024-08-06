@@ -22,9 +22,9 @@
         if (data.error) {
           showStatus(data.error);
         } else {
-          apiService.createPortfolio(data.username, "default").then(()=> {
-            console.log(data.username)
-          })
+          apiService.createPortfolio(data.username, "default").then(() => {
+            console.log(data.username);
+          });
           showStatus("Sign up successfully");
         }
       });

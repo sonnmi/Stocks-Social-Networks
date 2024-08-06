@@ -57,27 +57,27 @@ export const stockQuery = (function () {
   };
 
   module.getVariance1week = () => {
-    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL \'1 week\' ORDER BY date;";
+    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '1 week' ORDER BY date;";
   };
 
   module.getVariance1month = () => {
-    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL \'1 month\' ORDER BY date;";
+    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '1 month' ORDER BY date;";
   };
 
   module.getVariance3month = () => {
-    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL \'3 months\' ORDER BY date;";
+    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '3 months' ORDER BY date;";
   };
 
   module.getVariance6month = () => {
-    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL \'6 months\' ORDER BY date;";
+    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '6 months' ORDER BY date;";
   };
 
   module.getVariance1year = () => {
-    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL \'1 year\' ORDER BY date;";
+    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '1 year' ORDER BY date;";
   };
 
   module.getVariance5year = () => {
-    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL \'5 years\' ORDER BY date;";
+    return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '5 years' ORDER BY date;";
   };
 
   return module;
