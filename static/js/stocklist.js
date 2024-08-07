@@ -399,6 +399,14 @@
       try {
         const response = await fetch(`http://localhost:3000/api/history/correlation/${stock1}/${stock2}/1week`);
         const correlationData = await response.json();
+        // Store the correlation value in the database
+        await fetch(`http://localhost:3000/api/correlation/add/${stock1}/${stock2}/1week`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ correlation: correlationData.correlation })
+        });
         return correlationData.correlation;
         } catch (error) {
             console.error("Error fetching correlation data:", error);

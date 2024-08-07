@@ -16,7 +16,8 @@ export const correlationQuery = (() => {
             INSERT INTO correlation (stock1, stock2, lastupdated, corr, interval)
             VALUES ($1, $2, CURRENT_TIMESTAMP, $3, $4)
             ON CONFLICT (stock1, stock2, interval) DO UPDATE
-            SET corr = $3, lastupdated = CURRENT_TIMESTAMP;
+            SET corr = $3, lastupdated = CURRENT_TIMESTAMP
+            WHERE correlation.stock1 = $1 AND correlation.stock2 = $2 AND correlation.interval = $4;
         `;
     };
 
