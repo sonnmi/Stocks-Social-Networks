@@ -14,7 +14,7 @@ StockRouter.get("/filtered", async (req, res) => {
       if (err) {
         console.log(err);
       } else if (!data || data.rows.length === 0) {
-        console.log("No stock history found for", symbol);
+        console.log("No stock history found for", filtered);
       } else {
         client.query(stockQuery.getStocksCount(), (err, count_) => {
           return res.json({

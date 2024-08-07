@@ -3,10 +3,6 @@ export const correlationQuery = (() => {
     "use strict";
     const module = {};
 
-    module.getAllCorrelationsQuery = () => {
-        return `SELECT * FROM correlation`;
-    };
-
     module.getCorrelationQuery = () => {
         return `SELECT CORR FROM correlation WHERE stock1 = $1 AND stock2 = $2 AND interval = $3`;
     };
@@ -21,9 +17,10 @@ export const correlationQuery = (() => {
         `;
     };
 
-    module.deleteCorrelationQuery = () => {
-        return `DELETE FROM correlation WHERE stock1 = $1 AND stock2 = $2`;
+    module.isCached = () => {
+        return `SELECT corr FROM correlation WHERE stock1 = $1 AND stock2 = $2 AND interval = $3 and LASTUPDATED >= NOW() - INTERVAL '1 day'`;
     };
+
 
     return module;
 })();

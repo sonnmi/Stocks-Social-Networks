@@ -270,11 +270,6 @@ let apiService = (function () {
         }).then((res) => res.json());
     };
 
-  module.getAllCorrelations = () => {
-    return fetch("/api/correlation/all", {
-        headers: { "Content-Type": "application/json" },
-        }).then((res) => res.json());
-    };
 
   module.getCorrelation = (stock1, stock2) => {
     return fetch(`/api/correlation/${stock1}/${stock2}`, {
@@ -289,15 +284,35 @@ let apiService = (function () {
         }).then((res) => res.json());
     };
 
-    module.deleteCorrelation = (stock1, stock2) => {
-        return fetch(`/api/correlation/delete/${stock1}/${stock2}`, {
-            method: "DELETE",
+    module.calculateCovariance = (stock1, stock2, time) => {
+        return fetch(`/api/covariance/${stock1}/${stock2}/${time}`, {
             headers: { "Content-Type": "application/json" },
             }).then((res) => res.json());
         };
 
-    module.getMatrix = () => {
+
+    module.getCovariance = (stock1, stock2) => {
+        return fetch(`/api/covariance/${stock1}/${stock2}`, {
+            headers: { "Content-Type": "application/json" },
+            }).then((res) => res.json());
+        };
+
+    module.addCovariance = (stock1, stock2, time) => {
+        return fetch(`/api/covariance/add/${stock1}/${stock2}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            }).then((res) => res.json());
+        };
+
+    module.getCorrMatrix = () => {
         return fetch(`/api/correlation/matrix`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            }).then((res) => res.json());
+        };
+
+    module.getCorrMatrix = () => {
+        return fetch(`/api/covariance/matrix`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             }).then((res) => res.json());

@@ -170,7 +170,7 @@
                 stocksPopup.appendChild(elmt_);
 
                 const stocksPopup_ = document.querySelector(".container");
-              
+
                 stocksPopup_.innerHTML += `
                 <input type="text" class="portfolio-share" placeholder="How many shares of ${state.lastClicked.value} do you want to add?"></input>`;
                 stocksPopup_.innerHTML += `
@@ -254,7 +254,7 @@
               stocksPopup.appendChild(elmt_);
 
               const stocksPopup_ = document.querySelector(".container");
-              
+
               stocksPopup_.innerHTML += `
                 <input type="text" class="portfolio-share" placeholder="How many shares of ${state.lastClicked.value} do you want to buy?"></input>`;
               stocksPopup_.innerHTML += `
@@ -332,4 +332,27 @@
         }
       });
   });
+
+  async function updateCOV() {
+    try {
+        const response = await fetch(`http://localhost:3000/api/stocks/covRate/${symbol}`, {
+        });
+        // wait for the response from the server
+        const result = await response.json();
+        console.log("result", result);
+        console.log("COV", result[0].covRate);
+        const covRate = result[0].coefficient_of_variation;
+        document.getElementById('stock-COV').innerText = covRate;
+        // Insert into DB
+        const response2 = await fetch(`http://localhost:3000/api/stocks/covRate/update/${symbol}/${covRate}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({covRate: result.covRate})
+        });
+    } catch (error) {
+        console.error('Error calling API:', error);
+    }
+}
 })();

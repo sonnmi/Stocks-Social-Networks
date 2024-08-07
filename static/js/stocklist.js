@@ -104,7 +104,10 @@
                   <div class="comment-user">${comment.reviewer}</div>
                   <div class="comment-content">${comment.comment}</div>
               `;
-        if (state.userInfo.username === comment.reviewer || state.userInfo.username === state.stocklistInfo.owner) {
+        if (
+          state.userInfo.username === comment.reviewer ||
+          state.userInfo.username === state.stocklistInfo.owner
+        ) {
           const deleteButton = document.createElement("button");
           deleteButton.classList.add("comment-delete");
           deleteButton.classList.add("comment-button");
@@ -161,7 +164,8 @@
       try {
         // Load user info from local storage
         state.userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
-        state.stocklistInfo = JSON.parse(localStorage.getItem("stocklistInfo")) || {};
+        state.stocklistInfo =
+          JSON.parse(localStorage.getItem("stocklistInfo")) || {};
 
         console.log("State on initialization:", state);
 
@@ -180,7 +184,7 @@
         await initializeState(); // Wait for state to be initialized
 
         // Perform operations once state and DOM are ready
-        const stockList = state.stocks.map(stock => stock.stock);
+        const stockList = state.stocks.map((stock) => stock.stock);
         console.log("Stock list:", stockList);
 
         if (stockList.length === 0) {
@@ -188,18 +192,22 @@
           return;
         }
 
-        const response = await fetch("http://localhost:3000/api/correlation/matrix", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ stocks: stockList })
-        });
+        const response = await fetch(
+          "http://localhost:3000/api/correlation/matrix",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ stocks: stockList }),
+          }
+        );
 
         const correlationData = await response.json();
         console.log("Correlation data:", correlationData);
         generateCorrelationMatrix(stockList, correlationData);
 
+        updateMatrix("1week"); // Call updateMatrix here after setting up the initial matrix
       } catch (error) {
         console.error("Error fetching correlation data:", error);
       }
@@ -211,7 +219,7 @@
       let tableHTML = "<thead><tr><th></th>";
 
       // Table headers
-      stockList.forEach(stock => {
+      stockList.forEach((stock) => {
         tableHTML += `<th>${stock}</th>`;
       });
 
@@ -225,7 +233,9 @@
             tableHTML += `<td id="${stock1 + stock2}">1.00</td>`; // Correlation with itself
           } else {
             const correlation = correlationData[stock1][stock2] || 0; // Use 0 if no data
-            tableHTML += `<td id="${stock1 + stock2}">${correlation.toFixed(2)}</td>`;
+            tableHTML += `<td id="${stock1 + stock2}">${correlation.toFixed(
+              2
+            )}</td>`;
           }
         });
         tableHTML += "</tr>";
@@ -241,14 +251,21 @@
       console.log(state.stocklistInfo);
 
       // Set the stocklist name and owner in the UI
-      document.querySelector(".stocklist-name").innerHTML = state.stocklistInfo.name || "Unnamed List";
-      document.querySelector(".stocklist-owner").innerHTML = `Owned by: ${state.stocklistInfo.owner || "Unknown Owner"}`;
+      document.querySelector(".stocklist-name").innerHTML =
+        state.stocklistInfo.name || "Unnamed List";
+      document.querySelector(
+        ".stocklist-owner"
+      ).innerHTML = `Owned by: ${state.stocklistInfo.owner || "Unknown Owner"}`;
 
       if (state.userInfo.username === state.stocklistInfo.owner) {
-        document.querySelector(".stocklist-edit-visibility").classList.remove("hidden");
-        document.querySelector(".stocklist-edit-visibility").addEventListener("click", () => {
-          document.querySelector(".stocklist-visibility").classList.toggle("hidden");
-        });
+        document
+          .querySelector(".stocklist-edit-visibility")
+          .classList.remove("hidden");
+        document
+          .querySelector(".stocklist-edit-visibility")
+          .addEventListener("click", () => {
+            document.querySelector(".stocklist-visibility").classList.toggle("hidden");
+          });
 
         const publicCheckbox = document.querySelector(".visibility-checkbox.public");
         const privateCheckbox = document.querySelector(".visibility-checkbox.private");
@@ -265,19 +282,29 @@
           }
         });
 
-        const visibilitySubmit = document.querySelector(".stocklist-visibility-submit");
+        const visibilitySubmit = document.querySelector(
+          ".stocklist-visibility-submit"
+        );
         visibilitySubmit.addEventListener("click", () => {
           const isPublic = publicCheckbox.checked;
           apiService
-            .updateStockList(state.stocklistInfo.owner, state.stocklistInfo.name, isPublic)
+            .updateStockList(
+              state.stocklistInfo.owner,
+              state.stocklistInfo.name,
+              isPublic
+            )
             .then((data) => {
               console.log(data);
               state.stocklistInfo.visibility = isPublic ? "public" : "private";
-              document.querySelector(".stocklist-visibility").classList.add("hidden");
+              document
+                .querySelector(".stocklist-visibility")
+                .classList.add("hidden");
               if (isPublic) {
                 document.querySelector(".stocklist-sharing").classList.add("hidden");
               } else {
-                document.querySelector(".stocklist-sharing").classList.remove("hidden");
+                document
+                  .querySelector(".stocklist-sharing")
+                  .classList.remove("hidden");
               }
             });
         });
@@ -289,7 +316,8 @@
           document.querySelector(".comments-form-container").classList.add("hidden");
           getComments(true, false);
 
-          state.friends = await apiService.getUserFriends(state.userInfo.username)
+          state.friends = await apiService
+            .getUserFriends(state.userInfo.username)
             .then((data) => {
               console.log(data);
               if (data.error) {
@@ -298,7 +326,9 @@
               return data;
             });
 
-          const sharingDropdown = document.querySelector(".stocklist-sharing-dropdown");
+          const sharingDropdown = document.querySelector(
+            ".stocklist-sharing-dropdown"
+          );
           sharingDropdown.innerHTML = "";
           if (state.friends.length > 0) {
             state.friends.forEach((friend) => {
@@ -311,11 +341,19 @@
               sharingDropdown.appendChild(friendElement);
             });
 
-            const submitButton = document.querySelector(".stocklist-sharing-submit");
+            const submitButton = document.querySelector(
+              ".stocklist-sharing-submit"
+            );
             submitButton.addEventListener("click", () => {
-              const friendName = document.querySelector(".stocklist-sharing-dropdown").value;
+              const friendName = document.querySelector(
+                ".stocklist-sharing-dropdown"
+              ).value;
               apiService
-                .shareStockList(state.stocklistInfo.owner, friendName, state.stocklistInfo.name)
+                .shareStockList(
+                  state.stocklistInfo.owner,
+                  friendName,
+                  state.stocklistInfo.name
+                )
                 .then((data) => {
                   console.log(data);
                 });
@@ -332,45 +370,64 @@
           console.log("not owner");
           getComments(false, false);
           document.querySelector(".comments-form-container").classList.remove("hidden");
-          document.querySelector(".comments-form-submit").addEventListener("click", (e) => {
-            e.preventDefault();
+          document
+            .querySelector(".comments-form-submit")
+            .addEventListener("click", (e) => {
+              e.preventDefault();
 
-            const comment = document.querySelector(".comments-form").value;
-            console.log("submit comment", comment);
-            apiService
-              .addStockListComment(state.stocklistInfo.name, state.stocklistInfo.owner, comment, state.userInfo.username)
-              .then(() => {
-                getComments(false, false);
-              });
-          });
+              const comment = document.querySelector(".comments-form").value;
+              console.log("submit comment", comment);
+              apiService
+                .addStockListComment(
+                  state.stocklistInfo.name,
+                  state.stocklistInfo.owner,
+                  comment,
+                  state.userInfo.username
+                )
+                .then(() => {
+                  getComments(false, false);
+                });
+            });
         }
       } else {
         getComments(false, true);
         if (state.userInfo.username === state.stocklistInfo.owner) {
           document.querySelector(".comments-form-container").classList.add("hidden");
         } else {
-          document.querySelector(".comments-form-container").classList.remove("hidden");
-          document.querySelector(".comments-form-submit").addEventListener("click", (e) => {
-            e.preventDefault();
+          document
+            .querySelector(".comments-form-container")
+            .classList.remove("hidden");
+          document
+            .querySelector(".comments-form-submit")
+            .addEventListener("click", (e) => {
+              e.preventDefault();
 
-            const comment = document.querySelector(".comments-form").value;
-            console.log("submit comment", comment);
-            apiService
-              .addStockListComment(state.stocklistInfo.name, state.stocklistInfo.owner, comment, state.userInfo.username)
-              .then(() => {
-                getComments(false, true);
-              });
-          });
+              const comment = document.querySelector(".comments-form").value;
+              console.log("submit comment", comment);
+              apiService
+                .addStockListComment(
+                  state.stocklistInfo.name,
+                  state.stocklistInfo.owner,
+                  comment,
+                  state.userInfo.username
+                )
+                .then(() => {
+                  getComments(false, true);
+                });
+            });
         }
       }
 
       // Add event listener for the refresh button
-      document.getElementById('refreshCorrelation').addEventListener('click', updateMatrix);
+    //   document
+    //     .getElementById("refreshCorrelation")
+    //     .addEventListener("click", updateMatrix);
+
     });
 
     // Define the updateMatrix function
-    function updateMatrix() {
-      const stockList = state.stocks.map(stock => stock.stock);
+    window.updateMatrix = function(interval) {
+      const stockList = state.stocks.map((stock) => stock.stock);
       console.log("Stock list:", stockList);
 
       if (stockList.length === 0) {
@@ -386,8 +443,15 @@
             document.getElementById(stock1 + stock2).innerHTML = "1.00"; // Correlation with itself
           } else {
             // Update the correlation value
-            updateCorrelation(stock1, stock2).then(correlation => {
-              document.getElementById(stock1 + stock2).innerHTML = correlation.toFixed(2);
+            updateCorrelation(stock1, stock2, interval).then((correlation) => {
+                console.log(correlation)
+                if (correlation === "NaN" || !correlation) {
+                    document.getElementById(stock1 + stock2).innerHTML = "Missing Data"
+                } else {
+                    document.getElementById(stock1 + stock2).innerHTML =
+                    parseFloat(correlation).toFixed(2);
+                }
+
             });
           }
         }
@@ -395,22 +459,27 @@
     }
 
     // Fetch updated correlation
-    async function updateCorrelation(stock1, stock2) {
+    async function updateCorrelation(stock1, stock2, interval) {
       try {
-        const response = await fetch(`http://localhost:3000/api/history/correlation/${stock1}/${stock2}/1week`);
+        const response = await fetch(
+          `http://localhost:3000/api/history/correlation/${stock1}/${stock2}/${interval}`
+        );
         const correlationData = await response.json();
         // Store the correlation value in the database
-        await fetch(`http://localhost:3000/api/correlation/add/${stock1}/${stock2}/1week`, {
-            method: 'POST',
+        await fetch(
+          `http://localhost:3000/api/correlation/add/${stock1}/${stock2}/${interval}`,
+          {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify({ correlation: correlationData.correlation })
-        });
+            body: JSON.stringify({ correlation: correlationData.correlation }),
+          }
+        );
         return correlationData.correlation;
-        } catch (error) {
-            console.error("Error fetching correlation data:", error);
-            return 0;
-        }
+      } catch (error) {
+        console.error("Error fetching correlation data:", error);
+        return 0;
+      }
     }
-})();
+  })();

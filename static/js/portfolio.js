@@ -148,6 +148,7 @@
                               } else {
                                 updateBalance(response.cash);
                                 updateMarketValue();
+                                updateMatrix();
                               }
                             });
                         }
@@ -424,6 +425,8 @@
         console.error("Correlation matrix table not found!");
         return;
       }
+
+      updateMatrix(); // Initial load
 
       let tableHTML = "<thead><tr><th></th>";
 

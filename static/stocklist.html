@@ -231,6 +231,24 @@
             cursor: pointer;
             font-size: 14px;
         }
+        .timeframe-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .timeframe-buttons button {
+            padding: 0.5em 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .timeframe-buttons button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -281,15 +299,20 @@
             <div class="card stocklist-card">
                 <div class="horizontal-container stocklist-container">
                 </div>
-                <div class="chart">
-                    <!-- Placeholder for the stock history chart -->
-                </div>
             </div>
 
             <!-- Correlation Matrix -->
             <div class="correlation-matrix-container card">
                 <h2>Correlation Matrix</h2>
-                <button class="refresh-button" id="refreshCorrelation">Refresh Matrix</button>
+                <!-- <button class="refresh-button" id="refreshCorrelation">Refresh Matrix</button> -->
+                <div class="timeframe-buttons">
+                    <button onclick="updateMatrix('1week')">1 Week</button>
+                    <button onclick="updateMatrix('1month')">1 Month</button>
+                    <button onclick="updateMatrix('3months')">3 Months</button>
+                    <button onclick="updateMatrix('6months')">6 Months</button>
+                    <button onclick="updateMatrix('1year')">1 Year</button>
+                    <button onclick="updateMatrix('5years')">5 Years</button>
+                </div>
                 <table class="correlation-matrix-table" id="correlationMatrix">
                     <!-- Table headers and body will be dynamically generated -->
                 </table>
@@ -311,14 +334,6 @@
                 </div>
                 <div class="comment-list-container">
                     <div class="comment-list">
-                        <div class="comment">
-                            <div class="comment-user">John Doe</div>
-                            <div class="comment-content">This is a great stocklist!</div>
-                        </div>
-                        <div class="comment">
-                            <div class="comment-user">Jane Doe</div>
-                            <div class="comment-content">I love this stocklist!</div>
-                        </div>
                     </div>
                 </div>
             </div>

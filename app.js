@@ -25,6 +25,7 @@ import { createRequestsTableQuery } from "./models/requests.js";
 import { FriendRouter } from "./routers/friend_router.js";
 import { RequestRouter } from "./routers/request_router.js";
 import { CorrelationRouter } from "./routers/correlation_router.js";
+import { CovarianceRouter } from "./routers/covariance_router.js";
 import { createHoldsTableQuery } from "./models/holds.js";
 
 export const app = express();
@@ -91,6 +92,7 @@ app.use("/api/friends", FriendRouter);
 app.use("/api/requests", RequestRouter);
 app.use("/api/history", HistoryRouter);
 app.use("/api/correlation", CorrelationRouter);
+app.use("/api/covariance", CovarianceRouter);
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);

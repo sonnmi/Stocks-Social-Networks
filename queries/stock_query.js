@@ -63,14 +63,6 @@ export const stockQuery = (function () {
     return "DELETE FROM Stock WHERE symbol = $1";
   };
 
-  module.updateCOV = () => {
-    return "UPDATE Stock SET cov = $1 WHERE symbol = $2";
-  };
-
-  module.updateBeta = () => {
-    return "UPDATE Stock SET beta = $1 WHERE symbol = $2";
-  };
-
   module.getVariance1week = () => {
     return "SELECT VARIANCE(close) FROM StockHistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '1 week' ORDER BY date;";
   };
@@ -136,6 +128,11 @@ export const stockQuery = (function () {
   module.updateCOV = () => {
     return `UPDATE Stock SET cov = $2 WHERE symbol = $1`;
   }
+
+  module.getCOVBySymbol = () => {
+    return `SELECT cov FROM Stock WHERE symbol = $1`;
+  }
+
 
 //   module.getCorrelation = (duration) => {
 //     return `SELECT CORR()`;

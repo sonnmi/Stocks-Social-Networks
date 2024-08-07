@@ -38,21 +38,6 @@ CorrelationRouter.post("/matrix", async (req, res) => {
     }
 });
 
-// Get all correlations
-CorrelationRouter.get("/all", async (req, res) => {
-    client.query(correlationQuery.getAllCorrelationsQuery(), (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({ error: "Database query error" });
-        } else if (!data || data.rows.length === 0) {
-            console.log("No correlations found");
-            return res.json({ error: "No correlations found" });
-        } else {
-            return res.json(data.rows);
-        }
-    });
-});
-
 // Get specific correlation
 CorrelationRouter.get("/:stock1/:stock2/:time", async (req, res) => {
     let { stock1, stock2, time } = req.params;
@@ -80,6 +65,18 @@ CorrelationRouter.post("/add/:stock1/:stock2/:time", async (req, res) => {
     }
 
     try {
+        // CACHING
+        // CHECK IF CORRELATION IS CACHED
+        try {
+            const isCached = await client.query(correlationQuery.isCached(), [stock1, stock2, time]);
+            if (isCached.rows.length > 0) {
+                console.log("Correlation is cached");
+                return res.json({ message: "Correlation is cached" });
+            }
+        } catch (error) {
+            console.error("Error fetching cached correlation:", error);
+            return res.status(500).json({ error: "Error fetching cached correlation data" });
+        }
         const correlationResponse = await fetch(`http://localhost:3000/api/history/correlation/${stock1}/${stock2}/${time}`);
         const correlationData = await correlationResponse.json();
 
@@ -97,20 +94,4 @@ CorrelationRouter.post("/add/:stock1/:stock2/:time", async (req, res) => {
         console.error("Error fetching correlation:", error);
         return res.status(500).json({ error: "Error fetching correlation data" });
     }
-});
-
-// Delete correlation
-CorrelationRouter.delete("/delete/:stock1/:stock2", async (req, res) => {
-    let { stock1, stock2 } = req.params;
-    if (stock1 > stock2) {
-        [stock1, stock2] = [stock2, stock1];
-    }
-    client.query(correlationQuery.deleteCorrelationQuery(), [stock1, stock2], (err) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({ error: "Database deletion error" });
-        } else {
-            return res.json({ message: "Correlation deleted" });
-        }
-    });
 });
