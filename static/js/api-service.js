@@ -475,5 +475,18 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
+  module.getCOVRate = (symbol) => {
+    return fetch(`/api/stocks/covRate/${symbol}`, {
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
+  module.updateCOVRate = (symbol, cov) => {
+    return fetch(`/api/stocks/covRate/update/${symbol}/${cov}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
   return module;
 })();

@@ -34,3 +34,31 @@ StockRouter.get("/", async (req, res) => {
     });
   }
 });
+
+StockRouter.get("/covRate/:symbol", async (req, res) => {
+    const symbol = req.params.symbol;
+
+    client.query(stockQuery.getCOV(), [symbol, '1week'], (err, data) => {
+        if (err) {
+        console.log(err);
+        } else if (!data || data.rows.length === 0) {
+        console.log("No stock history found for", symbol);
+        } else {
+            console.log(data);
+        return res.json(data.rows);
+        }
+    });
+    });
+
+StockRouter.post("/covRate/update/:symbol/:cov", async (req, res) => {
+    const symbol = req.params.symbol;
+    const cov = req.params.cov;
+    client.query(stockQuery.updateCOV(), [symbol, cov], (err, data) => {
+        if (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Database query error" });
+        } else {
+        return res.json({ message: "COV rate updated" });
+        }
+    });
+    });
