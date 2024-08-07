@@ -12,20 +12,20 @@ export const stockQuery = (function () {
     return "SELECT symbol FROM Stock";
   };
 
-  module.getFilteredStock = (limit, offset, filtered) => {
-    return `SELECT SH.*
-  FROM (
-      SELECT * 
-      FROM StockHistory
-      WHERE symbol LIKE '${filtered}%'
-  ) SH
-  JOIN (
-      SELECT symbol, MAX(date) AS max_date
-      FROM StockHistory
-      WHERE symbol LIKE '${filtered}%'
-      GROUP BY symbol
-  ) Recent ON SH.symbol = Recent.symbol AND SH.date = Recent.max_date
-              LIMIT ${limit} OFFSET ${offset}
+  module.getFilteredStock = (limit, offset) => {
+    return `WITH RecentStockHistory AS (
+                    SELECT SH.*
+                    FROM StockHistory SH
+                    JOIN (
+                        SELECT symbol, MAX(date) AS max_date
+                        FROM StockHistory
+                        GROUP BY symbol
+                    ) Recent ON SH.symbol = Recent.symbol AND SH.date = Recent.max_date
+                )
+                SELECT *
+                FROM RecentStockHistory
+                WHERE symbol ILIKE $1
+                LIMIT ${limit} OFFSET ${offset}
             `;
   }
 
@@ -39,11 +39,9 @@ export const stockQuery = (function () {
                         GROUP BY symbol
                     ) Recent ON SH.symbol = Recent.symbol AND SH.date = Recent.max_date
                 )
-                SELECT S.symbol, RSH.*
-                FROM Stock S
-                JOIN RecentStockHistory RSH ON S.symbol = RSH.symbol
-                 LIMIT ${limit} OFFSET ${offset}
-                `;
+            SELECT * 
+            FROM RecentStockHistory
+            LIMIT ${limit} OFFSET ${offset}`;
   };
 
   module.getStocksCount = () => {

@@ -9,8 +9,8 @@ StockRouter.get("/filtered", async (req, res) => {
   if ("limit" in req.query && "page" in req.query) {
     const limit = req.query.limit;
     const offset = req.query.page * limit;
-    const filtered = req.query.page * limit;
-    client.query(stockQuery.getFilteredStock(limit, offset, filtered), (err, data) => {
+    const filtered = req.query.filter;
+    client.query(stockQuery.getFilteredStock(limit, offset), [`${filtered}%`], (err, data) => {
       if (err) {
         console.log(err);
       } else if (!data || data.rows.length === 0) {
