@@ -172,7 +172,7 @@
                 const stocksPopup_ = document.querySelector(".container");
               
                 stocksPopup_.innerHTML += `
-                <input type="text" class="portfolio-share" placeholder="How many shares of ${state.lastClicked.value} do you want to buy?"></input>`;
+                <input type="text" class="portfolio-share" placeholder="How many shares of ${state.lastClicked.value} do you want to add?"></input>`;
                 stocksPopup_.innerHTML += `
                 <div class="submit-btn">Add</div>`;
                 stocksPopup_.querySelector(".submit-btn").onclick = () => {

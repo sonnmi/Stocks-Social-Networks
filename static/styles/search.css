@@ -1,0 +1,30 @@
+.sidebar-section .title {
+  font-size: 17px;
+  letter-spacing: 1px;
+}
+
+.sidebar-section a {
+  font-size: 16px;
+  text-decoration: none;
+  color:rgba(75, 75, 75, 0.9);
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.sidebar-section a.active {
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 600;
+  color:rgb(87, 122, 185)
+}
+
+.sidebar-section a:hover {
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 600;
+  color:rgb(87, 122, 185)
+}
+
+.sidebar-section {
+  margin-left: 10px;
+}
