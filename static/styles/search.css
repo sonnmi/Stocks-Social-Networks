@@ -3,6 +3,10 @@
   letter-spacing: 1px;
 }
 
+.sidebar-section h2 {
+  font-size: 17px;
+}
+
 .sidebar-section a {
   font-size: 16px;
   text-decoration: none;

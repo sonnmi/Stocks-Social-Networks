@@ -308,6 +308,14 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
+  module.getFilteredStocks = (filtered, page = 0, limit = 10) => {
+    return fetch(`/api/stocks/filtered?limit=${limit}&page=${page}&filter=${filtered}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
+  }
+
   module.deleteStockFromStockList = (owner, stocklist, stock) => {
     return fetch("/api/stocklistConsist/delete", {
       method: "DELETE",

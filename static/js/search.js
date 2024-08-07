@@ -8,7 +8,7 @@
     const updateactive = (i) => {
         document.querySelectorAll('.link')[state.active].classList.remove("active")
         state.active = i;
-        document.querySelectorAll('.link')[state.active].classList.add("active")
+        // document.querySelectorAll('.link')[state.active].classList.add("active")
     }
 
 
@@ -16,7 +16,8 @@
 
     document.querySelector('.search-bar').addEventListener("keydown", (e) => {
         if (e.key === 'Enter') {
-            alert(document.querySelector('.search-bar').value);
+            localStorage.setItem("search-stock", document.querySelector('.search-bar').value)
+            location.href = "../search.html";
         }
     })
 
