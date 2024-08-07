@@ -56,5 +56,70 @@ export const stockHistoryQuery = (function () {
     return "SELECT date, open, high, low, close, volume FROM stockhistory WHERE symbol = $1 AND date >= NOW() - INTERVAL '5 years' ORDER BY date";
   };
 
+  module.calculateCorrelation = () => {
+    return `WITH StockData1 AS (
+        SELECT
+            date,
+            close AS close1
+        FROM
+            StockHistory
+        WHERE
+            symbol = $1
+            AND date >= (
+                SELECT
+                    CASE $3
+                        WHEN '1week' THEN max_date - INTERVAL '7 days'
+                        WHEN '1month' THEN max_date - INTERVAL '1 month'
+                        WHEN '3month' THEN max_date - INTERVAL '3 months'
+                        WHEN '1year' THEN max_date - INTERVAL '1 year'
+                        WHEN '5year' THEN max_date - INTERVAL '5 years'
+                    END
+                FROM (
+                    SELECT MAX(date) AS max_date
+                    FROM StockHistory
+                    WHERE symbol = $1
+                ) AS LatestDate1
+            )
+    ),
+    StockData2 AS (
+        SELECT
+            date,
+            close AS close2
+        FROM
+            StockHistory
+        WHERE
+            symbol = $2
+            AND date >= (
+                SELECT
+                    CASE $3
+                        WHEN '1week' THEN max_date - INTERVAL '7 days'
+                        WHEN '1month' THEN max_date - INTERVAL '1 month'
+                        WHEN '3month' THEN max_date - INTERVAL '3 months'
+                        WHEN '1year' THEN max_date - INTERVAL '1 year'
+                        WHEN '5year' THEN max_date - INTERVAL '5 years'
+                    END
+                FROM (
+                    SELECT MAX(date) AS max_date
+                    FROM StockHistory
+                    WHERE symbol = $2
+                ) AS LatestDate2
+            )
+    ),
+    CombinedData AS (
+        SELECT
+            StockData1.date,
+            StockData1.close1,
+            StockData2.close2
+        FROM
+            StockData1
+        JOIN
+            StockData2 ON StockData1.date = StockData2.date
+    )
+    SELECT
+        CORR(close1, close2) AS correlation
+    FROM
+        CombinedData`;
+  };
+
   return module;
 })();

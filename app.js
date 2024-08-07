@@ -19,11 +19,12 @@ import { createConsistsTableQuery } from "./models/consists.js";
 import { createPortfoliosTableQuery } from "./models/portfolios.js";
 import { creatStockListAccessTableQuery } from "./models/stocklistAccess.js";
 import { createReviewsTableQuery } from "./models/reviews.js";
-
+import { createCorrelationQuery } from "./models/correlation.js";
 import { commonQueryExecute } from "./queries/common.js";
 import { createRequestsTableQuery } from "./models/requests.js";
 import { FriendRouter } from "./routers/friend_router.js";
 import { RequestRouter } from "./routers/request_router.js";
+import { CorrelationRouter } from "./routers/correlation_router.js";
 import { createHoldsTableQuery } from "./models/holds.js";
 
 export const app = express();
@@ -46,6 +47,7 @@ const tables = {
   StockListAccess: creatStockListAccessTableQuery,
   Reviews: createReviewsTableQuery,
   Friends: createFriendsTableQuery,
+  Correlation: createCorrelationQuery,
 };
 
 // Object.keys(tables).map(table => {
@@ -88,6 +90,7 @@ app.use("/api/portfolios", PortfolioRouter);
 app.use("/api/friends", FriendRouter);
 app.use("/api/requests", RequestRouter);
 app.use("/api/history", HistoryRouter);
+app.use("/api/correlation", CorrelationRouter);
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);

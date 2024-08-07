@@ -5,6 +5,39 @@ import { stockQuery } from "../queries/stock_query.js";
 
 export const HistoryRouter = Router();
 
+HistoryRouter.get("/correlation/:symbol1/:symbol2/:time", async (req, res) => {
+    var symbol1 = req.params.symbol1;
+    var symbol2 = req.params.symbol2;
+    var time = req.params.time;
+
+    if (symbol1 === symbol2) {
+        return res.json({ correlation: 1 });
+    }
+
+    if (symbol1 > symbol2) {
+        [symbol1, symbol2] = [symbol2, symbol1];
+    }
+
+    console.log("Time parameter:", time);
+
+    client.query(stockHistoryQuery.calculateCorrelation(), [symbol1, symbol2, time], (err, data) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                error: "Internal server error",
+            });
+        } else if (!data || data.rows.length === 0) {
+            return res.status(404).json({
+                error: "Correlation not found.",
+            });
+        } else {
+            return res.json({
+                correlation: data.rows[0].correlation,
+            });
+        }
+    });
+});
+
 HistoryRouter.get("/:symbol", async (req, res) => {
   const symbol = req.params.symbol;
   const time = req.query.time; // Get the time parameter from the query string

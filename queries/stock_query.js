@@ -97,23 +97,23 @@ export const stockQuery = (function () {
 
   module.getCOV = () => {
     return `WITH LatestDate AS (
-                SELECT 
+                SELECT
                     MAX(date) AS max_date
-                FROM 
+                FROM
                     StockHistory
-                WHERE 
+                WHERE
                     symbol = $1
             ),
             FilteredStockData AS (
-                SELECT 
+                SELECT
                     date,
                     close
-                FROM 
+                FROM
                     StockHistory
-                WHERE 
+                WHERE
                     symbol = $1
                     AND date >= (
-                        SELECT 
+                        SELECT
                             CASE $2
                                 WHEN '1week' THEN max_date - INTERVAL '7 days'
                                 WHEN '1month' THEN max_date - INTERVAL '1 month'
@@ -121,25 +121,29 @@ export const stockQuery = (function () {
                                 WHEN '1year' THEN max_date - INTERVAL '1 year'
                                 WHEN '5year' THEN max_date - INTERVAL '5 years'
                             END
-                        FROM 
+                        FROM
                             LatestDate
                     )
             )
-            SELECT 
+            SELECT
                 AVG(close) AS mean_close,
                 STDDEV(close) AS stddev_close,
                 (STDDEV(close) / AVG(close)) * 100 AS coefficient_of_variation
-            FROM 
-                FilteredStockData;`;
+            FROM
+                FilteredStockData`;
   }
 
-  module.getCorrelation = (duration) => {
-    return `SELECT CORR()`;
-  };
-  
-  module.getVolatility = () => {
-    return `SELECT `
+  module.updateCOV = () => {
+    return `UPDATE Stock SET cov = $2 WHERE symbol = $1`;
   }
-  
+
+//   module.getCorrelation = (duration) => {
+//     return `SELECT CORR()`;
+//   };
+
+//   module.getVolatility = () => {
+//     return `SELECT `
+//   }
+
   return module;
 })();

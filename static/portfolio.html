@@ -133,6 +133,48 @@
             font-size: 1em;
             color: #218838;
         }
+
+        .correlation-matrix-container {
+            margin-top: 2em;
+            margin-bottom: 2em;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 95%;
+        }
+
+        .correlation-matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .correlation-matrix-table th, .correlation-matrix-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .correlation-matrix-table th {
+            background-color: #f4f4f4;
+        }
+
+        .refresh-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .refresh-button:hover {
+            background-color: #0056b3;
+        }
+
     </style>
 </head>
 <body>
@@ -178,65 +220,68 @@
       </div>
         <div class="contents-container">
             <h2 class="portfolio-name"></h2>
-            
-    <div class="card">
-        <div class="horizontal-container">
-        </div>
-        
-        <div class="chart">
-            <!-- Placeholder for the prediction chart -->
-        </div>
-        <div class="btns-style">
-            <div class="deposit-btn btn-style">Deposit</div>
-            <div class="withdraw-btn btn-style">Withdraw</div>
-        </div>
-        <div class="hidden form-container-style">
-            <div class="deposit-container">
-                <div class="deposit-options">
-                    <div>
-                        <input type="radio" id="bank" name="depositOption" value="bank" checked />
-                        <label for="bank">external bank account</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="transfer" name="depositOption" value="transfer" />
-                        <label for="transfer">transfer</label>
-                    </div>
+
+            <div class="card">
+                <div class="horizontal-container">
                 </div>
-                <p>How much money do you want to deposit?</p>
-                <div class="input">$ <input type="text" id="transfer-amount"/></div>
-                <div class="transfer-container">
-                    <div class="From which account do you want to transfer?"></div>
-                    <div class="cash-account-dropdown hidden">
-                        <label for="cash-accounts">Choose a portfolio cash account you want to deposit from:</label>
-                        <select name="cash-accounts" id="cash-accounts">
-                        </select>
+
+                <div class="chart">
+                    <!-- Placeholder for the prediction chart -->
+                </div>
+                <div class="btns-style">
+                    <div class="deposit-btn btn-style">Deposit</div>
+                    <div class="withdraw-btn btn-style">Withdraw</div>
+                </div>
+                <div class="hidden form-container-style">
+                    <div class="deposit-container">
+                        <div class="deposit-options">
+                            <div>
+                                <input type="radio" id="bank" name="depositOption" value="bank" checked />
+                                <label for="bank">external bank account</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="transfer" name="depositOption" value="transfer" />
+                                <label for="transfer">transfer</label>
+                            </div>
+                        </div>
+                        <p>How much money do you want to deposit?</p>
+                        <div class="input">$ <input type="text" id="transfer-amount"/></div>
+                        <div class="transfer-container">
+                            <div class="From which account do you want to transfer?"></div>
+                            <div class="cash-account-dropdown hidden">
+                                <label for="cash-accounts">Choose a portfolio cash account you want to deposit from:</label>
+                                <select name="cash-accounts" id="cash-accounts">
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <!-- <div class="bank-account-dropdown"> -->
-                        <!-- <label for="bank-accounts">Choose a bank account you want to deposit from:</label> -->
-                        <!-- <select name="bank-accounts" id="bank-accounts">
-                            <option value="bank1">bank1</option>
-                            <option value="bank2">bank2</option>
-                            <option value="bank3">bank3</option>
-                        </select> -->
-                    <!-- </div> -->
+                    <div class="deposit error hidden"></div>
+                    <div class="submit-btn">deposit</div>
+                </div>
+                <div class="hidden form-container-style">
+                    <div class="withdraw-container">
+                        <p class="">How much money do you want to withdraw?</p>
+                        <div class="input">$ <input type="text" id="withdraw-amount"/></div>
+                    </div>
+                    <div class="withdraw error hidden"></div>
+                    <div class="submit-btn">withdraw</div>
+                </div>
+                <div class="balance-container">
+                    <h2 class="market-value">Market Value: </h2>
+                    <h2 class="balance">Total Balance: </h2>
+                </div>
+
+                <!-- Correlation Matrix -->
+                <div class="correlation-matrix-container card">
+                    <h2>Correlation Matrix</h2>
+                    <button class="refresh-button" id="refreshCorrelation">Refresh Matrix</button>
+                    <table class="correlation-matrix-table" id="correlationMatrix">
+                        <!-- Table headers and body will be dynamically generated -->
+                    </table>
                 </div>
             </div>
-            <div class="deposit error hidden"></div>
-            <div class="submit-btn">deposit</div>
         </div>
-        <div class="hidden form-container-style">
-            <div class="withdraw-container">
-                <p class="">How much money do you want to withdraw?</p>
-                <div class="input">$ <input type="text" id="withdraw-amount"/></div>
-            </div>
-            <div class="withdraw error hidden"></div>
-            <div class="submit-btn">withdraw</div>
-        </div>
-    <div class="balance-container">
-        <h2 class="market-value">Market Value: </h2>
-        <h2 class="balance">Total Balance: </h2>
     </div>
-</div>
     <script src="js/api-service.js"></script>
     <script src="js/portfolio.js"></script>
     <script src="./js/common.js"></script>

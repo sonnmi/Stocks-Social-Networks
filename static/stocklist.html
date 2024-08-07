@@ -83,205 +83,157 @@
         .stocklist-card {
             width: 100%;
         }
-
+        .correlation-matrix-container {
+            margin-top: 2em;
+            margin-bottom: 2em;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+        .correlation-matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .correlation-matrix-table th, .correlation-matrix-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .correlation-matrix-table th {
+            background-color: #f4f4f4;
+        }
+        .refresh-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .refresh-button:hover {
+            background-color: #0056b3;
+        }
         .stocklist-comments {
             width: 100%;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.stocklist-comments h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-    
-}
-
-.comments-form-container {
-    margin-bottom: 20px;
-}
-
-.comments-form {
-    width: 95%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.comments-form-submit {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.comments-form-submit:hover {
-    background-color: #0056b3;
-}
-
-.comment {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-}
-
-.comment-user {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 18px;
-}
-
-.comment-content {
-    font-size: 16px;
-}
-
-.comment-buttons {
-  display: flex;
-  gap: 10px; /* Space between buttons */
-}
-
-.comment-button {
-    margin-top: 5px;
-    margin-right: 5px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer; 
-  font-size: 12px; 
-  transition: background-color 0.3s ease; 
-}
-
-.comment-delete {
-  background-color: #e74c3c; /* Red background for delete button */
-  color: white; /* White text color */
-}
-
-.comment-delete:hover {
-  background-color: #c0392b; /* Darker red on hover */
-}
-
-.comment-edit {
-  background-color: #3498db; /* Blue background for edit button */
-  color: white; /* White text color */
-}
-
-.comment-edit:hover {
-  background-color: #2980b9; /* Darker blue on hover */
-}
-
-.stocklist-sharing {
-    width: 100%;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.stocklist-sharing h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    margin-right: 10px;
-}
-
-.stocklist-sharing-dropdown {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-right: 10px;
-}
-
-.stocklist-sharing-submit {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.header-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.stocklist-edit-visibility-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.stocklist-edit-visibility {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    position: absolute;
-    right: 0;
-    margin-right: 50px;
-}
-
-.stocklist-visibility {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    position: absolute;
-    right: 150px;
-    margin-right: 50px;
-}
-
-.visibility-label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-right: 10px;
-}
-
-.visibility-checkbox {
-    margin-right: 5px;
-
-}
-
-.stocklist-visibility-submit {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-left: 10px;
-}
-
-
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .stocklist-comments h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .comments-form-container {
+            margin-bottom: 20px;
+        }
+        .comments-form {
+            width: 95%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .comments-form-submit {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .comments-form-submit:hover {
+            background-color: #0056b3;
+        }
+        .comment {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .comment-user {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        .comment-content {
+            font-size: 16px;
+        }
+        .comment-buttons {
+            display: flex;
+            gap: 10px; /* Space between buttons */
+        }
+        .comment-button {
+            margin-top: 5px;
+            margin-right: 5px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s ease;
+        }
+        .comment-delete {
+            background-color: #e74c3c; /* Red background for delete button */
+            color: white; /* White text color */
+        }
+        .comment-delete:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
+        .comment-edit {
+            background-color: #3498db; /* Blue background for edit button */
+            color: white; /* White text color */
+        }
+        .comment-edit:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+        }
+        .stocklist-sharing {
+            width: 100%;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            height: 30px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .stocklist-sharing h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            margin-right: 10px;
+        }
+        .stocklist-sharing-dropdown {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .stocklist-sharing-submit {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-
  <div class="navbar">
       <div class="navbar-container">
         <div class="search-container">
@@ -323,47 +275,55 @@
                         </label>
                         <button class="stocklist-visibility-submit">Submit</button>
                     </div>
-                
+
                 </div>
             </div>
-    <div class="card stocklist-card">
-        <div class="horizontal-container stocklist-container">
-        </div>
-        <div class="chart">
-            <!-- Placeholder for the stock history chart -->
-        </div>
-    </div>
-    <div class="stocklist-sharing hidden">
-        <h2>Share Stocklist with friend</h2>
-        <select class="stocklist-sharing-dropdown">
-            <!-- <option value="1">John Doe</option>
-            <option value="2">Jane Doe</option>
-            <option value="3">John Smith</option> -->
-        </select>
-        <button class="stocklist-sharing-submit">Share</button>
-    </div>
-    <div class="stocklist-comments">
-        <h2>Comments</h2>
-        <div class="comments-form-container form-container">
-            <textarea class="comments-form" placeholder="Add a comment"></textarea>
-            <button class="comments-form-submit">Submit</button>
-        </div>
-        <div class="comment-list-container">
-            <div class="comment-list">
-                <div class="comment">
-                    <div class="comment-user">John Doe</div>
-                    <div class="comment-content">This is a great stocklist!</div>
+            <div class="card stocklist-card">
+                <div class="horizontal-container stocklist-container">
                 </div>
-                <div class="comment">
-                    <div class="comment-user">Jane Doe</div>
-                    <div class="comment-content">I love this stocklist!</div>
+                <div class="chart">
+                    <!-- Placeholder for the stock history chart -->
+                </div>
+            </div>
+
+            <!-- Correlation Matrix -->
+            <div class="correlation-matrix-container card">
+                <h2>Correlation Matrix</h2>
+                <button class="refresh-button" id="refreshCorrelation">Refresh Matrix</button>
+                <table class="correlation-matrix-table" id="correlationMatrix">
+                    <!-- Table headers and body will be dynamically generated -->
+                </table>
+            </div>
+
+            <div class="stocklist-sharing hidden">
+                <h2>Share Stocklist with friend</h2>
+                <select class="stocklist-sharing-dropdown">
+                    <!-- Options for sharing -->
+                </select>
+                <button class="stocklist-sharing-submit">Share</button>
+            </div>
+
+            <div class="stocklist-comments">
+                <h2>Comments</h2>
+                <div class="comments-form-container form-container">
+                    <textarea class="comments-form" placeholder="Add a comment"></textarea>
+                    <button class="comments-form-submit">Submit</button>
+                </div>
+                <div class="comment-list-container">
+                    <div class="comment-list">
+                        <div class="comment">
+                            <div class="comment-user">John Doe</div>
+                            <div class="comment-content">This is a great stocklist!</div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-user">Jane Doe</div>
+                            <div class="comment-content">I love this stocklist!</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        
     </div>
-</div>
     <script src="js/api-service.js"></script>
     <script src="js/stocklist.js"></script>
     <script src="./js/common.js"></script>

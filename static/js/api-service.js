@@ -264,6 +264,46 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
+  module.calculateCorrelation = (stock1, stock2, time) => {
+    return fetch(`/api/correlation/${stock1}/${stock2}/${time}`, {
+        headers: { "Content-Type": "application/json" },
+        }).then((res) => res.json());
+    };
+
+  module.getAllCorrelations = () => {
+    return fetch("/api/correlation/all", {
+        headers: { "Content-Type": "application/json" },
+        }).then((res) => res.json());
+    };
+
+  module.getCorrelation = (stock1, stock2) => {
+    return fetch(`/api/correlation/${stock1}/${stock2}`, {
+        headers: { "Content-Type": "application/json" },
+        }).then((res) => res.json());
+    };
+
+  module.addCorrelation = (stock1, stock2, time) => {
+    return fetch(`/api/correlation/add/${stock1}/${stock2}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        }).then((res) => res.json());
+    };
+
+    module.deleteCorrelation = (stock1, stock2) => {
+        return fetch(`/api/correlation/delete/${stock1}/${stock2}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            }).then((res) => res.json());
+        };
+
+    module.getMatrix = () => {
+        return fetch(`/api/correlation/matrix`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            }).then((res) => res.json());
+        };
+
+
   module.getStockListByUser = (username) => {
     return fetch(`/api/stockList/byUser/${username}`, {
       headers: { "Content-Type": "application/json" },
@@ -439,6 +479,19 @@ let apiService = (function () {
 
   module.getPublicStockLists = () => {
     return fetch("/api/stockList/public", {
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
+  module.getCOVRate = (symbol) => {
+    return fetch(`/api/stocks/covRate/${symbol}`, {
+      headers: { "Content-Type": "application/json" },
+    }).then((res) => res.json());
+  };
+
+  module.updateCOVRate = (symbol, cov) => {
+    return fetch(`/api/stocks/covRate/update/${symbol}/${cov}`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
     }).then((res) => res.json());
   };

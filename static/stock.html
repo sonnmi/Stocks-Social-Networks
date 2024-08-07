@@ -159,6 +159,9 @@
                             <!-- <div class="buy-option">
                                 <button>Buy Stock</button>
                             </div> -->
+                            <div class="u">
+                                <button onclick="updateCOV()">Update COV Rate</button>
+                            </div>
                             <div class="call-api">
                                 <button onclick="getLatestData()">Get Latest Data</button>
                             </div>
@@ -556,6 +559,29 @@
 
         // Call populateStockTable when the page loads
         populateStockTable(symbol);
+
+        async function updateCOV() {
+            try {
+                const response = await fetch(`http://localhost:3000/api/stocks/covRate/${symbol}`, {
+                });
+                // wait for the response from the server
+                const result = await response.json();
+                console.log("result", result);
+                console.log("COV", result[0].covRate);
+                const covRate = result[0].coefficient_of_variation;
+                document.getElementById('stock-COV').innerText = covRate;
+                // Insert into DB
+                const response2 = await fetch(`http://localhost:3000/api/stocks/covRate/update/${symbol}/${covRate}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({covRate: result.covRate})
+                });
+            } catch (error) {
+                console.error('Error calling API:', error);
+            }
+        }
     </script>
     <script src="./js/search.js"></script>
 
