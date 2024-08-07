@@ -43,8 +43,8 @@
       stockElement.classList.add("stock-item");
       stockElement.innerHTML = `
         <div class="stock-item">
-            <h3>Owned by: ${stock.owner}</h3>
-            <p>Stock: ${stock.stock}</p>
+            <h3>${stock.stock}</h3>
+            <p>Shares: ${stock.shares}</p>
         </div>
         `;
       stockList.appendChild(stockElement);
@@ -152,8 +152,10 @@
   window.addEventListener("load", function (event) {
     state.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     state.stocklistInfo = JSON.parse(localStorage.getItem("stocklistInfo"));
+    console.log(state.stocklistInfo)
     document.querySelector(".stocklist-name").innerHTML =
       state.stocklistInfo.name;
+    document.querySelector(".stocklist-owner").innerHTML = `Owned by: ${state.stocklistInfo.owner}`;
     getStockList();
     console.log(state.userInfo.username, state.stocklistInfo.owner);
     if (state.userInfo.username === state.stocklistInfo.owner) {
@@ -205,7 +207,6 @@
 
     if (state.stocklistInfo.visibility === "private") {
       if (state.userInfo.username === state.stocklistInfo.owner) {
-        console.log("owner 111");
         document.querySelector(".stocklist-sharing").classList.remove("hidden");
         document
           .querySelector(".comments-form-container")
