@@ -82,7 +82,6 @@
                             <h3>${data.name}</h3>
                             <p>${owner}</p>
                             <p>${data.ispublic ? "Public" : "Private"}</p>
-                            ${isOwnLists ? '<div class="delete-stocklist-btn">DELETE</div>' : ''}
                         </div>
                     `;
     elmt.querySelector(".stocklist-item-home").addEventListener("click", () => {
@@ -93,14 +92,6 @@
       visibility: data.ispublic ? "public" : "private",
     }));
     });
-    if (isOwnLists) {
-      elmt.querySelector(".delete-stocklist-btn").addEventListener("click", () => {
-        apiService.deleteStockList(state.userInfo.username, data.name).then((res) => {
-          console.log(res);
-          updateHomeStockList();
-        });
-      });
-    }
     return elmt;
   };
 
