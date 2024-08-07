@@ -69,8 +69,6 @@
           });
           document.querySelector(".current-page").innerHTML =
             `${state.currentPage + 1}`;
-          document.querySelector(".total-page").innerHTML =
-            `${state.totalPageCount}`;
           updateStocksBtn();
 
           const mySelectElements = document.querySelectorAll(

@@ -8,3 +8,5 @@ export const createReviewsTableQuery = `
         FOREIGN KEY (reviewer) REFERENCES Users(username) ON DELETE CASCADE,
         FOREIGN KEY (reviewed, owner) REFERENCES StockList(name, owner) ON DELETE CASCADE
     )`;
+
+    //change comment to VARCHAR(4000)

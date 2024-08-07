@@ -57,6 +57,9 @@ RequestRouter.post("/send", async (req, res) => {
         } else if (!data || data.rows.length === 0) {
             console.log("Not friends, continue");
             isFriend = false;
+            return res.json({
+              error: "Cannot send the request."
+            })
         } else {
             return res.json({
             message: "Already friends.",
