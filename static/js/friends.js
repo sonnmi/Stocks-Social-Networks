@@ -119,7 +119,9 @@
         "friend",
         "pending",
         new Date(),
-      ).then(() => {
+      ).then((res) => {
+        if (res.error)
+          onError(res.error)
         // Dispatch custom event when a friend request is sent
         databaseEventTarget.dispatchEvent(new Event("databaseChanged"));
       });

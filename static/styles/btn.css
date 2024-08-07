@@ -24,6 +24,10 @@
   justify-content: flex-end;
 }
 
+.btns-style > * {
+  border-radius: 15px;
+}
+
 .submit-btn {
   background-color: #faf9f9;
   width: 80px;
