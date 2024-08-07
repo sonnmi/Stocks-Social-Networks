@@ -300,11 +300,11 @@ let apiService = (function () {
     }).then((res) => res.json());
   };
 
-  module.addStockToStockList = (owner, stocklist, stock) => {
+  module.addStockToStockList = (owner, stocklist, stock, shares) => {
     return fetch("/api/stocklistConsist/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ owner, stocklist, stock }),
+      body: JSON.stringify({ owner, stocklist, stock, shares }),
     }).then((res) => res.json());
   };
 

@@ -170,12 +170,16 @@
                 stocksPopup.appendChild(elmt_);
 
                 const stocksPopup_ = document.querySelector(".container");
+              
+                stocksPopup_.innerHTML += `
+                <input type="text" class="portfolio-share" placeholder="How many shares of ${state.lastClicked.value} do you want to buy?"></input>`;
                 stocksPopup_.innerHTML += `
                 <div class="submit-btn">Add</div>`;
                 stocksPopup_.querySelector(".submit-btn").onclick = () => {
                   const stocklistname = document.querySelector(
                     "#portfolios-dropdown",
                   ).value;
+                  const shares = document.querySelector(".portfolio-share").value;
                   const username = JSON.parse(
                     localStorage.getItem("userInfo"),
                   ).username;
@@ -184,6 +188,7 @@
                       username,
                       stocklistname,
                       state.lastClicked.value,
+                      shares
                     )
                     .then((res) => {
                       console.log(res);
@@ -246,12 +251,10 @@
                 document.querySelector("#portfolios-dropdown").innerHTML +=
                   newPortf;
               });
-
-              // Append the container with portfolio options to the popup
               stocksPopup.appendChild(elmt_);
 
               const stocksPopup_ = document.querySelector(".container");
-              // Add input field for the number of shares
+              
               stocksPopup_.innerHTML += `
                 <input type="text" class="portfolio-share" placeholder="How many shares of ${state.lastClicked.value} do you want to buy?"></input>`;
               stocksPopup_.innerHTML += `

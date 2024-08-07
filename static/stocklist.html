@@ -16,6 +16,11 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-bottom: 1.5em;
         }
+
+        .stocklist-owner {
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
         .card h2 {
             margin-bottom: 1em;
         }
@@ -34,6 +39,14 @@
             transition: transform 0.2s, box-shadow 0.2s;
             min-width: 200px;
             flex: none;
+        }
+
+        .stock-item .stock-item {
+            background-color: #ecf4f9;
+        }
+
+        .stock-item:not(.stock-item .stock-item) {
+            background-color: #f9f9f9;
         }
         .stock-item:hover {
             transform: translateY(-5px);
@@ -227,6 +240,7 @@
         </div>
         <div class="contents-container">
             <h2 class="stocklist-name"></h2>
+            <h3 class="stocklist-owner"></h3>
     <div class="card stocklist-card">
         <div class="horizontal-container stocklist-container">
         </div>
@@ -237,9 +251,9 @@
     <div class="stocklist-sharing hidden">
         <h2>Share Stocklist with friend</h2>
         <select class="stocklist-sharing-dropdown">
-            <option value="1">John Doe</option>
+            <!-- <option value="1">John Doe</option>
             <option value="2">Jane Doe</option>
-            <option value="3">John Smith</option>
+            <option value="3">John Smith</option> -->
         </select>
         <button class="stocklist-sharing-submit">Share</button>
     </div>

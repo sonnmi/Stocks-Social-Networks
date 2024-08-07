@@ -32,9 +32,10 @@ ConsistRouter.post("/add", async (req, res) => {
     const owner = req.body.owner;
     const stocklist = req.body.stocklist;
     const stock = req.body.stock;
+    const shares = req.body.shares;
     client.query(
       consistsQuery.insertConsistQuery(),
-      [stocklist, owner, stock],
+      [stocklist, owner, stock, shares],
       (err, data) => {
         if (err) {
           console.log(err);

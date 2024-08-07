@@ -54,9 +54,11 @@ const tables = {
 //   }
 // })
 
-// Object.keys(tables).map((table) => {
-//   commonQueryExecute.createTable(table, tables[table]);
-// });
+Object.keys(tables).map((table) => {
+  if (table !== "StockHistory" && table !== "Stock") {
+    commonQueryExecute.createTable(table, tables[table]);
+  }
+});
 
 commonQueryExecute.getAttributes();
 

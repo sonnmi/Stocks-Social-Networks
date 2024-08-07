@@ -53,7 +53,7 @@
 
   const getSelectedAccount = () => {
     // cash-accounts / bank-accounts
-    var type = "bank-accounts";
+    var type = "cash-accounts";
     if (state.selectedDepositMethod === "transfer") {
       type = "cash-accounts";
     }
@@ -65,7 +65,7 @@
 
   const updateBalance = (cash) => {
     const balance = document.querySelector(".balance");
-    balance.innerHTML = `<h2>Total Balance: $ ${cash} </h2>`;
+    balance.innerHTML = `<h2>Total Balance: $ ${cash.toFixed(2)} </h2>`;
     state.portfolio.cash = cash;
   };
 
@@ -162,17 +162,17 @@
         document
           .querySelector(".cash-account-dropdown")
           .classList.remove("hidden");
-        document
-          .querySelector(".bank-account-dropdown")
-          .classList.add("hidden");
+        // document
+        //   .querySelector(".bank-account-dropdown")
+        //   .classList.add("hidden");
         changeCashAccountDropDown();
       } else {
         document
           .querySelector(".cash-account-dropdown")
           .classList.add("hidden");
-        document
-          .querySelector(".bank-account-dropdown")
-          .classList.remove("hidden");
+        // document
+        //   .querySelector(".bank-account-dropdown")
+        //   .classList.remove("hidden");
         // changeBankAccountDropDown();
       }
     });
@@ -238,37 +238,22 @@
             }
           });
       } else {
-        apiService
-          .withdrawBankAccount(
-            state.userInfos.username,
-            state.portfolio.name,
-            parseFloat(amount),
-          )
-          .then((res) => {
-            if (res.error) {
-              onError(res.error, "deposit");
-            } else {
-              onError(
-                "Could not load money. Check the balance of the bank account.",
-                "deposit",
-              );
-              if (amount)
-                apiService
-                  .depositPortfolioCash(
-                    state.userInfos.username,
-                    state.portfolio.name,
-                    parseFloat(amount),
-                  )
-                  .then((res) => {
-                    if (res.error) {
-                      onError(res.error, "deposit");
-                    } else {
-                      onError("Deposit Success", "deposit");
-                      updateBalance(res.cash);
-                    }
-                  });
-            }
-          });
+          if (amount)
+            apiService
+              .depositPortfolioCash(
+                state.userInfos.username,
+                state.portfolio.name,
+                parseFloat(amount),
+              )
+              .then((res) => {
+                if (res.error) {
+                  onError(res.error, "deposit");
+                } else {
+                  onError("Deposit Success", "deposit");
+                  updateBalance(res.cash);
+                }
+              });
+            
       }
     };
     formContainer[1].querySelector(".submit-btn").onclick = () => {
