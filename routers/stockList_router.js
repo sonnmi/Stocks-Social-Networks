@@ -101,32 +101,33 @@ StockListRouter.delete("/delete", async (req, res) => {
   }
 });
 
-// StockListRouter.put("/update", async (req, res) => {
-//   try {
-//     const username = req.body.username;
-//     const stock = req.body.stock;
-//     const visibility = req.body.visibility;
-//     client.query(
-//       stockListQuery.updateStockListQuery(),
-//       [visibility, username, stock],
-//       (err, data) => {
-//         if (err) {
-//           console.log(err);
-//           return res.json({ error: "Error updating stock list" });
-//         } else {
-//           return res.json({
-//             message: "StockList updated.",
-//             username: username,
-//             stock: stock,
-//             visibility: visibility,
-//           });
-//         }
-//       },
-//     );
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
+StockListRouter.put("/update", async (req, res) => {
+  try {
+    const username = req.body.username;
+    const stock = req.body.stock;
+    const visibility = req.body.visibility;
+    console.log("in update stock list", username, stock, visibility);
+    client.query(
+      stockListQuery.updateStockListVisibilityQuery(),
+      [visibility, username, stock],
+      (err, data) => {
+        if (err) {
+          console.log(err);
+          return res.json({ error: "Error updating stock list" });
+        } else {
+          return res.json({
+            message: "StockList updated.",
+            username: username,
+            stock: stock,
+            visibility: visibility,
+          });
+        }
+      },
+    );
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 StockListRouter.get("/public", async (req, res) => {
   try {

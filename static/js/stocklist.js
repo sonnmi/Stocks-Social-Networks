@@ -156,6 +156,53 @@
       state.stocklistInfo.name;
     getStockList();
     console.log(state.userInfo.username, state.stocklistInfo.owner);
+    if (state.userInfo.username === state.stocklistInfo.owner) {
+      document.querySelector(".stocklist-edit-visibility").classList.remove("hidden");
+      document.querySelector(".stocklist-edit-visibility").addEventListener("click", () => {
+        document.querySelector(".stocklist-visibility").classList.toggle("hidden");
+
+      });
+
+      const publicCheckbox = document.querySelector(
+        ".visibility-checkbox.public",
+      );
+      const privateCheckbox = document.querySelector(
+        ".visibility-checkbox.private",
+      );
+      publicCheckbox.addEventListener("click", () => {
+        if (privateCheckbox.checked) {
+          privateCheckbox.checked = false;
+        }
+      });
+      privateCheckbox.addEventListener("click", () => {
+        if (publicCheckbox.checked) {
+          publicCheckbox.checked = false;
+        }
+      });
+      const visibilitySubmit = document.querySelector(".stocklist-visibility-submit");
+
+      visibilitySubmit.addEventListener("click", () => {
+        const isPublic = publicCheckbox.checked ? true : false;
+        apiService
+          .updateStockList(
+            state.stocklistInfo.owner,
+            state.stocklistInfo.name,
+            isPublic,
+          )
+          .then((data) => {
+            console.log(data);
+            state.stocklistInfo.visibility = isPublic ? "public" : "private";
+            document.querySelector(".stocklist-visibility").classList.add("hidden");
+            if (isPublic) {
+              document.querySelector(".stocklist-sharing").classList.add("hidden");
+            } else {
+              document.querySelector(".stocklist-sharing").classList.remove("hidden");
+            }
+          });
+      });
+
+    }
+
     if (state.stocklistInfo.visibility === "private") {
       if (state.userInfo.username === state.stocklistInfo.owner) {
         console.log("owner 111");

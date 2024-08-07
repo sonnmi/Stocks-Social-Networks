@@ -202,6 +202,68 @@
     cursor: pointer;
     font-size: 14px;
 }
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.stocklist-edit-visibility-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stocklist-edit-visibility {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    right: 0;
+    margin-right: 50px;
+}
+
+.stocklist-visibility {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    position: absolute;
+    right: 150px;
+    margin-right: 50px;
+}
+
+.visibility-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.visibility-checkbox {
+    margin-right: 5px;
+
+}
+
+.stocklist-visibility-submit {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+
     </style>
 </head>
 <body>
@@ -226,7 +288,23 @@
             </div>
         </div>
         <div class="contents-container">
-            <h2 class="stocklist-name"></h2>
+            <div class="header-container">
+                <h2 class="stocklist-name"></h2>
+                <div class="stocklist-edit-visibility-container">
+                    <button class="stocklist-edit-visibility hidden">Edit Visibility</button>
+                    <div class="stocklist-visibility hidden">
+                        <label class="visibility-label">
+                            <input type="checkbox" class="visibility-checkbox public" value="public"> Public
+                        </label>
+                        <label class="visibility-label">
+                            <input type="checkbox" class="visibility-checkbox private" value="private"> Private
+                        </label>
+                        <button class="stocklist-visibility-submit">Submit</button>
+                    </div>
+                
+                </div>
+            </div>
+            
     <div class="card stocklist-card">
         <div class="horizontal-container stocklist-container">
         </div>
