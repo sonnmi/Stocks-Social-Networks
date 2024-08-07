@@ -11,6 +11,8 @@
     <link href="styles/form.css" rel="stylesheet" type="text/css" />
     <link href="styles/common.css" rel="stylesheet" type="text/css" />
     <link href="styles/popup.css" rel="stylesheet" type="text/css" />
+    <link href="styles/search.css" rel="stylesheet" type="text/css" />
+    <link href="styles/menu.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
@@ -190,25 +192,32 @@
             <div class="error"></div>
         </div>
     </div>
-    <div class="navbar">
+<div class="navbar">
+      <div class="navbar-container">
         <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Search for stocks & more"></input>
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search for stocks & more"
+          />
         </div>
         <div class="profile">
-            <div class="img"></div>
-            <div class="username">Barnabas Inyangsam</div>
+          <div class="img"></div>
+          <div class="username"></div>
         </div>
+      </div>
     </div>
     <div class="main-container">
-        <div class="sidebar">
-            <div class="sidebar-section">
-                <h2>Main Menu</h2>
-                <a href="./home.html">Home</a>
-                <a href="./portfolios.html">Portfolio</a>
-                <a href="./stocklists.html">Stock List</a>
-                <a href="./friends.html">Friends</a>
-            </div>
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <h2 class="title">Main Menu</h2>
+          <a class="link" link="./home.html">Home</a>
+          <a class="active link" link="./portfolios.html">Portfolio</a>
+          <a class="link" link="./stocklists.html">Stock List</a>
+          <a class="link" link="./friends.html">Friends</a>
+          <a class="link"link="./stocks.html">Stocks</a>
         </div>
+      </div>
         <div class="contents-container">
             <h2 class="portfolio-name"></h2>
 
@@ -276,5 +285,6 @@
     <script src="js/api-service.js"></script>
     <script src="js/portfolio.js"></script>
     <script src="./js/common.js"></script>
+    <script src="./js/search.js"></script>
 </body>
 </html>

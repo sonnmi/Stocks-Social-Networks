@@ -7,6 +7,7 @@
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
     <link href="styles/menu.css" rel="stylesheet" type="text/css" />
     <link href="styles/home.css" rel="stylesheet" type="text/css" />
+    <link href="styles/search.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         .card {
@@ -233,25 +234,32 @@
     </style>
 </head>
 <body>
-    <div class="navbar">
+ <div class="navbar">
+      <div class="navbar-container">
         <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Search for stocks & more"></input>
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search for stocks & more"
+          />
         </div>
         <div class="profile">
-            <div class="img"></div>
-            <div class="username"></div>
+          <div class="img"></div>
+          <div class="username"></div>
         </div>
+      </div>
     </div>
     <div class="main-container">
-        <div class="sidebar">
-            <div class="sidebar-section">
-                <h2>Main Menu</h2>
-                <a href="./home.html">Home</a>
-                <a href="./portfolios.html">Portfolio</a>
-                <a href="./stocklists.html">Stock List</a>
-                <a href="./friends.html">Friends</a>
-            </div>
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <h2 class="title">Main Menu</h2>
+          <a class="link" link="./home.html">Home</a>
+          <a class="link" link="./portfolios.html">Portfolio</a>
+          <a class="active link" link="./stocklists.html">Stock List</a>
+          <a class="link" link="./friends.html">Friends</a>
+          <a class="link"link="./stocks.html">Stocks</a>
         </div>
+      </div>
         <div class="contents-container">
             <h2 class="stocklist-name"></h2>
             <h3 class="stocklist-owner"></h3>
@@ -319,5 +327,6 @@
     <script src="js/api-service.js"></script>
     <script src="js/stocklist.js"></script>
     <script src="./js/common.js"></script>
+    <script src="./js/search.js"></script>
 </body>
 </html>

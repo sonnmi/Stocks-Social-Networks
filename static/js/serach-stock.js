@@ -44,9 +44,9 @@
   };
 
   const updateStock = () => {
-    apiService.getStocks(state.currentPage).then((response) => {
+    apiService.getFilteredStocks(localStorage.getItem("search-stock"), state.currentPage).then((response) => {
       if (response.error) {
-        // updateStatus(false);
+        document.querySelector('table-container').innerHTML = ""
       } else {
         state.stocks = response.stocks;
         state.totalPageCount = response.total;

@@ -35,7 +35,7 @@
           <div class="stocklist-item inner s${stocklist.name}" href="#">
               <h3 class="stocklist-name">${stocklist.name}</h3>
               <p class="stocklist-visibility">${stocklist.ispublic ? "public" : "private"}</p>
-              <p class="stocklist-owner">Shared by: ${stocklist.owner}</p>
+              <p class="stocklist-owner">Owned by: ${stocklist.owner}</p>
           </div>
           `;
         stockList.appendChild(stockListElement);
